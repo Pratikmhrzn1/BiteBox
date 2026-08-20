@@ -27,7 +27,7 @@ export default function Navbar({ activeLink = 'Home', onSelectLink }: NavbarProp
           type="button"
           className="shrink-0 cursor-pointer"
           onClick={() => handleNavClick('Home')}
-          aria-label="BiteBox home"
+          aria-label="BiteBox Home"
         >
           <img src={logoImg} alt="BiteBox Logo" className="h-12 w-auto" />
         </button>

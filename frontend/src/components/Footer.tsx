@@ -135,10 +135,7 @@ export default function Footer({ onNav, onLocationOpen }: FooterProps) {
 
       <div className="flex flex-col gap-2 bg-ink-dark px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
         <p className="font-sans text-xs text-card-bg">
-          © 2025 BiteBox. All rights reserved.
-        </p>
-        <p className="font-sans text-xs text-card-bg">
-          Made with 🔥 in Lalitpur
+          © 2026 BiteBox. All rights reserved.
         </p>
       </div>
     </footer>
