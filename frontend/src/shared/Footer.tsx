@@ -59,7 +59,7 @@ const contactRows = [
 
 export default function Footer({ onNav, onLocationOpen }: FooterProps) {
   return (
-    <footer className="border-t-4 border-ink-dark bg-[#3D1F0E]">
+    <footer className="border-t-4 border-ink-dark bg-gradient-to-br from-brown to-espresso-dark">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-12 sm:px-6 md:grid-cols-3 lg:px-8">
         <div className="flex flex-col items-start gap-4">
           <button

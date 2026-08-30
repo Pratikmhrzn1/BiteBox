@@ -1,5 +1,5 @@
-import type { MenuItem } from '../data/menu'
-import { formatPrice } from '../utils'
+import type { MenuItem } from '../../data/menu'
+import { formatPrice } from '../../utils'
 
 type MenuItemCardProps = {
   item: MenuItem

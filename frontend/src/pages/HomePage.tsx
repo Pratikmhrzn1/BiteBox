@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import Sidebar from '../components/Sidebar'
-import Hero from '../components/Hero'
-import FeaturedBites from '../components/FeaturedBites'
-import LocationsSection from '../components/LocationsSection'
-import MenuCustomizePopup from '../components/MenuCustomizePopup'
+import Sidebar from '../sections/home/Sidebar'
+import Hero from '../sections/home/Hero'
+import FeaturedBites from '../sections/home/FeaturedBites'
+import LocationsSection from '../sections/home/LocationsSection'
+import MenuCustomizePopup from '../shared/MenuCustomizePopup'
 import {
   locationsTitle,
   locations,

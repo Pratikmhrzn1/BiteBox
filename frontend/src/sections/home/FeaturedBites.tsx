@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
-import type { FeaturedBite } from '../data/data'
-import FoodCard from './FoodCard'
-import SectionHeading from './SectionHeading'
+import type { FeaturedBite } from '../../data/data'
+import FoodCard from '../../components/home/FoodCard'
+import SectionHeading from '../../components/common/SectionHeading'
 
 type FeaturedBitesProps = {
   title: string

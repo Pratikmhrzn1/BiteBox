@@ -1,6 +1,6 @@
-import { openingHours, categories } from '../data/data'
-import OpeningHoursCard from './sidebar/OpeningHoursCard'
-import CategoryCard from './sidebar/CategoryCard'
+import { openingHours, categories } from '../../data/data'
+import OpeningHoursCard from '../../components/home/OpeningHoursCard'
+import CategoryCard from '../../components/home/CategoryCard'
 
 export default function Sidebar() {
   return (

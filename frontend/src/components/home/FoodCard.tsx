@@ -1,5 +1,5 @@
-import type { FeaturedBite } from '../data/data'
-import { formatPrice } from '../utils'
+import type { FeaturedBite } from '../../data/data'
+import { formatPrice } from '../../utils'
 
 type FoodCardProps = {
   bite: FeaturedBite

@@ -1,4 +1,4 @@
-import { heroBurgerImg } from '../assets'
+import { heroBurgerImg } from '../../assets'
 
 type HeroProps = {
   copy: { accent: string; cta: string }
