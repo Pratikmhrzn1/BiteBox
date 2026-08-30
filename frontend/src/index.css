@@ -5,12 +5,13 @@
 @layer base {
   html {
     @apply scroll-smooth;
+    background-color: #f2a94e;
+    background-image: linear-gradient(160deg, #f7c873 0%, #f2a94e 100%);
+    background-attachment: fixed;
   }
 
   body {
-    @apply bg-cream font-sans text-espresso-dark antialiased;
-    background: linear-gradient(160deg, #f7c873 0%, #f2a94e 100%);
-    background-attachment: fixed;
+    @apply font-sans text-espresso-dark antialiased;
   }
 }
 

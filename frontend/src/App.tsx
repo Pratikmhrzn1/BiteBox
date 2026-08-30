@@ -13,7 +13,7 @@ const ROUTES: Record<string, string> = {
   Home: '/',
   Menu: '/menu',
   About: '/about',
-  Contact: '/contact',
+  'Contact Us': '/contact',
 }
 
 function App() {
@@ -25,12 +25,6 @@ function App() {
   }, [location.pathname])
 
   const handleSelectLink = (label: string) => {
-    if (label === 'Contact Us') {
-      document
-        .getElementById('contact')
-        ?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      return
-    }
     navigate(ROUTES[label] ?? '/')
   }
 
@@ -50,7 +44,9 @@ function App() {
       ? 'Menu'
       : location.pathname === '/about'
         ? 'About'
-        : 'Home'
+        : location.pathname === '/contact'
+          ? 'Contact Us'
+          : 'Home'
 
   return (
     <CartProvider>
@@ -61,7 +57,15 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/menu" element={<MenuPage />} />
           <Route path="/about" element={<AboutPage onOrderNow={() => navigate('/menu')} />} />
-          <Route path="/contact" element={<ContactUs />} />
+          <Route
+            path="/contact"
+            element={
+              <ContactUs
+                onNav={handleNav}
+                onLocationOpen={handleLocationOpen}
+              />
+            }
+          />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
