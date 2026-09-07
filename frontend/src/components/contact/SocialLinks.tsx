@@ -49,7 +49,7 @@ export default function SocialLinks() {
           target="_blank"
           rel="noreferrer"
           aria-label={label}
-          className="flex h-11 w-11 items-center justify-center rounded-2xl border-2 border-ink-dark bg-card-bg text-ink-dark shadow-[4px_4px_0_#241A12] transition hover:-translate-y-0.5 hover:bg-accent-red hover:text-white active:translate-y-0 active:shadow-none"
+          className="flex h-11 w-11 items-center justify-center rounded-card border-2 border-ink-dark bg-card-bg text-ink-dark shadow-comic transition hover:-translate-y-0.5 hover:bg-accent-red hover:text-white active:translate-y-0 active:shadow-none"
         >
           {icon}
         </a>

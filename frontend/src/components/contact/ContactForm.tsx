@@ -3,6 +3,7 @@ import { sendMessage } from '../../api/contact'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../common/Toast'
 import { fieldClass, labelClass } from '../common/formStyles'
+import { buttonClass } from '../../components/common/Button'
 
 type ContactFormState = {
   name: string
@@ -100,7 +101,7 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="card-comic rounded-2xl bg-card-bg p-6 sm:p-8">
+    <div className="card-comic rounded-card bg-card-bg p-6 sm:p-8">
       <h2 className="font-display text-3xl uppercase text-header-brown">
         Send a Message
       </h2>
@@ -110,8 +111,8 @@ export default function ContactForm() {
       </p>
 
       {submitted ? (
-        <div className="mt-8 flex flex-col items-center gap-4 rounded-2xl border-2 border-ink-dark bg-green-50 p-8 text-center">
-          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-green-500 text-4xl text-white shadow-[4px_4px_0_#241A12]">
+        <div className="mt-8 flex flex-col items-center gap-4 rounded-card border-2 border-ink-dark bg-green-50 p-8 text-center">
+          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-green-500 text-4xl text-white shadow-comic">
             ✓
           </span>
           <p className="font-display text-2xl uppercase text-green-700">
@@ -123,7 +124,7 @@ export default function ContactForm() {
           <button
             type="button"
             onClick={resetForm}
-            className="btn-comic-red mt-2 px-6 py-2.5 text-sm"
+            className={buttonClass({ size: 'sm', className: 'mt-2' })}
           >
             Send Another
           </button>
@@ -230,7 +231,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="btn-comic-red w-full py-4 text-lg disabled:cursor-not-allowed disabled:opacity-60"
+            className={buttonClass({ size: 'lg', className: 'w-full' })}
           >
             {submitting ? 'Sending…' : 'Send Message'}
           </button>

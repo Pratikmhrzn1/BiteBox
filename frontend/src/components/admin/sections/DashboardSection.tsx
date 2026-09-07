@@ -146,7 +146,7 @@ export default function DashboardSection({
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {kpis.map(({ label, value, note, Icon, color }) => (
-          <div key={label} className="rounded-2xl border border-white/5 bg-admin-surface p-5">
+          <div key={label} className="rounded-card border border-white/5 bg-admin-surface p-5">
             <div className="flex items-center gap-2 text-admin-muted">
               <Icon className="h-4 w-4" />
               <p className="font-sans text-[11px] font-bold tracking-widest uppercase">
@@ -229,7 +229,7 @@ export default function DashboardSection({
                   <button
                     type="button"
                     onClick={() => onOpenSection(section)}
-                    className="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left transition hover:bg-white/5"
+                    className="flex w-full items-center gap-3 rounded-chip px-2 py-2 text-left transition hover:bg-white/5"
                   >
                     <Icon className="h-4 w-4 shrink-0 text-admin-muted" />
                     <span className="flex-1 font-sans text-sm font-semibold text-cream">
@@ -278,28 +278,28 @@ export default function DashboardSection({
               <button
                 type="button"
                 onClick={onAddMenuItem}
-                className="flex items-center gap-2 rounded-lg bg-accent-red px-3 py-2.5 font-sans text-sm font-bold text-white transition hover:bg-red-700"
+                className="flex items-center gap-2 rounded-chip bg-accent-red px-3 py-2.5 font-sans text-sm font-bold text-white transition hover:bg-red-700"
               >
                 <Plus className="h-4 w-4" /> Add Menu Item
               </button>
               <button
                 type="button"
                 onClick={() => onOpenSection('orders')}
-                className="flex items-center gap-2 rounded-lg border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition hover:bg-white/5"
+                className="flex items-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition hover:bg-white/5"
               >
                 <ArrowRight className="h-4 w-4" /> View All Orders
               </button>
               <button
                 type="button"
                 onClick={() => downloadOrdersCsv(allOrders)}
-                className="flex items-center gap-2 rounded-lg border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition hover:bg-white/5"
+                className="flex items-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition hover:bg-white/5"
               >
                 <Download className="h-4 w-4" /> Export Orders (CSV)
               </button>
               <button
                 type="button"
                 onClick={() => onOpenSection('analytics')}
-                className="flex items-center gap-2 rounded-lg border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition hover:bg-white/5"
+                className="flex items-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition hover:bg-white/5"
               >
                 <PieChart className="h-4 w-4" /> View Analytics
               </button>

@@ -134,7 +134,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
               key={cat}
               type="button"
               onClick={() => setCategory(cat)}
-              className={`rounded-lg px-3 py-1.5 font-sans text-sm font-bold transition ${
+              className={`rounded-chip px-3 py-1.5 font-sans text-sm font-bold transition ${
                 category === cat
                   ? 'bg-accent-red text-white'
                   : 'border border-white/15 text-admin-ink hover:bg-white/5'
@@ -167,7 +167,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
           {filtered.map((item) => (
             <div
               key={item.id}
-              className={`group overflow-hidden rounded-2xl border border-white/5 bg-admin-surface transition ${
+              className={`group overflow-hidden rounded-card border border-white/5 bg-admin-surface transition ${
                 busyId === item.id ? 'opacity-50' : ''
               } ${item.available ? '' : 'opacity-70'}`}
             >
@@ -198,7 +198,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                   title="Toggle best seller"
                   className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full transition ${
                     item.bestSeller
-                      ? 'bg-amber text-[#241A12]'
+                      ? 'bg-amber text-ink-dark'
                       : 'bg-admin-field/80 text-admin-muted hover:text-amber'
                   }`}
                 >
@@ -260,7 +260,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                       )
                     }
                     title={item.available ? 'Hide from menu' : 'Show on menu'}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-white/5 px-2.5 py-1.5 font-sans text-xs font-bold text-admin-ink transition hover:bg-white/10"
+                    className="inline-flex items-center gap-1.5 rounded-chip bg-white/5 px-2.5 py-1.5 font-sans text-xs font-bold text-admin-ink transition hover:bg-white/10"
                   >
                     {item.available ? (
                       <>
@@ -275,14 +275,14 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                   <button
                     type="button"
                     onClick={() => setEditing(item)}
-                    className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-white/15 px-2.5 py-1.5 font-sans text-xs font-bold text-cream transition hover:bg-white/5"
+                    className="ml-auto inline-flex items-center gap-1.5 rounded-chip border border-white/15 px-2.5 py-1.5 font-sans text-xs font-bold text-cream transition hover:bg-white/5"
                   >
                     <Pencil className="h-3.5 w-3.5" /> Edit
                   </button>
                   <button
                     type="button"
                     onClick={() => setDeleting(item)}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-red-500/30 px-2.5 py-1.5 font-sans text-xs font-bold text-red-300 transition hover:bg-red-500/15"
+                    className="inline-flex items-center gap-1.5 rounded-chip border border-red-500/30 px-2.5 py-1.5 font-sans text-xs font-bold text-red-300 transition hover:bg-red-500/15"
                   >
                     <Trash2 className="h-3.5 w-3.5" /> Delete
                   </button>

@@ -7,7 +7,7 @@ type CallOrDmCardProps = {
 
 export default function CallOrDmCard({ phone, email }: CallOrDmCardProps) {
   return (
-    <div className="rounded-2xl border-2 border-ink-dark bg-amber p-6 shadow-[4px_4px_0_#241A12]">
+    <div className="rounded-card border-2 border-ink-dark bg-amber p-6 shadow-comic">
       <h2 className="font-display text-2xl uppercase text-header-brown">
         Call or DM
       </h2>

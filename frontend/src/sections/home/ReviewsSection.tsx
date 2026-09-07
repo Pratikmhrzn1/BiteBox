@@ -8,6 +8,7 @@ import SectionHeading from '../../components/common/SectionHeading'
 import StarRating from '../../components/common/StarRating'
 import { fieldClass, labelClass } from '../../components/common/formStyles'
 import { formatDate } from '../../utils'
+import { buttonClass } from '../../components/common/Button'
 
 export default function ReviewsSection() {
   const { user, token } = useAuth()
@@ -71,7 +72,7 @@ export default function ReviewsSection() {
   if (reviewsState.loading || reviewsState.error) return null
 
   return (
-    <section className="mt-12">
+    <section className="mt-14">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <SectionHeading>What People Say</SectionHeading>
@@ -88,7 +89,7 @@ export default function ReviewsSection() {
         <button
           type="button"
           onClick={() => setOpen((current) => !current)}
-          className="btn-comic-red px-5 py-2.5 text-sm"
+          className={buttonClass({ size: 'sm' })}
         >
           {open ? 'Close' : 'Write a review'}
         </button>
@@ -97,7 +98,7 @@ export default function ReviewsSection() {
       {open && (
         <form
           onSubmit={handleSubmit}
-          className="card-comic mt-5 space-y-4 rounded-2xl bg-card-bg p-5 sm:p-6"
+          className="card-comic mt-5 space-y-4 rounded-card bg-card-bg p-5 sm:p-6"
           noValidate
         >
           <div className="flex flex-wrap items-center gap-4">
@@ -186,7 +187,7 @@ export default function ReviewsSection() {
           <button
             type="submit"
             disabled={submitting}
-            className="btn-comic-red w-full py-3 disabled:cursor-not-allowed disabled:opacity-60"
+            className={buttonClass({ size: 'md', className: 'w-full' })}
           >
             {submitting ? 'Sending…' : 'Submit review'}
           </button>
@@ -203,7 +204,7 @@ export default function ReviewsSection() {
         {reviews.map((review) => (
           <article
             key={review.id}
-            className="card-comic flex flex-col gap-2 rounded-2xl bg-card-bg p-5"
+            className="card-comic flex flex-col gap-2 rounded-card bg-card-bg p-5"
           >
             <StarRating rating={review.rating} size="sm" />
             <h3 className="font-sans text-base font-bold text-ink-dark">

@@ -17,8 +17,8 @@ type MenuFilterBarProps = {
 
 const pill = (active: boolean) =>
   active
-    ? 'shrink-0 rounded-lg bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white shadow-[3px_3px_0_#241A12] transition hover:-translate-y-0.5 active:translate-y-0 active:shadow-none'
-    : 'shrink-0 rounded-lg border-2 border-ink-dark bg-white px-4 py-2 font-sans text-sm font-bold text-ink-dark shadow-[3px_3px_0_#241A12] transition hover:-translate-y-0.5 hover:bg-amber active:translate-y-0 active:shadow-none'
+    ? 'shrink-0 rounded-chip bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white shadow-comic-sm transition hover:-translate-y-0.5 active:translate-y-0 active:shadow-none'
+    : 'shrink-0 rounded-chip border-2 border-ink-dark bg-white px-4 py-2 font-sans text-sm font-bold text-ink-dark shadow-comic-sm transition hover:-translate-y-0.5 hover:bg-amber active:translate-y-0 active:shadow-none'
 
 export default function MenuFilterBar({
   categories,
@@ -56,7 +56,7 @@ export default function MenuFilterBar({
           type="button"
           onClick={() => onVegOnlyChange(!vegOnly)}
           aria-pressed={vegOnly}
-          className={`rounded-lg border-2 border-ink-dark px-3 py-1.5 font-sans text-xs font-bold uppercase shadow-[2px_2px_0_#241A12] transition ${
+          className={`rounded-chip border-2 border-ink-dark px-3 py-1.5 font-sans text-xs font-bold uppercase shadow-comic-xs transition ${
             vegOnly ? 'bg-olive text-white' : 'bg-white text-ink-dark hover:bg-cream'
           }`}
         >
@@ -68,7 +68,7 @@ export default function MenuFilterBar({
           <select
             value={sort}
             onChange={(event) => onSortChange(event.target.value as SortOption)}
-            className="cursor-pointer rounded-lg border-2 border-ink-dark bg-white px-3 py-1.5 font-sans text-xs font-bold text-ink-dark shadow-[2px_2px_0_#241A12]"
+            className="cursor-pointer rounded-chip border-2 border-ink-dark bg-white px-3 py-1.5 font-sans text-xs font-bold text-ink-dark shadow-comic-xs"
           >
             {SORT_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>

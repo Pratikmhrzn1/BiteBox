@@ -17,7 +17,7 @@ export default function OrderStatusTrail({
 }: OrderStatusTrailProps) {
   if (status === 'CANCELLED') {
     return (
-      <div className="flex items-center gap-3 rounded-xl border-2 border-ink-dark bg-accent-red/10 px-4 py-3">
+      <div className="flex items-center gap-3 rounded-control border-2 border-ink-dark bg-accent-red/10 px-4 py-3">
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-red">
           <X className="h-4 w-4 text-white" aria-hidden="true" />
         </span>

@@ -57,7 +57,7 @@ export default function Sidebar({
                 <button
                   type="button"
                   onClick={() => onSelect(id)}
-                  className={`flex w-full items-center gap-3 rounded-lg border-l-4 px-3 py-2.5 text-left font-sans text-sm font-semibold transition ${
+                  className={`flex w-full items-center gap-3 rounded-chip border-l-4 px-3 py-2.5 text-left font-sans text-sm font-semibold transition ${
                     isActive
                       ? 'border-accent-red bg-[#2b1609] text-amber'
                       : 'border-transparent text-admin-ink hover:bg-white/5 hover:text-cream'
@@ -92,14 +92,14 @@ export default function Sidebar({
         <button
           type="button"
           onClick={onExit}
-          className="flex w-full items-center gap-2 rounded-lg border border-white/10 px-3 py-2 font-sans text-sm font-semibold text-cream transition hover:bg-white/5"
+          className="flex w-full items-center gap-2 rounded-chip border border-white/10 px-3 py-2 font-sans text-sm font-semibold text-cream transition hover:bg-white/5"
         >
           <ExternalLink className="h-4 w-4" /> Exit Admin
         </button>
         <button
           type="button"
           onClick={onSignOut}
-          className="flex w-full items-center gap-2 rounded-lg px-3 py-1.5 font-sans text-xs font-semibold text-admin-ink transition hover:text-accent-red"
+          className="flex w-full items-center gap-2 rounded-chip px-3 py-1.5 font-sans text-xs font-semibold text-admin-ink transition hover:text-accent-red"
         >
           <LogOut className="h-3.5 w-3.5" /> Sign Out
         </button>

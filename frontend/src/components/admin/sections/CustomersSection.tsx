@@ -45,7 +45,7 @@ export default function CustomersSection() {
         />
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-white/5 bg-admin-surface">
+      <div className="overflow-hidden rounded-card border border-white/5 bg-admin-surface">
         {filtered.length === 0 ? (
           <EmptyState title="No customers found" hint="Try a different search." />
         ) : (

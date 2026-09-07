@@ -1,6 +1,7 @@
 import { type CartItem } from '../../context/CartContext'
 import CheckoutItemRow from '../../components/checkout/CheckoutItemRow'
 import OrderSummary from '../../components/checkout/OrderSummary'
+import { buttonClass } from '../../components/common/Button'
 
 type CheckoutSummaryProps = {
   items: CartItem[]
@@ -25,7 +26,7 @@ export default function CheckoutSummary({
   submitting = false,
 }: CheckoutSummaryProps) {
   return (
-    <div className="card-comic rounded-2xl p-6 shadow-[8px_8px_0_#241A12] sm:p-8">
+    <div className="card-comic rounded-card p-6 shadow-comic-lg sm:p-8">
       <h1 className="section-heading">Checkout</h1>
       <p className="mt-1 font-sans text-sm font-medium text-ink-muted">
         Review your order, then confirm to place it.
@@ -49,7 +50,7 @@ export default function CheckoutSummary({
           type="button"
           onClick={onBackToMenu}
           disabled={submitting}
-          className="btn-comic-cream px-6 py-3 text-base disabled:cursor-not-allowed disabled:opacity-60"
+          className={buttonClass({ variant: 'secondary', size: 'md' })}
         >
           Add More
         </button>
@@ -57,7 +58,7 @@ export default function CheckoutSummary({
           type="button"
           onClick={onPlaceOrder}
           disabled={submitting}
-          className="btn-comic-red flex-1 px-6 py-3 text-base disabled:cursor-not-allowed disabled:opacity-60"
+          className={buttonClass({ size: 'md', className: 'flex-1' })}
         >
           {submitting ? 'Placing order…' : 'Place Order'}
         </button>

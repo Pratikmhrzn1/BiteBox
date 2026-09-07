@@ -48,7 +48,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`pointer-events-auto flex items-center gap-3 rounded-xl border-2 border-ink-dark px-4 py-3 shadow-[4px_4px_0_#241A12] ${
+            className={`pointer-events-auto flex items-center gap-3 rounded-control border-2 border-ink-dark px-4 py-3 shadow-comic ${
               toast.tone === 'success' ? 'bg-amber' : 'bg-accent-red'
             }`}
           >

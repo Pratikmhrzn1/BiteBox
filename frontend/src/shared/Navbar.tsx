@@ -119,7 +119,7 @@ export default function Navbar() {
             {accountOpen && (
               <div
                 role="menu"
-                className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border-2 border-ink-dark bg-card-bg shadow-[4px_4px_0_#241A12]"
+                className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-control border-2 border-ink-dark bg-card-bg shadow-comic"
               >
                 {user ? (
                   <>

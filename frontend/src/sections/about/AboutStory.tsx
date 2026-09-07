@@ -14,7 +14,7 @@ export default function AboutStory({ storyCopy, storyImage }: AboutStoryProps) {
           {storyCopy}
         </p>
       </div>
-      <div className="overflow-hidden rounded-2xl border-2 border-ink-dark shadow-[6px_6px_0_#241A12]">
+      <div className="overflow-hidden rounded-card border-2 border-ink-dark shadow-comic-md">
         <img
           src={storyImage}
           alt="Inside the BiteBox kitchen"

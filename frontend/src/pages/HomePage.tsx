@@ -42,7 +42,7 @@ export default function HomePage() {
     <main className="page-container">
       {content.announcement.enabled && content.announcement.text && (
         <div
-          className="mb-6 rounded-2xl border-2 border-ink-dark px-4 py-3 text-center font-sans text-sm font-bold shadow-[4px_4px_0_#241A12]"
+          className="mb-6 rounded-card border-2 border-ink-dark px-4 py-3 text-center font-sans text-sm font-bold shadow-comic"
           style={{
             backgroundColor: content.announcement.color,
             color: readableInkOn(content.announcement.color),

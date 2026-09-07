@@ -12,7 +12,7 @@ export default function LocationsSection({
   locations,
 }: LocationsSectionProps) {
   return (
-    <section id="locations" className="mt-12 scroll-mt-24">
+    <section id="locations" className="mt-14 scroll-mt-24">
       <SectionHeading>{title}</SectionHeading>
 
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">

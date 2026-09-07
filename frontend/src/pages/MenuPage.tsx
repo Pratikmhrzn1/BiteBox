@@ -1,14 +1,15 @@
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import type { MenuItem } from '../api/menu'
-import MenuItemCard from '../components/menu/MenuItemCard'
+import DishCard, { DishCardSkeleton } from '../components/menu/DishCard'
 import MenuFilterBar from '../sections/menu/MenuFilterBar'
 import type { SortOption } from '../sections/menu/sortOptions'
 import MenuCustomizePopup from '../shared/MenuCustomizePopup'
-import { CardSkeletonGrid, EmptyState, ErrorState } from '../components/common/States'
+import { EmptyState, ErrorState } from '../components/common/States'
 import { useToast } from '../components/common/Toast'
 import { useCart } from '../context/CartContext'
 import { useStore } from '../context/StoreContext'
+import { buttonClass } from '../components/common/Button'
 
 export default function MenuPage() {
   const { menu, categories, loading, error, reloadMenu } = useStore()
@@ -80,7 +81,11 @@ export default function MenuPage() {
           />
 
           {loading ? (
-            <CardSkeletonGrid />
+            <div className="dish-grid mt-8" aria-busy="true">
+              {Array.from({ length: 8 }, (_, index) => (
+                <DishCardSkeleton key={index} />
+              ))}
+            </div>
           ) : error ? (
             <ErrorState message={error} onRetry={reloadMenu} />
           ) : filteredItems.length === 0 ? (
@@ -95,16 +100,16 @@ export default function MenuPage() {
                     setVegOnly(false)
                     setSearchParams({})
                   }}
-                  className="btn-comic-red px-6 py-2.5"
+                  className={buttonClass({ size: 'sm' })}
                 >
                   Clear filters
                 </button>
               }
             />
           ) : (
-            <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
+            <div className="dish-grid mt-8">
               {filteredItems.map((item) => (
-                <MenuItemCard key={item.id} item={item} onAdd={setSelectedItem} />
+                <DishCard key={item.id} item={item} onAdd={setSelectedItem} />
               ))}
             </div>
           )}

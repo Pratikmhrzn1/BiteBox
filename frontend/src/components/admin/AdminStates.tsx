@@ -18,14 +18,14 @@ export function AdminError({
   onRetry?: () => void
 }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-red-500/30 bg-[#3a1410] py-12 text-center">
+    <div className="flex flex-col items-center justify-center gap-3 rounded-card border border-red-500/30 bg-[#3a1410] py-12 text-center">
       <AlertTriangle className="h-6 w-6 text-red-300" aria-hidden="true" />
       <p className="font-sans text-sm font-bold text-red-200">{message}</p>
       {onRetry && (
         <button
           type="button"
           onClick={onRetry}
-          className="rounded-lg border border-white/20 px-4 py-2 font-sans text-sm font-bold text-cream transition hover:bg-white/10"
+          className="rounded-chip border border-white/20 px-4 py-2 font-sans text-sm font-bold text-cream transition hover:bg-white/10"
         >
           Retry
         </button>

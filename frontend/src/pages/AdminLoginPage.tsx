@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { buttonClass } from '../components/common/Button'
 
 export default function AdminLoginPage() {
   const { user, isChecking, login } = useAuth()
@@ -45,7 +46,7 @@ export default function AdminLoginPage() {
 
   return (
     <main className="page-container flex min-h-screen items-center justify-center">
-      <div className="card-comic w-full max-w-md rounded-2xl bg-card-bg p-6 sm:p-8">
+      <div className="card-comic w-full max-w-md rounded-card bg-card-bg p-6 sm:p-8">
         <h1 className="font-display text-3xl uppercase text-header-brown">
           Admin Login
         </h1>
@@ -67,7 +68,7 @@ export default function AdminLoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@bitebox.com.np"
-              className="w-full rounded-xl border-2 border-ink-dark bg-white px-4 py-3 font-sans text-sm text-ink-dark placeholder:text-ink-muted"
+              className="w-full rounded-control border-2 border-ink-dark bg-white px-4 py-3 font-sans text-sm text-ink-dark placeholder:text-ink-muted"
             />
           </div>
 
@@ -84,7 +85,7 @@ export default function AdminLoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full rounded-xl border-2 border-ink-dark bg-white px-4 py-3 font-sans text-sm text-ink-dark placeholder:text-ink-muted"
+              className="w-full rounded-control border-2 border-ink-dark bg-white px-4 py-3 font-sans text-sm text-ink-dark placeholder:text-ink-muted"
             />
           </div>
 
@@ -95,7 +96,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="btn-comic-red w-full py-4 text-lg disabled:cursor-not-allowed disabled:opacity-60"
+            className={buttonClass({ size: 'lg', className: 'w-full' })}
           >
             {submitting ? 'Signing in…' : 'Sign In'}
           </button>

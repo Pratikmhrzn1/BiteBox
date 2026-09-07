@@ -3,25 +3,25 @@ import { X } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 export const cardClass =
-  'rounded-2xl border border-white/5 bg-admin-surface'
+  'rounded-card border border-white/5 bg-admin-surface'
 
 export const inputClass =
-  'w-full rounded-lg border border-white/10 bg-admin-field px-3 py-2 font-sans text-sm text-cream placeholder:text-admin-muted focus:border-accent-red'
+  'w-full rounded-chip border border-white/10 bg-admin-field px-3 py-2 font-sans text-sm text-cream placeholder:text-admin-muted focus:border-accent-red'
 
 export const labelClass =
   'mb-1.5 block font-sans text-xs font-bold uppercase tracking-wider text-amber'
 
 export const btnPrimary =
-  'inline-flex items-center justify-center gap-2 rounded-lg bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white transition hover:bg-red-700'
+  'inline-flex items-center justify-center gap-2 rounded-chip bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white transition hover:bg-red-700'
 
 export const btnGhost =
-  'inline-flex items-center justify-center gap-2 rounded-lg border border-white/15 px-4 py-2 font-sans text-sm font-semibold text-cream transition hover:bg-white/5'
+  'inline-flex items-center justify-center gap-2 rounded-chip border border-white/15 px-4 py-2 font-sans text-sm font-semibold text-cream transition hover:bg-white/5'
 
 export const btnDanger =
-  'inline-flex items-center justify-center gap-2 rounded-lg bg-red-700 px-4 py-2 font-sans text-sm font-bold text-white transition hover:bg-red-600'
+  'inline-flex items-center justify-center gap-2 rounded-chip bg-red-700 px-4 py-2 font-sans text-sm font-bold text-white transition hover:bg-red-600'
 
 export const btnToggle = (active: boolean): string =>
-  `rounded-lg px-3 py-1.5 font-sans text-sm font-bold transition ${
+  `rounded-chip px-3 py-1.5 font-sans text-sm font-bold transition ${
     active
       ? 'bg-accent-red text-white'
       : 'border border-white/15 text-admin-ink hover:bg-white/5'
@@ -97,7 +97,7 @@ export function Modal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-admin-ink transition hover:bg-white/10 hover:text-cream"
+            className="rounded-chip p-1.5 text-admin-ink transition hover:bg-white/10 hover:text-cream"
             aria-label="Close"
           >
             <X className="h-5 w-5" />

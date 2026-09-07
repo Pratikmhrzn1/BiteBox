@@ -25,7 +25,7 @@ export default function ContactInfo({
   onDirections,
 }: ContactInfoProps) {
   return (
-    <section className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
+    <section className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-2">
       <ContactForm />
 
       <div className="flex flex-col gap-6">

@@ -7,6 +7,7 @@ import {
 } from '../api/orders'
 import { useAuth } from '../context/AuthContext'
 import { formatPrice } from '../utils'
+import { buttonClass } from '../components/common/Button'
 
 type LocationState = { order?: Order }
 
@@ -22,8 +23,8 @@ export default function OrderConfirmationPage() {
 
   return (
     <main className="page-container max-w-2xl">
-      <div className="card-comic rounded-2xl bg-card-bg p-6 text-center sm:p-10">
-        <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-2 border-ink-dark bg-olive shadow-[4px_4px_0_#241A12]">
+      <div className="card-comic rounded-card bg-card-bg p-6 text-center sm:p-10">
+        <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-2 border-ink-dark bg-olive shadow-comic">
           <Check className="h-10 w-10 text-white" aria-hidden="true" />
         </span>
 
@@ -84,12 +85,12 @@ export default function OrderConfirmationPage() {
         )}
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <Link to={`/track/${reference}`} className="btn-comic-red px-6 py-3">
+          <Link to={`/track/${reference}`} className={buttonClass({ size: 'md' })}>
             Track this order
           </Link>
           <Link
             to={user ? '/account' : '/menu'}
-            className="btn-comic-cream px-6 py-3"
+            className={buttonClass({ variant: 'secondary', size: 'md' })}
           >
             {user ? 'My orders' : 'Back to menu'}
           </Link>

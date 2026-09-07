@@ -116,7 +116,7 @@ export default function MenuItemModal({
   }
 
   const optionEditor = (field: 'sizes' | 'extras', title: string, hint: string) => (
-    <div className="rounded-xl border border-white/10 p-3">
+    <div className="rounded-control border border-white/10 p-3">
       <div className="mb-2 flex items-center justify-between">
         <span className={labelClass}>{title}</span>
         <button
@@ -151,7 +151,7 @@ export default function MenuItemModal({
             <button
               type="button"
               onClick={() => removeOption(field, option.id)}
-              className="rounded-lg p-2 text-admin-ink transition hover:bg-red-500/20 hover:text-red-300"
+              className="rounded-chip p-2 text-admin-ink transition hover:bg-red-500/20 hover:text-red-300"
               aria-label={`Remove ${field === 'sizes' ? 'size' : 'extra'}`}
             >
               <Trash2 className="h-4 w-4" />
@@ -179,7 +179,7 @@ export default function MenuItemModal({
             type="button"
             disabled={!valid}
             onClick={handleSave}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent-red px-5 py-2 font-sans text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 rounded-chip bg-accent-red px-5 py-2 font-sans text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {initial ? 'Save Changes' : 'Create Item'}
           </button>
@@ -190,7 +190,7 @@ export default function MenuItemModal({
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
           <div className="sm:w-36">
             <span className={labelClass}>Image</span>
-            <div className="relative aspect-square overflow-hidden rounded-xl border border-white/10 bg-admin-field">
+            <div className="relative aspect-square overflow-hidden rounded-control border border-white/10 bg-admin-field">
               {draft.image ? (
                 <img
                   src={draft.image}
@@ -288,7 +288,7 @@ export default function MenuItemModal({
           ).map(([key, label]) => (
             <label
               key={key}
-              className="flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-admin-field px-3 py-2 font-sans text-sm font-semibold text-cream"
+              className="flex cursor-pointer items-center gap-2 rounded-chip border border-white/10 bg-admin-field px-3 py-2 font-sans text-sm font-semibold text-cream"
             >
               <input
                 type="checkbox"

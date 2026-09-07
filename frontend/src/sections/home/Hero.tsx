@@ -8,7 +8,7 @@ type HeroProps = {
 
 export default function Hero({ copy, onCta }: HeroProps) {
   return (
-    <section className="relative flex min-h-[26rem] items-stretch overflow-hidden rounded-3xl text-white shadow-xl">
+    <section className="relative flex min-h-[26rem] items-stretch overflow-hidden rounded-panel text-white shadow-xl">
       <img
         src={heroBurgerImg}
         alt="A delicious BiteBox burger"

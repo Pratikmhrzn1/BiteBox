@@ -16,6 +16,7 @@ import { useToast } from '../components/common/Toast'
 import { EmptyState, ErrorState, LoadingState } from '../components/common/States'
 import OrderStatusTrail from '../components/orders/OrderStatusTrail'
 import { formatDateTime, formatPrice } from '../utils'
+import { buttonClass } from '../components/common/Button'
 
 const statusTone = (status: Order['status']): string => {
   if (status === 'DELIVERED') return 'bg-olive text-white'
@@ -96,14 +97,14 @@ export default function AccountPage() {
         </div>
         <div className="flex gap-2">
           {user.role === 'ADMIN' && (
-            <Link to="/admin" className="btn-comic-cream px-5 py-2.5 text-sm">
+            <Link to="/admin" className={buttonClass({ variant: 'secondary', size: 'sm' })}>
               Admin Panel
             </Link>
           )}
           <button
             type="button"
             onClick={logout}
-            className="btn-comic-cream inline-flex items-center gap-2 px-5 py-2.5 text-sm"
+            className={buttonClass({ variant: 'secondary', size: 'sm', className: 'gap-2' })}
           >
             <LogOut className="h-4 w-4" aria-hidden="true" /> Sign Out
           </button>
@@ -123,7 +124,7 @@ export default function AccountPage() {
           title="No orders yet"
           hint="Once you place an order it will show up here, with live status."
           action={
-            <Link to="/menu" className="btn-comic-red px-6 py-2.5">
+            <Link to="/menu" className={buttonClass({ size: 'sm' })}>
               Browse the menu
             </Link>
           }
@@ -131,7 +132,7 @@ export default function AccountPage() {
       ) : (
         <ul className="mt-6 space-y-5">
           {orders.map((order) => (
-            <li key={order.id} className="card-comic rounded-2xl bg-card-bg p-5 sm:p-6">
+            <li key={order.id} className="card-comic rounded-card bg-card-bg p-5 sm:p-6">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <div className="flex items-center gap-2">
@@ -194,13 +195,13 @@ export default function AccountPage() {
                 <button
                   type="button"
                   onClick={() => reorder(order)}
-                  className="btn-comic-red px-5 py-2 text-sm"
+                  className={buttonClass({ size: 'sm' })}
                 >
                   Reorder
                 </button>
                 <Link
                   to={`/track/${order.reference}`}
-                  className="btn-comic-cream px-5 py-2 text-sm"
+                  className={buttonClass({ variant: 'secondary', size: 'sm' })}
                 >
                   Track
                 </Link>

@@ -94,26 +94,18 @@
     @apply font-display text-display-md uppercase text-header-brown;
   }
 
-  /* --- Buttons ---------------------------------------------------------
-   * One recipe per intent. Size comes from the caller (px/py), never from a
-   * new variant. active:scale-[0.96] is the tactile press the audit found
-   * missing across the product. */
-  .btn-comic-red {
-    @apply inline-flex items-center justify-center rounded-control bg-accent-red font-display uppercase text-white shadow-comic
-      transition-[transform,box-shadow,background-color] duration-fast ease-ui
-      hover:-translate-y-0.5 hover:bg-accent-red-hover
-      active:translate-y-0 active:scale-[0.96] active:shadow-none;
-  }
-
-  .btn-comic-cream {
-    @apply inline-flex items-center justify-center rounded-control border-2 border-ink-dark bg-cream font-display uppercase text-ink-dark shadow-comic
-      transition-[transform,box-shadow,background-color] duration-fast ease-ui
-      hover:-translate-y-0.5 hover:bg-amber
-      active:translate-y-0 active:scale-[0.96] active:shadow-none;
-  }
 
   .card-comic {
     @apply border-2 border-ink-dark bg-card-bg shadow-comic;
+  }
+
+  /* One rhythm for dish grids. The menu previously ran grid-cols-2 from
+   * 375px up, which left ~165px cards carrying an image, two badges, a
+   * rating, a description, a price and a button. Single column on phones
+   * is the legible choice; the wider steps match the home page so the two
+   * pages read as one product. */
+  .dish-grid {
+    @apply grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
   }
 }
 

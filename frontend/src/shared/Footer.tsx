@@ -98,7 +98,7 @@ export default function Footer() {
                 key={id}
                 type="button"
                 aria-label={label}
-                className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-ink-dark bg-[#6B3A1F] text-card-bg shadow-[4px_4px_0_#241A12] transition hover:-translate-y-0.5 hover:bg-accent-red active:translate-y-0 active:shadow-none"
+                className="flex h-10 w-10 items-center justify-center rounded-card border-2 border-ink-dark bg-[#6B3A1F] text-card-bg shadow-comic transition hover:-translate-y-0.5 hover:bg-accent-red active:translate-y-0 active:shadow-none"
               >
                 <Icon />
               </button>
@@ -143,7 +143,7 @@ export default function Footer() {
           <button
             type="button"
             onClick={onLocationOpen}
-            className="mt-2 rounded-full border-2 border-ink-dark bg-amber px-5 py-2.5 font-sans text-sm font-bold text-ink-dark shadow-[4px_4px_0_#241A12] transition hover:-translate-y-0.5 hover:bg-accent-red hover:text-white active:translate-y-0 active:shadow-none"
+            className="mt-2 rounded-full border-2 border-ink-dark bg-amber px-5 py-2.5 font-sans text-sm font-bold text-ink-dark shadow-comic transition hover:-translate-y-0.5 hover:bg-accent-red hover:text-white active:translate-y-0 active:shadow-none"
           >
             Get Directions
           </button>

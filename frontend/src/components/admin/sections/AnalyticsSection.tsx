@@ -155,7 +155,7 @@ export default function AnalyticsSection() {
             value: data.reviewCount === 0 ? '—' : `${data.averageRating}★`,
           },
         ].map((stat) => (
-          <div key={stat.label} className="rounded-2xl border border-white/5 bg-admin-surface p-5">
+          <div key={stat.label} className="rounded-card border border-white/5 bg-admin-surface p-5">
             <p className="font-sans text-[11px] font-bold tracking-widest text-admin-muted uppercase">
               {stat.label}
             </p>

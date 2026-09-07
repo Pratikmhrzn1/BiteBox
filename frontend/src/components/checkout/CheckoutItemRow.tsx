@@ -12,11 +12,11 @@ export default function CheckoutItemRow({ item }: CheckoutItemRowProps) {
   ]
 
   return (
-    <li className="flex items-center gap-3 rounded-xl border-2 border-ink-dark bg-white p-3">
+    <li className="flex items-center gap-3 rounded-control border-2 border-ink-dark bg-white p-3">
       <img
         src={item.image}
         alt={item.name}
-        className="h-12 w-12 shrink-0 rounded-lg object-cover"
+        className="h-12 w-12 shrink-0 rounded-chip object-cover"
       />
       <div className="min-w-0 flex-1">
         <p className="font-sans text-sm font-bold text-ink-dark">

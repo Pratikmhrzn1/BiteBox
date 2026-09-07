@@ -6,7 +6,7 @@ type TeamMemberCardProps = {
 
 export default function TeamMemberCard({ member }: TeamMemberCardProps) {
   return (
-    <div className="card-comic overflow-hidden rounded-2xl">
+    <div className="card-comic overflow-hidden rounded-card">
       <div className="aspect-square overflow-hidden border-b-2 border-ink-dark">
         <img
           src={member.photo}

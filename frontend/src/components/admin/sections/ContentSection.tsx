@@ -155,7 +155,7 @@ export default function ContentSection() {
                 className={inputClass}
               />
             </Field>
-            <div className="flex h-16 items-end justify-center overflow-hidden rounded-lg bg-espresso-dark px-4 pb-3 pt-4">
+            <div className="flex h-16 items-end justify-center overflow-hidden rounded-chip bg-espresso-dark px-4 pb-3 pt-4">
               <div className="text-center leading-none">
                 <p className="font-titan text-xl font-bold text-white">
                   {draft.hero.line1}
@@ -323,7 +323,7 @@ export default function ContentSection() {
           {draft.openingHours.rows.map((row, index) => (
             <div
               key={`${row.label}-${index}`}
-              className="flex flex-wrap items-end gap-2 rounded-lg bg-[#403225] p-3"
+              className="flex flex-wrap items-end gap-2 rounded-chip bg-[#403225] p-3"
             >
               <div className="min-w-32 flex-1">
                 <label className="mb-1 block font-sans text-[10px] font-bold tracking-widest text-admin-muted uppercase">
@@ -358,7 +358,7 @@ export default function ContentSection() {
                   className={inputClass}
                 />
               </div>
-              <label className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-white/15 px-3 py-2 font-sans text-xs font-bold text-cream">
+              <label className="flex cursor-pointer items-center gap-1.5 rounded-chip border border-white/15 px-3 py-2 font-sans text-xs font-bold text-cream">
                 <input
                   type="checkbox"
                   checked={row.closed}
@@ -384,7 +384,7 @@ export default function ContentSection() {
                       : current,
                   )
                 }
-                className="rounded-lg p-2 text-admin-ink transition hover:bg-red-500/20 hover:text-red-300"
+                className="rounded-chip p-2 text-admin-ink transition hover:bg-red-500/20 hover:text-red-300"
                 aria-label="Remove day range"
               >
                 <Trash2 className="h-4 w-4" />

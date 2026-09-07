@@ -10,7 +10,7 @@ export default function OpeningHoursCard({
   rows,
 }: OpeningHoursCardProps) {
   return (
-    <section className="rounded-3xl bg-gradient-to-br from-olive-deep to-espresso-dark p-6 text-cream shadow-lg">
+    <section className="rounded-panel bg-gradient-to-br from-olive-deep to-espresso-dark p-6 text-cream shadow-lg">
       <h2 className="font-sans text-lg font-bold tracking-widest uppercase">
         {title}
       </h2>

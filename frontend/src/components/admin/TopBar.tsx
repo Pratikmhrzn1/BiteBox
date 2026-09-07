@@ -33,12 +33,12 @@ export default function TopBar({ title, subtitle, pendingCount = 0 }: TopBarProp
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="hidden items-center gap-2 rounded-lg border border-white/10 bg-admin-field px-3 py-2 font-mono text-sm text-amber sm:flex">
+          <div className="hidden items-center gap-2 rounded-chip border border-white/10 bg-admin-field px-3 py-2 font-mono text-sm text-amber sm:flex">
             <Clock className="h-4 w-4" />
             {clock}
           </div>
           <div
-            className="relative rounded-lg border border-white/10 bg-admin-field p-2.5 text-admin-ink"
+            className="relative rounded-chip border border-white/10 bg-admin-field p-2.5 text-admin-ink"
             title={`${pendingCount} item${pendingCount === 1 ? '' : 's'} need attention`}
           >
             <Bell className="h-5 w-5" aria-hidden="true" />

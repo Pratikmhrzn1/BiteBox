@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../components/common/Toast'
 import { fieldClass, labelClass } from '../components/common/formStyles'
+import { buttonClass } from '../components/common/Button'
 
 type Errors = Partial<Record<'name' | 'email' | 'phone' | 'password', string>>
 
@@ -80,7 +81,7 @@ export default function RegisterPage() {
 
   return (
     <main className="page-container flex min-h-[70vh] items-center justify-center">
-      <div className="card-comic w-full max-w-md rounded-2xl bg-card-bg p-6 sm:p-8">
+      <div className="card-comic w-full max-w-md rounded-card bg-card-bg p-6 sm:p-8">
         <h1 className="font-display text-3xl uppercase text-header-brown">
           Join BiteBox
         </h1>
@@ -121,7 +122,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="btn-comic-red w-full py-4 text-lg disabled:cursor-not-allowed disabled:opacity-60"
+            className={buttonClass({ size: 'lg', className: 'w-full' })}
           >
             {submitting ? 'Creating account…' : 'Create Account'}
           </button>

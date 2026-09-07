@@ -11,6 +11,7 @@ import { useAsync } from '../hooks/useAsync'
 import OrderStatusTrail from '../components/orders/OrderStatusTrail'
 import { fieldClass } from '../components/common/formStyles'
 import { formatDateTime, formatPrice } from '../utils'
+import { buttonClass } from '../components/common/Button'
 
 export default function TrackOrderPage() {
   const { reference: routeReference } = useParams<{ reference?: string }>()
@@ -56,7 +57,7 @@ export default function TrackOrderPage() {
             className={`${fieldClass(false)} pl-9 uppercase`}
           />
         </div>
-        <button type="submit" className="btn-comic-red shrink-0 px-6 py-3">
+        <button type="submit" className={buttonClass({ size: 'md', className: 'shrink-0' })}>
           Track
         </button>
       </form>
@@ -68,7 +69,7 @@ export default function TrackOrderPage() {
       )}
 
       {error && !loading && (
-        <div className="card-comic mt-8 rounded-2xl bg-card-bg p-6 text-center">
+        <div className="card-comic mt-8 rounded-card bg-card-bg p-6 text-center">
           <p className="font-display text-2xl uppercase text-header-brown">
             No order found
           </p>
@@ -80,7 +81,7 @@ export default function TrackOrderPage() {
       )}
 
       {order && !loading && !error && (
-        <div className="card-comic mt-8 rounded-2xl bg-card-bg p-6 sm:p-8">
+        <div className="card-comic mt-8 rounded-card bg-card-bg p-6 sm:p-8">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               <p className="font-sans text-xs font-bold uppercase tracking-widest text-ink-muted">

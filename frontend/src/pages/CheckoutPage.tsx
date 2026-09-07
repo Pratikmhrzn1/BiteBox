@@ -12,6 +12,7 @@ import { useCart } from '../context/CartContext'
 import { useToast } from '../components/common/Toast'
 import { fieldClass, labelClass } from '../components/common/formStyles'
 import CheckoutSummary from '../sections/checkout/CheckoutSummary'
+import { buttonClass } from '../components/common/Button'
 
 type CustomerForm = {
   name: string
@@ -66,14 +67,14 @@ export default function CheckoutPage() {
   if (cart.length === 0 && !submitting) {
     return (
       <main className="page-container max-w-3xl">
-        <div className="card-comic rounded-2xl bg-card-bg p-8 text-center sm:p-12">
+        <div className="card-comic rounded-card bg-card-bg p-8 text-center sm:p-12">
           <h1 className="font-display text-3xl uppercase text-header-brown">
             Your box is empty
           </h1>
           <p className="mt-2 font-sans text-sm text-ink-muted">
             Add a dish or two and come back to check out.
           </p>
-          <Link to="/menu" className="btn-comic-red mt-6 inline-flex px-6 py-3">
+          <Link to="/menu" className={buttonClass({ size: 'md', className: 'mt-6' })}>
             Browse the menu
           </Link>
         </div>
@@ -153,7 +154,7 @@ export default function CheckoutPage() {
         submitting={submitting}
       />
 
-      <div className="card-comic mt-6 rounded-2xl p-6 sm:p-8">
+      <div className="card-comic mt-6 rounded-card p-6 sm:p-8">
         <h2 className="font-display text-3xl uppercase text-header-brown">
           Your Details
         </h2>
@@ -172,9 +173,9 @@ export default function CheckoutPage() {
                     type="button"
                     onClick={() => setOrderType(type.value)}
                     aria-pressed={selected}
-                    className={`rounded-xl border-2 p-3 text-left transition ${
+                    className={`rounded-control border-2 p-3 text-left transition ${
                       selected
-                        ? 'border-accent-red bg-amber shadow-[3px_3px_0_#241A12]'
+                        ? 'border-accent-red bg-amber shadow-comic-sm'
                         : 'border-ink-dark bg-white hover:bg-cream/50'
                     }`}
                   >
@@ -280,9 +281,9 @@ export default function CheckoutPage() {
                     type="button"
                     onClick={() => setPaymentMethod(method.value)}
                     aria-pressed={selected}
-                    className={`rounded-xl border-2 p-3 text-left transition ${
+                    className={`rounded-control border-2 p-3 text-left transition ${
                       selected
-                        ? 'border-accent-red bg-amber shadow-[3px_3px_0_#241A12]'
+                        ? 'border-accent-red bg-amber shadow-comic-sm'
                         : 'border-ink-dark bg-white hover:bg-cream/50'
                     }`}
                   >
@@ -299,7 +300,7 @@ export default function CheckoutPage() {
           </div>
 
           {!user && (
-            <p className="rounded-xl border-2 border-dashed border-ink-dark bg-white/60 px-4 py-3 font-sans text-sm text-ink-muted">
+            <p className="rounded-control border-2 border-dashed border-ink-dark bg-white/60 px-4 py-3 font-sans text-sm text-ink-muted">
               Ordering as a guest.{' '}
               <Link to="/login" className="font-bold text-accent-red hover:underline">
                 Sign in
@@ -318,7 +319,7 @@ export default function CheckoutPage() {
             type="button"
             onClick={() => void handlePlaceOrder()}
             disabled={submitting}
-            className="btn-comic-red w-full py-4 text-lg disabled:cursor-not-allowed disabled:opacity-60"
+            className={buttonClass({ size: 'lg', className: 'w-full' })}
           >
             {submitting ? 'Placing order…' : `Place Order · Rs ${total}`}
           </button>

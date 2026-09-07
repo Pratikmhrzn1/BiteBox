@@ -32,7 +32,7 @@ export function AdminToastProvider({ children }: { children: ReactNode }) {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`pointer-events-auto flex items-center gap-2 rounded-xl border px-4 py-3 shadow-2xl ${
+            className={`pointer-events-auto flex items-center gap-2 rounded-control border px-4 py-3 shadow-2xl ${
               toast.tone === 'error'
                 ? 'border-red-500/40 bg-[#3a1410] text-red-200'
                 : 'border-emerald-500/30 bg-[#16351f] text-emerald-200'

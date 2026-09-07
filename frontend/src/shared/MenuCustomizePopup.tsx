@@ -3,6 +3,7 @@ import { Check, Minus, Plus, X } from 'lucide-react'
 import type { MenuItem, MenuOption } from '../api/menu'
 import StarRating from '../components/common/StarRating'
 import { formatPrice } from '../utils'
+import { buttonClass } from '../components/common/Button'
 
 type MenuCustomizePopupProps = {
   item: MenuItem
@@ -59,7 +60,7 @@ export default function MenuCustomizePopup({
       role="presentation"
     >
       <div
-        className="card-comic max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl shadow-[8px_8px_0_#241A12]"
+        className="card-comic max-h-[90vh] w-full max-w-md overflow-y-auto rounded-card shadow-comic-lg"
         onClick={(event) => event.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -74,7 +75,7 @@ export default function MenuCustomizePopup({
           <button
             type="button"
             onClick={onClose}
-            className="absolute right-3 top-3 rounded-full border-2 border-ink-dark bg-card-bg p-1.5 text-ink-dark shadow-[2px_2px_0_#241A12] transition hover:bg-amber"
+            className="absolute right-3 top-3 rounded-full border-2 border-ink-dark bg-card-bg p-1.5 text-ink-dark shadow-comic-xs transition hover:bg-amber"
             aria-label="Close customization"
           >
             <X className="h-4 w-4" />
@@ -129,7 +130,7 @@ export default function MenuCustomizePopup({
                       type="button"
                       onClick={() => setSelectedSize(size)}
                       aria-pressed={isActive}
-                      className={`flex items-center justify-between rounded-lg border-2 border-ink-dark px-3 py-2 text-left transition ${
+                      className={`flex items-center justify-between rounded-chip border-2 border-ink-dark px-3 py-2 text-left transition ${
                         isActive ? 'bg-amber' : 'bg-white hover:bg-cream/50'
                       }`}
                     >
@@ -160,7 +161,7 @@ export default function MenuCustomizePopup({
                         type="button"
                         onClick={() => toggleExtra(extra.id)}
                         aria-pressed={isSelected}
-                        className={`flex w-full items-center justify-between rounded-lg border-2 border-ink-dark px-3 py-2 text-left transition ${
+                        className={`flex w-full items-center justify-between rounded-chip border-2 border-ink-dark px-3 py-2 text-left transition ${
                           isSelected ? 'bg-amber' : 'bg-white hover:bg-cream/50'
                         }`}
                       >
@@ -221,7 +222,7 @@ export default function MenuCustomizePopup({
                 extras: selectedExtras,
               })
             }
-            className="btn-comic-red w-full justify-between px-5 py-3 text-lg"
+            className={buttonClass({ size: 'lg', className: 'w-full justify-between' })}
           >
             <span>Add to Cart</span>
             <span className="font-display text-base">{formatPrice(total)}</span>

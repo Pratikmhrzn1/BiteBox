@@ -6,7 +6,7 @@ type AboutHeroProps = {
 
 export default function AboutHero({ image, title, subtitle }: AboutHeroProps) {
   return (
-    <section className="relative flex min-h-[22rem] items-center overflow-hidden rounded-2xl sm:min-h-[26rem]">
+    <section className="relative flex min-h-[22rem] items-center overflow-hidden rounded-card sm:min-h-[26rem]">
       <img
         src={image}
         alt="Moody burger kitchen"

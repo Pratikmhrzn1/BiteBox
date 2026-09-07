@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { ORDER_TYPES } from '../api/orders'
 import { cartLineTotal, useCart } from '../context/CartContext'
 import { formatPrice } from '../utils'
+import { buttonClass } from '../components/common/Button'
 
 export default function CartDrawer() {
   const navigate = useNavigate()
@@ -67,7 +68,7 @@ export default function CartDrawer() {
         role="dialog"
         aria-modal="true"
         aria-label="Your order"
-        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md transform flex-col overflow-hidden border-l-2 border-ink-dark bg-card-bg shadow-[-6px_0_0_#241A12] transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md transform flex-col overflow-hidden border-l-2 border-ink-dark bg-card-bg shadow-comic-drawer transition-transform duration-300 ease-in-out ${
           isCartOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         onClick={(event) => event.stopPropagation()}
@@ -78,7 +79,7 @@ export default function CartDrawer() {
               Your Order
             </h2>
             {cartCount > 0 && (
-              <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-accent-red px-2 font-sans text-sm font-bold text-white shadow-[2px_2px_0_#241A12]">
+              <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-accent-red px-2 font-sans text-sm font-bold text-white shadow-comic-xs">
                 {cartCount}
               </span>
             )}
@@ -87,7 +88,7 @@ export default function CartDrawer() {
             ref={closeButtonRef}
             type="button"
             onClick={closeCart}
-            className="rounded-full border-2 border-ink-dark bg-card-bg p-1.5 text-ink-dark shadow-[2px_2px_0_#241A12] transition hover:bg-accent-red hover:text-white"
+            className="rounded-full border-2 border-ink-dark bg-card-bg p-1.5 text-ink-dark shadow-comic-xs transition hover:bg-accent-red hover:text-white"
             aria-label="Close cart"
           >
             <X className="h-5 w-5" />
@@ -104,7 +105,7 @@ export default function CartDrawer() {
                 aria-pressed={orderType === type.value}
                 className={
                   orderType === type.value
-                    ? 'flex-1 rounded-full bg-accent-red px-3 py-2 font-sans text-sm font-bold text-white shadow-[3px_3px_0_#241A12] transition'
+                    ? 'flex-1 rounded-full bg-accent-red px-3 py-2 font-sans text-sm font-bold text-white shadow-comic-sm transition'
                     : 'flex-1 rounded-full border-2 border-ink-dark bg-cream px-3 py-2 font-sans text-sm font-bold text-ink-dark transition hover:bg-amber'
                 }
               >
@@ -123,7 +124,7 @@ export default function CartDrawer() {
               <button
                 type="button"
                 onClick={() => goTo('/menu')}
-                className="btn-comic-red px-6 py-2.5 text-base"
+                className={buttonClass({ size: 'md' })}
               >
                 Start smashing
               </button>
@@ -138,7 +139,7 @@ export default function CartDrawer() {
                 return (
                   <li
                     key={item.key}
-                    className="flex items-center gap-3 rounded-2xl border-2 border-ink-dark bg-white p-3"
+                    className="flex items-center gap-3 rounded-card border-2 border-ink-dark bg-white p-3"
                   >
                     <img
                       src={item.image}
@@ -225,7 +226,7 @@ export default function CartDrawer() {
             <button
               type="button"
               onClick={() => goTo('/checkout')}
-              className="btn-comic-red w-full px-5 py-3.5 text-lg"
+              className={buttonClass({ size: 'lg', className: 'w-full' })}
             >
               Proceed to Checkout
             </button>

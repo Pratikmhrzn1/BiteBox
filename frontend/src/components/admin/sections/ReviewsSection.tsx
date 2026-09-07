@@ -173,7 +173,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
             <button
               type="button"
               onClick={() => setFilter('PENDING')}
-              className="mt-3 rounded-lg bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white transition hover:bg-red-700"
+              className="mt-3 rounded-chip bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white transition hover:bg-red-700"
             >
               Review them
             </button>
@@ -202,7 +202,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-2xl border border-white/5 bg-admin-surface">
+        <div className="rounded-card border border-white/5 bg-admin-surface">
           <EmptyState title="No reviews here" hint="Try a different filter." />
         </div>
       ) : (
@@ -210,7 +210,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
           {filtered.map((review) => (
             <article
               key={review.id}
-              className={`rounded-2xl border border-white/5 bg-admin-surface p-5 transition ${
+              className={`rounded-card border border-white/5 bg-admin-surface p-5 transition ${
                 busyId === review.id ? 'opacity-50' : ''
               }`}
             >
@@ -252,7 +252,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
                   <button
                     type="button"
                     onClick={() => void setStatus(review, 'APPROVED')}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 font-sans text-xs font-bold text-white transition hover:bg-emerald-500"
+                    className="inline-flex items-center gap-1.5 rounded-chip bg-emerald-600 px-3 py-1.5 font-sans text-xs font-bold text-white transition hover:bg-emerald-500"
                   >
                     <Check className="h-3.5 w-3.5" /> Approve
                   </button>
@@ -261,7 +261,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
                   <button
                     type="button"
                     onClick={() => void setStatus(review, 'HIDDEN')}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 px-3 py-1.5 font-sans text-xs font-bold text-cream transition hover:bg-white/5"
+                    className="inline-flex items-center gap-1.5 rounded-chip border border-white/15 px-3 py-1.5 font-sans text-xs font-bold text-cream transition hover:bg-white/5"
                   >
                     <EyeOff className="h-3.5 w-3.5" /> Hide
                   </button>
@@ -269,7 +269,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
                 <button
                   type="button"
                   onClick={() => void remove(review)}
-                  className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-red-500/30 px-3 py-1.5 font-sans text-xs font-bold text-red-300 transition hover:bg-red-500/15"
+                  className="ml-auto inline-flex items-center gap-1.5 rounded-chip border border-red-500/30 px-3 py-1.5 font-sans text-xs font-bold text-red-300 transition hover:bg-red-500/15"
                 >
                   <Trash2 className="h-3.5 w-3.5" /> Delete
                 </button>
