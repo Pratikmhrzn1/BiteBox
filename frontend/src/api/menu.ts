@@ -65,3 +65,22 @@ export const updateMenuItem = (
 
 export const deleteMenuItem = (id: string, token: string) =>
   del<{ id: string; deleted: true }>(`/menu/${id}`, token)
+
+/** Uploads an image file and returns its public URL. */
+export const uploadImage = async (file: File, token: string): Promise<string> => {
+  const formData = new FormData()
+  formData.append('file', file)
+  const response = await fetch('/api/menu/upload', {
+    method: 'POST',
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    body: formData,
+  })
+  const body = (await response.json().catch(() => ({}))) as {
+    url?: string
+    message?: string
+  }
+  if (!response.ok || !body.url) {
+    throw new Error(body.message ?? 'Image upload failed')
+  }
+  return body.url
+}

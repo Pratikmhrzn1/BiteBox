@@ -7,10 +7,18 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname, join } from 'path';
+import { randomBytes } from 'crypto';
 import {
   ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
@@ -18,6 +26,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
+import { existsSync, mkdirSync } from 'fs';
 import { Public } from '../common/decorators/public.decorator';
 import { Roles } from '../common/decorators/roles.decorator';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
@@ -29,10 +38,60 @@ import {
 } from './dto/menu-item.dto';
 import { MenuService } from './menu.service';
 
+const uploadsDir = join(__dirname, '..', '..', 'uploads');
+
 @ApiTags('menu')
 @Controller('menu')
 export class MenuController {
   constructor(private readonly menuService: MenuService) {}
+
+  @ApiOperation({
+    summary: 'Upload an image',
+    description:
+      'ADMIN only. Accepts an image file and returns its public URL.',
+  })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: { type: 'string', format: 'binary' },
+      },
+    },
+  })
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
+  @Post('upload')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: (_req, _file, cb) => {
+          if (!existsSync(uploadsDir))
+            mkdirSync(uploadsDir, { recursive: true });
+          cb(null, uploadsDir);
+        },
+        filename: (_req, file, cb) => {
+          const ext = extname(file.originalname).toLowerCase();
+          const name = `${Date.now()}-${randomBytes(8).toString('hex')}${ext}`;
+          cb(null, name);
+        },
+      }),
+      limits: { fileSize: 5 * 1024 * 1024 },
+      fileFilter: (_req, file, cb) => {
+        const allowed = /\.(jpg|jpeg|png|webp|gif|avif|svg)$/i.test(
+          file.originalname,
+        );
+        cb(allowed ? null : new Error('Only image files are allowed'), allowed);
+      },
+    }),
+  )
+  upload(@UploadedFile() file: Express.Multer.File) {
+    if (!file) {
+      throw new Error('No file uploaded');
+    }
+    return { url: `/api/uploads/${file.filename}` };
+  }
 
   @ApiOperation({
     summary: 'List the menu',

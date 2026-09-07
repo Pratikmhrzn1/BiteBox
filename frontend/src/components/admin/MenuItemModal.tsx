@@ -1,6 +1,8 @@
-import { useState } from 'react'
-import { Plus, Trash2 } from 'lucide-react'
+import { useRef, useState } from 'react'
+import { ImagePlus, Plus, Trash2, Upload, X } from 'lucide-react'
 import type { MenuItem, MenuItemInput, MenuOption } from '../../api/menu'
+import { uploadImage } from '../../api/menu'
+import { useAuth } from '../../context/AuthContext'
 import { Field, Modal, btnGhost, inputClass, labelClass } from './ui'
 import { formatPrice } from '../../utils'
 
@@ -57,9 +59,38 @@ export default function MenuItemModal({
       : emptyDraft(categories[0] ?? 'Burgers'),
   )
   const [newCategory, setNewCategory] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const { token } = useAuth()
 
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) =>
     setDraft((current) => ({ ...current, [key]: value }))
+
+  const handleFile = async (file: File | undefined | null) => {
+    if (!file || uploading) return
+    if (!file.type.startsWith('image/')) {
+      setUploadError('Please choose an image file (JPG, PNG, WebP, GIF…).')
+      return
+    }
+    if (!token) {
+      setUploadError('You must be signed in as an admin to upload.')
+      return
+    }
+    setUploading(true)
+    setUploadError(null)
+    try {
+      const url = await uploadImage(file, token)
+      set('image', url)
+    } catch (reason) {
+      setUploadError(
+        reason instanceof Error ? reason.message : 'Could not upload the image.',
+      )
+    } finally {
+      setUploading(false)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    }
+  }
 
   const updateOption = (
     field: 'sizes' | 'extras',
@@ -188,21 +219,60 @@ export default function MenuItemModal({
     >
       <div className="space-y-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-          <div className="sm:w-36">
+          <div className="sm:w-44">
             <span className={labelClass}>Image</span>
             <div className="relative aspect-square overflow-hidden rounded-control border border-white/10 bg-admin-field">
-              {draft.image ? (
+              {uploading ? (
+                <div className="flex h-full w-full flex-col items-center justify-center gap-1 font-sans text-xs text-admin-muted">
+                  <Upload className="h-5 w-5 animate-pulse" />
+                  Uploading…
+                </div>
+              ) : draft.image ? (
                 <img
                   src={draft.image}
                   alt="Preview"
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <div className="flex h-full w-full items-center justify-center font-sans text-xs text-admin-muted">
-                  No image
-                </div>
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex h-full w-full flex-col items-center justify-center gap-1 font-sans text-xs text-admin-muted transition-colors duration-fast ease-ui hover:text-cream"
+                >
+                  <ImagePlus className="h-5 w-5" />
+                  Add image
+                </button>
+              )}
+              {draft.image && !uploading && (
+                <button
+                  type="button"
+                  onClick={() => set('image', '')}
+                  title="Remove image"
+                  className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white transition-colors duration-fast ease-ui hover:bg-red-600"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
               )}
             </div>
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+              className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-chip border border-white/15 px-3 py-1.5 font-sans text-xs font-bold text-cream transition-colors duration-fast ease-ui hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <Upload className="h-3.5 w-3.5" />
+              {draft.image ? 'Replace' : 'Upload from device'}
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(event) => void handleFile(event.target.files?.[0])}
+            />
+            {uploadError && (
+              <p className="mt-1.5 font-sans text-xs text-red-300">{uploadError}</p>
+            )}
           </div>
 
           <div className="min-w-0 flex-1 space-y-3">
@@ -256,14 +326,21 @@ export default function MenuItemModal({
                 )}
               </Field>
             </div>
-            <Field label="Image URL">
-              <input
-                value={draft.image}
-                onChange={(event) => set('image', event.target.value)}
-                placeholder="https://…"
-                className={inputClass}
-              />
-            </Field>
+            <details className="rounded-chip border border-white/10 bg-admin-field px-3 py-1.5">
+              <summary className="cursor-pointer font-sans text-xs font-semibold text-admin-muted select-none">
+                Or paste an image URL
+              </summary>
+              <div className="pt-2">
+                <Field label="Image URL">
+                  <input
+                    value={draft.image}
+                    onChange={(event) => set('image', event.target.value)}
+                    placeholder="https://…"
+                    className={inputClass}
+                  />
+                </Field>
+              </div>
+            </details>
           </div>
         </div>
 
