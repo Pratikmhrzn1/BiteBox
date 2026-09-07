@@ -6,6 +6,11 @@ type CheckoutItemRowProps = {
 }
 
 export default function CheckoutItemRow({ item }: CheckoutItemRowProps) {
+  const options = [
+    ...(item.size ? [item.size.label] : []),
+    ...item.extras.map((extra) => extra.label),
+  ]
+
   return (
     <li className="flex items-center gap-3 rounded-xl border-2 border-ink-dark bg-white p-3">
       <img
@@ -17,9 +22,9 @@ export default function CheckoutItemRow({ item }: CheckoutItemRowProps) {
         <p className="font-sans text-sm font-bold text-ink-dark">
           {item.name} × {item.quantity}
         </p>
-        {item.extras.length > 0 && (
+        {options.length > 0 && (
           <p className="mt-0.5 truncate font-sans text-xs font-medium text-ink-muted">
-            {item.extras.map((extra) => extra.label).join(', ')}
+            {options.join(', ')}
           </p>
         )}
       </div>

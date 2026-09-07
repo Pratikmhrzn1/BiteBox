@@ -1,4 +1,4 @@
-import type { Hours } from '../../data/data'
+import type { Hours } from '../../data/home'
 
 type OpeningHoursCardProps = {
   title: string

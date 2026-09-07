@@ -1,6 +1,10 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react'
+import { sendMessage } from '../../api/contact'
+import { useAuth } from '../../context/AuthContext'
+import { useToast } from '../common/Toast'
+import { fieldClass, labelClass } from '../common/formStyles'
 
-type ContactForm = {
+type ContactFormState = {
   name: string
   email: string
   phone: string
@@ -8,74 +12,92 @@ type ContactForm = {
   message: string
 }
 
-type FieldErrors = {
-  name?: string
-  email?: string
-  phone?: string
-  message?: string
-}
+type FieldErrors = Partial<Record<'name' | 'email' | 'phone' | 'message', string>>
 
 const SUBJECTS = ['General Enquiry', 'Feedback', 'Catering', 'Complaint', 'Other']
 
-const initialForm: ContactForm = {
-  name: '',
-  email: '',
-  phone: '',
-  subject: SUBJECTS[0],
-  message: '',
-}
-
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const PHONE_RE = /^\+?[\d\s-]{7,15}$/
+const PHONE_RE = /^\+?[\d\s-]{7,20}$/
 
 export default function ContactForm() {
-  const [form, setForm] = useState<ContactForm>(initialForm)
+  const { user } = useAuth()
+  const { notify } = useToast()
+
+  const [form, setForm] = useState<ContactFormState>({
+    name: user?.name ?? '',
+    email: user?.email ?? '',
+    phone: user?.phone ?? '',
+    subject: SUBJECTS[0],
+    message: '',
+  })
   const [errors, setErrors] = useState<FieldErrors>({})
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
-  const updateField = (field: keyof ContactForm) => (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-  ) => {
-    const value = e.target.value
-    setForm((prev) => ({ ...prev, [field]: value }))
-    if (errors[field as keyof FieldErrors]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }))
+  const updateField =
+    (field: keyof ContactFormState) =>
+    (
+      event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+    ) => {
+      const { value } = event.target
+      setForm((current) => ({ ...current, [field]: value }))
+      setErrors((current) => ({ ...current, [field]: undefined }))
     }
-  }
 
   const validate = (): FieldErrors => {
     const next: FieldErrors = {}
     if (!form.name.trim()) next.name = 'Please tell us your name'
-    if (!form.email.trim()) {
-      next.email = 'We need your email to reply'
-    } else if (!EMAIL_RE.test(form.email.trim())) {
+    if (!form.email.trim()) next.email = 'We need your email to reply'
+    else if (!EMAIL_RE.test(form.email.trim()))
       next.email = 'That email doesn’t look right'
-    }
-    if (form.phone.trim() && !PHONE_RE.test(form.phone.trim())) {
+    if (form.phone.trim() && !PHONE_RE.test(form.phone.trim()))
       next.phone = 'That phone number looks off'
-    }
     if (!form.message.trim()) next.message = 'Drop us a few words'
     return next
   }
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault()
     const nextErrors = validate()
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) return
-    setSubmitted(true)
+
+    setSubmitting(true)
+    setSubmitError(null)
+    try {
+      await sendMessage({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim() || undefined,
+        subject: form.subject,
+        message: form.message.trim(),
+      })
+      setSubmitted(true)
+      notify('Message sent — we’ll be in touch!')
+    } catch (reason) {
+      setSubmitError(
+        reason instanceof Error
+          ? reason.message
+          : 'Could not send your message. Please try again.',
+      )
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const resetForm = () => {
-    setForm(initialForm)
+    setForm({
+      name: user?.name ?? '',
+      email: user?.email ?? '',
+      phone: user?.phone ?? '',
+      subject: SUBJECTS[0],
+      message: '',
+    })
     setErrors({})
     setSubmitted(false)
+    setSubmitError(null)
   }
-
-  const inputClasses = (hasError: boolean) =>
-    `w-full rounded-xl border-2 bg-white px-4 py-3 font-sans text-sm text-ink-dark placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-amber ${
-      hasError ? 'border-accent-red' : 'border-ink-dark'
-    }`
 
   return (
     <div className="card-comic rounded-2xl bg-card-bg p-6 sm:p-8">
@@ -109,19 +131,17 @@ export default function ContactForm() {
       ) : (
         <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-5">
           <div>
-            <label
-              htmlFor="contact-name"
-              className="mb-1.5 block font-sans text-sm font-bold text-ink-dark"
-            >
+            <label htmlFor="contact-name" className={labelClass}>
               Full Name <span className="text-accent-red">*</span>
             </label>
             <input
               id="contact-name"
               type="text"
+              autoComplete="name"
               value={form.name}
               onChange={updateField('name')}
               placeholder="Zoe Smashburger"
-              className={inputClasses(Boolean(errors.name))}
+              className={fieldClass(Boolean(errors.name))}
             />
             {errors.name && (
               <p className="mt-1.5 font-sans text-xs font-semibold text-accent-red">
@@ -131,19 +151,17 @@ export default function ContactForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="contact-email"
-              className="mb-1.5 block font-sans text-sm font-bold text-ink-dark"
-            >
+            <label htmlFor="contact-email" className={labelClass}>
               Email Address <span className="text-accent-red">*</span>
             </label>
             <input
               id="contact-email"
               type="email"
+              autoComplete="email"
               value={form.email}
               onChange={updateField('email')}
               placeholder="you@example.com"
-              className={inputClasses(Boolean(errors.email))}
+              className={fieldClass(Boolean(errors.email))}
             />
             {errors.email && (
               <p className="mt-1.5 font-sans text-xs font-semibold text-accent-red">
@@ -153,19 +171,17 @@ export default function ContactForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="contact-phone"
-              className="mb-1.5 block font-sans text-sm font-bold text-ink-dark"
-            >
+            <label htmlFor="contact-phone" className={labelClass}>
               Phone Number (optional)
             </label>
             <input
               id="contact-phone"
               type="tel"
+              autoComplete="tel"
               value={form.phone}
               onChange={updateField('phone')}
               placeholder="+977 …"
-              className={inputClasses(Boolean(errors.phone))}
+              className={fieldClass(Boolean(errors.phone))}
             />
             {errors.phone && (
               <p className="mt-1.5 font-sans text-xs font-semibold text-accent-red">
@@ -175,17 +191,14 @@ export default function ContactForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="contact-subject"
-              className="mb-1.5 block font-sans text-sm font-bold text-ink-dark"
-            >
+            <label htmlFor="contact-subject" className={labelClass}>
               Subject
             </label>
             <select
               id="contact-subject"
               value={form.subject}
               onChange={updateField('subject')}
-              className={`${inputClasses(false)} cursor-pointer`}
+              className={`${fieldClass(false)} cursor-pointer`}
             >
               {SUBJECTS.map((subject) => (
                 <option key={subject} value={subject}>
@@ -196,10 +209,7 @@ export default function ContactForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="contact-message"
-              className="mb-1.5 block font-sans text-sm font-bold text-ink-dark"
-            >
+            <label htmlFor="contact-message" className={labelClass}>
               Message <span className="text-accent-red">*</span>
             </label>
             <textarea
@@ -208,7 +218,7 @@ export default function ContactForm() {
               value={form.message}
               onChange={updateField('message')}
               placeholder="Tell us everything…"
-              className={`${inputClasses(Boolean(errors.message))} resize-none`}
+              className={`${fieldClass(Boolean(errors.message))} resize-none`}
             />
             {errors.message && (
               <p className="mt-1.5 font-sans text-xs font-semibold text-accent-red">
@@ -217,9 +227,19 @@ export default function ContactForm() {
             )}
           </div>
 
-          <button type="submit" className="btn-comic-red w-full py-4 text-lg">
-            Send Message
+          <button
+            type="submit"
+            disabled={submitting}
+            className="btn-comic-red w-full py-4 text-lg disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {submitting ? 'Sending…' : 'Send Message'}
           </button>
+
+          {submitError && (
+            <p className="font-sans text-sm font-semibold text-accent-red" role="alert">
+              {submitError}
+            </p>
+          )}
         </form>
       )}
     </div>

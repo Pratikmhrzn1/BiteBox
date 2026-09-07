@@ -1,15 +1,9 @@
-import { useEffect, useState } from 'react'
-import { Minus, Plus, Scooter, UtensilsCrossed, X } from 'lucide-react'
+import { useEffect } from 'react'
+import { Minus, Plus, Trash2, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { ORDER_TYPES } from '../api/orders'
 import { cartLineTotal, useCart } from '../context/CartContext'
 import { formatPrice } from '../utils'
-
-const ORDER_TYPES = [
-  { id: 'dine-in', label: 'Dine-In', Icon: UtensilsCrossed },
-  { id: 'delivery', label: 'Delivery', Icon: Scooter },
-] as const
-
-type OrderType = (typeof ORDER_TYPES)[number]['id']
 
 export default function CartDrawer() {
   const navigate = useNavigate()
@@ -20,10 +14,13 @@ export default function CartDrawer() {
     closeCart,
     updateQuantity,
     removeItem,
+    clearCart,
+    orderType,
+    setOrderType,
     subtotal,
     deliveryFee,
+    total,
   } = useCart()
-  const [orderType, setOrderType] = useState<OrderType>('dine-in')
 
   useEffect(() => {
     if (!isCartOpen) return
@@ -38,18 +35,10 @@ export default function CartDrawer() {
     }
   }, [isCartOpen, closeCart])
 
-  const handleCheckout = () => {
+  const goTo = (path: string) => {
     closeCart()
-    navigate('/checkout')
+    navigate(path)
   }
-
-  const goToMenu = () => {
-    closeCart()
-    navigate('/menu')
-  }
-
-  const showDeliveryFee = orderType === 'delivery'
-  const total = subtotal + (showDeliveryFee ? deliveryFee : 0)
 
   return (
     <div
@@ -91,39 +80,33 @@ export default function CartDrawer() {
 
         <div className="border-b-2 border-ink-dark px-5 py-4">
           <div className="flex gap-2">
-            {ORDER_TYPES.map((type) => {
-              const isActive = type.id === orderType
-              return (
-                <button
-                  key={type.id}
-                  type="button"
-                  onClick={() => setOrderType(type.id)}
-                  className={
-                    isActive
-                      ? 'flex flex-1 items-center justify-center gap-1.5 rounded-full bg-accent-red px-3 py-2 font-sans text-sm font-bold text-white shadow-[3px_3px_0_#241A12] transition active:translate-y-0 active:shadow-none'
-                      : 'flex flex-1 items-center justify-center gap-1.5 rounded-full border-2 border-ink-dark bg-cream px-3 py-2 font-sans text-sm font-bold text-ink-dark transition hover:bg-amber'
-                  }
->
-                  <type.Icon className="h-4 w-4" aria-hidden="true" />
-                  {type.label}
-                </button>
-              )
-            })}
+            {ORDER_TYPES.map((type) => (
+              <button
+                key={type.value}
+                type="button"
+                onClick={() => setOrderType(type.value)}
+                aria-pressed={orderType === type.value}
+                className={
+                  orderType === type.value
+                    ? 'flex-1 rounded-full bg-accent-red px-3 py-2 font-sans text-sm font-bold text-white shadow-[3px_3px_0_#241A12] transition'
+                    : 'flex-1 rounded-full border-2 border-ink-dark bg-cream px-3 py-2 font-sans text-sm font-bold text-ink-dark transition hover:bg-amber'
+                }
+              >
+                {type.label}
+              </button>
+            ))}
           </div>
         </div>
 
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
           {cart.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
-              {/* <span className="text-6xl" aria-hidden="true">
-                🍔
-              </span> */}
               <p className="font-display text-xl text-header-brown uppercase">
                 Your box is empty
               </p>
               <button
                 type="button"
-                onClick={goToMenu}
+                onClick={() => goTo('/menu')}
                 className="btn-comic-red px-6 py-2.5 text-base"
               >
                 Start smashing
@@ -131,68 +114,70 @@ export default function CartDrawer() {
             </div>
           ) : (
             <ul className="space-y-3">
-              {cart.map((item) => (
-                <li
-                  key={item.key}
-                  className="flex items-center gap-3 rounded-2xl border-2 border-ink-dark bg-white p-3"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="h-10 w-10 shrink-0 rounded object-cover"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-start justify-between gap-2">
-                      <p className="truncate font-sans text-sm font-bold text-ink-dark">
-                        {item.name}
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => removeItem(item.key)}
-                        className="shrink-0 rounded-full p-0.5 text-ink-muted transition hover:bg-accent-red hover:text-white"
-                        aria-label={`Remove ${item.name} from order`}
-                      >
-                        <X className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
-                    {item.extras.length > 0 && (
-                      <p className="mt-0.5 truncate font-sans text-xs font-medium text-ink-muted">
-                        {item.extras.map((extra) => extra.label).join(', ')}
-                      </p>
-                    )}
-                    <div className="mt-2 flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-1 rounded-full border-2 border-ink-dark bg-card-bg px-1.5 py-0.5">
+              {cart.map((item) => {
+                const options = [
+                  ...(item.size ? [item.size.label] : []),
+                  ...item.extras.map((extra) => extra.label),
+                ]
+                return (
+                  <li
+                    key={item.key}
+                    className="flex items-center gap-3 rounded-2xl border-2 border-ink-dark bg-white p-3"
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="h-10 w-10 shrink-0 rounded object-cover"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="truncate font-sans text-sm font-bold text-ink-dark">
+                          {item.name}
+                        </p>
                         <button
                           type="button"
-                          onClick={() =>
-                            updateQuantity(item.key, item.quantity - 1)
-                          }
-                          className="p-0.5 text-ink-dark transition hover:text-accent-red"
-                          aria-label={`Decrease quantity of ${item.name}`}
+                          onClick={() => removeItem(item.key)}
+                          className="shrink-0 rounded-full p-0.5 text-ink-muted transition hover:bg-accent-red hover:text-white"
+                          aria-label={`Remove ${item.name} from order`}
                         >
-                          <Minus className="h-3.5 w-3.5" />
-                        </button>
-                        <span className="min-w-5 text-center font-sans text-sm font-bold text-ink-dark">
-                          {item.quantity}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            updateQuantity(item.key, item.quantity + 1)
-                          }
-                          className="p-0.5 text-ink-dark transition hover:text-accent-red"
-                          aria-label={`Increase quantity of ${item.name}`}
-                        >
-                          <Plus className="h-3.5 w-3.5" />
+                          <X className="h-3.5 w-3.5" />
                         </button>
                       </div>
-                      <span className="shrink-0 font-sans text-sm font-bold text-accent-red">
-                        {formatPrice(cartLineTotal(item))}
-                      </span>
+                      {options.length > 0 && (
+                        <p className="mt-0.5 truncate font-sans text-xs font-medium text-ink-muted">
+                          {options.join(', ')}
+                        </p>
+                      )}
+                      <div className="mt-2 flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-1 rounded-full border-2 border-ink-dark bg-card-bg px-1.5 py-0.5">
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.key, item.quantity - 1)}
+                            className="p-0.5 text-ink-dark transition hover:text-accent-red"
+                            aria-label={`Decrease quantity of ${item.name}`}
+                          >
+                            <Minus className="h-3.5 w-3.5" />
+                          </button>
+                          <span className="min-w-5 text-center font-sans text-sm font-bold text-ink-dark">
+                            {item.quantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.key, item.quantity + 1)}
+                            className="p-0.5 text-ink-dark transition hover:text-accent-red"
+                            aria-label={`Increase quantity of ${item.name}`}
+                          >
+                            <Plus className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                        <span className="shrink-0 font-sans text-sm font-bold text-accent-red">
+                          {formatPrice(cartLineTotal(item))}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                )
+              })}
             </ul>
           )}
         </div>
@@ -204,7 +189,7 @@ export default function CartDrawer() {
                 <span>Subtotal</span>
                 <span className="font-bold">{formatPrice(subtotal)}</span>
               </div>
-              {showDeliveryFee && (
+              {deliveryFee > 0 && (
                 <div className="flex items-center justify-between">
                   <span>Delivery fee</span>
                   <span className="font-bold">{formatPrice(deliveryFee)}</span>
@@ -223,14 +208,24 @@ export default function CartDrawer() {
 
             <button
               type="button"
-              onClick={handleCheckout}
+              onClick={() => goTo('/checkout')}
               className="btn-comic-red w-full px-5 py-3.5 text-lg"
             >
               Proceed to Checkout
             </button>
-            <p className="text-center font-sans text-xs font-medium text-ink-muted">
-              Estimated 20–30 min
-            </p>
+
+            <div className="flex items-center justify-between">
+              <button
+                type="button"
+                onClick={clearCart}
+                className="inline-flex items-center gap-1.5 font-sans text-xs font-semibold text-ink-muted transition hover:text-accent-red"
+              >
+                <Trash2 className="h-3.5 w-3.5" aria-hidden="true" /> Clear box
+              </button>
+              <p className="font-sans text-xs font-medium text-ink-muted">
+                Estimated 20–30 min
+              </p>
+            </div>
           </footer>
         )}
       </aside>

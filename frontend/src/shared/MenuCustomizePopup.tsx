@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Check, Minus, Plus, X } from 'lucide-react'
-import type { CartExtra } from '../data/menu'
-import { CART_EXTRAS } from '../data/menu'
-import type { CartAddInput } from '../context/CartContext'
+import type { MenuItem, MenuOption } from '../api/menu'
+import StarRating from '../components/common/StarRating'
 import { formatPrice } from '../utils'
 
 type MenuCustomizePopupProps = {
-  item: CartAddInput
+  item: MenuItem
   onClose: () => void
-  onAdd: (item: CartAddInput, quantity: number, extras: CartExtra[]) => void
+  onAdd: (
+    item: MenuItem,
+    quantity: number,
+    options: { size: MenuOption | null; extras: MenuOption[] },
+  ) => void
 }
 
 export default function MenuCustomizePopup({
@@ -17,38 +20,37 @@ export default function MenuCustomizePopup({
   onAdd,
 }: MenuCustomizePopupProps) {
   const [quantity, setQuantity] = useState(1)
-  const [selectedExtras, setSelectedExtras] = useState<string[]>([])
-
-  const toggleExtra = (id: string) => {
-    setSelectedExtras((current) =>
-      current.includes(id)
-        ? current.filter((extraId) => extraId !== id)
-        : [...current, id],
-    )
-  }
-
-  const selectedExtraObjects = CART_EXTRAS.filter((extra) =>
-    selectedExtras.includes(extra.id),
+  const [selectedExtraIds, setSelectedExtraIds] = useState<string[]>([])
+  const [selectedSize, setSelectedSize] = useState<MenuOption | null>(
+    item.sizes.length > 1 ? item.sizes[0] : null,
   )
-
-  const extrasTotal = selectedExtraObjects.reduce(
-    (sum, extra) => sum + extra.price,
-    0,
-  )
-
-  const total = (item.price + extrasTotal) * quantity
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose()
     }
     window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = ''
+    }
   }, [onClose])
 
-  const handleAdd = () => {
-    onAdd(item, quantity, selectedExtraObjects)
+  const toggleExtra = (id: string) => {
+    setSelectedExtraIds((current) =>
+      current.includes(id)
+        ? current.filter((extraId) => extraId !== id)
+        : [...current, id],
+    )
   }
+
+  const selectedExtras = item.extras.filter((extra) =>
+    selectedExtraIds.includes(extra.id),
+  )
+  const extrasTotal = selectedExtras.reduce((sum, extra) => sum + extra.price, 0)
+  const unitPrice = selectedSize?.price ?? item.price
+  const total = (unitPrice + extrasTotal) * quantity
 
   return (
     <div
@@ -57,7 +59,7 @@ export default function MenuCustomizePopup({
       role="presentation"
     >
       <div
-        className="card-comic w-full max-w-md overflow-hidden rounded-2xl shadow-[8px_8px_0_#241A12]"
+        className="card-comic max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl shadow-[8px_8px_0_#241A12]"
         onClick={(event) => event.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -77,32 +79,89 @@ export default function MenuCustomizePopup({
           >
             <X className="h-4 w-4" />
           </button>
+          <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
+            {item.spicy && (
+              <span className="rounded-full border-2 border-ink-dark bg-accent-red px-2 py-0.5 font-sans text-[10px] font-bold text-white uppercase">
+                🌶️ Spicy
+              </span>
+            )}
+            {item.vegetarian && (
+              <span className="rounded-full border-2 border-ink-dark bg-olive px-2 py-0.5 font-sans text-[10px] font-bold text-white uppercase">
+                🌿 Veg
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col gap-4 p-5">
-          <div className="flex items-start justify-between gap-3">
-            <h3 className="font-display text-xl text-header-brown">
-              {item.name}
-            </h3>
-            <span className="font-sans text-xl font-bold text-accent-red">
-              {formatPrice(item.price)}
-            </span>
+          <div>
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="font-display text-xl text-header-brown">{item.name}</h3>
+              <span className="shrink-0 font-sans text-xl font-bold text-accent-red">
+                {formatPrice(unitPrice)}
+              </span>
+            </div>
+            <p className="mt-1 font-sans text-sm text-ink-muted">
+              {item.description}
+            </p>
+            {item.reviewCount > 0 && (
+              <div className="mt-2 flex items-center gap-2">
+                <StarRating rating={item.rating} size="sm" />
+                <span className="font-sans text-xs font-semibold text-ink-muted">
+                  {item.rating.toFixed(1)} · {item.reviewCount} review
+                  {item.reviewCount === 1 ? '' : 's'}
+                </span>
+              </div>
+            )}
           </div>
 
-<div>
+          {item.sizes.length > 1 && (
+            <div>
+              <p className="font-sans text-sm font-bold uppercase text-ink-dark">
+                Size
+              </p>
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                {item.sizes.map((size) => {
+                  const isActive = selectedSize?.id === size.id
+                  return (
+                    <button
+                      key={size.id}
+                      type="button"
+                      onClick={() => setSelectedSize(size)}
+                      aria-pressed={isActive}
+                      className={`flex items-center justify-between rounded-lg border-2 border-ink-dark px-3 py-2 text-left transition ${
+                        isActive ? 'bg-amber' : 'bg-white hover:bg-cream/50'
+                      }`}
+                    >
+                      <span className="font-sans text-sm font-bold text-ink-dark">
+                        {size.label}
+                      </span>
+                      <span className="font-sans text-sm font-bold text-ink-muted">
+                        {formatPrice(size.price)}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {item.extras.length > 0 && (
+            <div>
               <p className="font-sans text-sm font-bold uppercase text-ink-dark">
                 Extras
               </p>
               <ul className="mt-2 space-y-2">
-                {CART_EXTRAS.map((extra) => {
-                  const isSelected = selectedExtras.includes(extra.id)
+                {item.extras.map((extra) => {
+                  const isSelected = selectedExtraIds.includes(extra.id)
                   return (
                     <li key={extra.id}>
                       <button
                         type="button"
                         onClick={() => toggleExtra(extra.id)}
+                        aria-pressed={isSelected}
                         className={`flex w-full items-center justify-between rounded-lg border-2 border-ink-dark px-3 py-2 text-left transition ${
-                          isSelected ? 'bg-amber' : 'bg-white'
+                          isSelected ? 'bg-amber' : 'bg-white hover:bg-cream/50'
                         }`}
                       >
                         <span className="flex items-center gap-2 font-sans text-sm font-medium text-ink-dark">
@@ -112,9 +171,7 @@ export default function MenuCustomizePopup({
                             }`}
                             aria-hidden="true"
                           >
-                            {isSelected && (
-                              <Check className="h-3 w-3 text-white" />
-                            )}
+                            {isSelected && <Check className="h-3 w-3 text-white" />}
                           </span>
                           {extra.label}
                         </span>
@@ -127,6 +184,7 @@ export default function MenuCustomizePopup({
                 })}
               </ul>
             </div>
+          )}
 
           <div className="flex items-center justify-between">
             <span className="font-sans text-sm font-bold uppercase text-ink-dark">
@@ -146,7 +204,7 @@ export default function MenuCustomizePopup({
               </span>
               <button
                 type="button"
-                onClick={() => setQuantity((q) => q + 1)}
+                onClick={() => setQuantity((q) => Math.min(50, q + 1))}
                 className="text-ink-dark transition hover:text-accent-red"
                 aria-label="Increase quantity"
               >
@@ -157,7 +215,12 @@ export default function MenuCustomizePopup({
 
           <button
             type="button"
-            onClick={handleAdd}
+            onClick={() =>
+              onAdd(item, quantity, {
+                size: selectedSize,
+                extras: selectedExtras,
+              })
+            }
             className="btn-comic-red w-full justify-between px-5 py-3 text-lg"
           >
             <span>Add to Cart</span>

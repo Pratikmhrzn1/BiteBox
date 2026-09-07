@@ -1,8 +1,8 @@
-import type { Category } from '../../data/data'
 import CategoryItem from './CategoryItem'
 
 type CategoryCardProps = {
-  categories: Category[]
+  /** Category names as the menu API reports them. */
+  categories: string[]
 }
 
 export default function CategoryCard({ categories }: CategoryCardProps) {
@@ -12,11 +12,15 @@ export default function CategoryCard({ categories }: CategoryCardProps) {
         Category
       </h2>
 
-      <ul className="mt-4 space-y-1">
-        {categories.map((category) => (
-          <CategoryItem key={category.id} category={category} />
-        ))}
-      </ul>
+      {categories.length === 0 ? (
+        <p className="mt-4 font-sans text-sm text-cream/70">Loading categories…</p>
+      ) : (
+        <ul className="mt-4 space-y-1">
+          {categories.map((category) => (
+            <CategoryItem key={category} category={category} />
+          ))}
+        </ul>
+      )}
     </section>
   )
 }

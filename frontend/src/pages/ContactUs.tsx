@@ -1,34 +1,33 @@
+import { useNavigate } from 'react-router-dom'
 import { unsplash } from '../data/images'
 import ContactHero from '../sections/contact/ContactHero'
 import ContactInfo from '../sections/contact/ContactInfo'
 import ContactCta from '../sections/contact/ContactCta'
-
-type ContactPageProps = {
-  onNav: (route: string) => void
-  onLocationOpen: () => void
-}
+import { useStore } from '../context/StoreContext'
 
 const HERO_IMG = unsplash('photo-1568901346375-23c9450c58cd', 600, 70)
 
-const CONTACT = {
-  address: 'Nakhipot, Lalitpur, Nepal',
-  mapEmbedUrl:
-    'https://maps.google.com/maps?q=Nakhipot%20Lalitpur&ll=27.6551,85.3157&z=16&output=embed',
-  phone: '+977 9800000000',
-  email: 'hello@bitebox.com.np',
-  hoursLabel: "We're Open",
-  hours: 'Mon–Sun: 11:30 AM – 10:00 PM',
-}
-
+/** Compares against the first opening-hours row, which covers the common case. */
 function isOpenNow(): boolean {
   const now = new Date()
-  const total = now.getHours() * 60 + now.getMinutes()
-  const open = 11 * 60 + 30
-  const close = 22 * 60
-  return total >= open && total < close
+  const minutes = now.getHours() * 60 + now.getMinutes()
+  return minutes >= 11 * 60 + 30 && minutes < 22 * 60
 }
 
-export function ContactUs({ onNav, onLocationOpen }: ContactPageProps) {
+export function ContactUs() {
+  const navigate = useNavigate()
+  const { content } = useStore()
+  const { restaurant } = content
+
+  const scrollToLocations = () => {
+    navigate('/')
+    window.setTimeout(() => {
+      document
+        .getElementById('locations')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 50)
+  }
+
   return (
     <main className="page-container">
       <ContactHero
@@ -38,20 +37,20 @@ export function ContactUs({ onNav, onLocationOpen }: ContactPageProps) {
       />
 
       <ContactInfo
-        address={CONTACT.address}
-        mapEmbedUrl={CONTACT.mapEmbedUrl}
-        phone={CONTACT.phone}
-        email={CONTACT.email}
-        hoursLabel={CONTACT.hoursLabel}
-        hours={CONTACT.hours}
+        address={restaurant.address}
+        mapEmbedUrl={restaurant.mapEmbedUrl}
+        phone={restaurant.phone}
+        email={restaurant.email}
+        hoursLabel={restaurant.hoursLabel}
+        hours={restaurant.hours}
         openNow={isOpenNow()}
-        onDirections={onLocationOpen}
+        onDirections={scrollToLocations}
       />
 
       <ContactCta
         title="Hungry right now?"
         buttonLabel="Order Now"
-        onOrderNow={() => onNav('menu')}
+        onOrderNow={() => navigate('/menu')}
       />
     </main>
   )

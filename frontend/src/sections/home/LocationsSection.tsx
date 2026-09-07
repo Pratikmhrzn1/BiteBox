@@ -1,4 +1,4 @@
-import type { Location } from '../../data/data'
+import type { Location } from '../../data/home'
 import SectionHeading from '../../components/common/SectionHeading'
 import LocationCard from '../../components/home/LocationCard'
 

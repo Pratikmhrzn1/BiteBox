@@ -1,0 +1,5 @@
+export * from './aboutHero'
+export * from './cta'
+export * from './story'
+export * from './team'
+export * from './whyWeSmash'

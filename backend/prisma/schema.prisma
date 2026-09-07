@@ -1,0 +1,175 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum OrderStatus {
+  PLACED
+  CONFIRMED
+  PREPARING
+  READY
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+enum OrderType {
+  DELIVERY
+  DINE_IN
+  TAKEAWAY
+}
+
+enum PaymentMethod {
+  CASH_ON_DELIVERY
+  CARD
+  ESEWA
+  KHALTI
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  HIDDEN
+}
+
+enum MessageStatus {
+  NEW
+  READ
+  ARCHIVED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  phone        String?
+  address      String?
+  passwordHash String
+  role         UserRole @default(CUSTOMER)
+  orders       Order[]
+  reviews      Review[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Category {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  slug      String     @unique
+  image     String?
+  sortOrder Int        @default(0)
+  items     MenuItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+/// A dish on the menu. `sizes` and `extras` are JSON arrays of
+/// `{ id, label, price }` — they vary per item and are never queried on
+/// their own, so a table of their own would buy nothing.
+model MenuItem {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String
+  price       Int
+  image       String
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  bestSeller  Boolean  @default(false)
+  spicy       Boolean  @default(false)
+  vegetarian  Boolean  @default(false)
+  available   Boolean  @default(true)
+  sizes       Json     @default("[]")
+  extras      Json     @default("[]")
+  sortOrder   Int      @default(0)
+  reviews     Review[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([available])
+}
+
+model Order {
+  id              String        @id @default(cuid())
+  reference       String        @unique
+  user            User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId          String?
+  customerName    String
+  customerPhone   String
+  customerAddress String?
+  customerNote    String?
+  /// Snapshot of the ordered lines, priced by the server at order time:
+  /// `{ itemId, slug, name, unitPrice, quantity, extras[], lineTotal }[]`.
+  items           Json
+  subtotal        Int
+  deliveryFee     Int
+  total           Int
+  orderType       OrderType     @default(DELIVERY)
+  status          OrderStatus   @default(PLACED)
+  paymentMethod   PaymentMethod @default(CASH_ON_DELIVERY)
+  paymentStatus   PaymentStatus @default(PENDING)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([createdAt])
+}
+
+model Review {
+  id         String       @id @default(cuid())
+  user       User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId     String?
+  menuItem   MenuItem?    @relation(fields: [menuItemId], references: [id], onDelete: SetNull)
+  menuItemId String?
+  authorName String
+  rating     Int
+  title      String
+  body       String
+  status     ReviewStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  @@index([status])
+  @@index([menuItemId])
+}
+
+model ContactMessage {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  status    MessageStatus @default(NEW)
+  createdAt DateTime      @default(now())
+
+  @@index([status])
+}
+
+/// Editable site copy (hero, hours, announcement, restaurant info) kept as a
+/// single JSON blob so the admin Content editor can evolve its shape without
+/// a migration each time. Exactly one row exists, id `singleton`.
+model SiteContent {
+  id        String   @id @default("singleton")
+  data      Json
+  updatedAt DateTime @updatedAt
+}

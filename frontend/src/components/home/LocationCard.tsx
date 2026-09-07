@@ -1,5 +1,5 @@
 import { MapPin } from 'lucide-react'
-import type { Location } from '../../data/data'
+import type { Location } from '../../data/home'
 
 type LocationCardProps = {
   location: Location

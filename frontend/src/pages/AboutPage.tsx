@@ -1,4 +1,11 @@
-import { aboutHero, storyCopy, storyImage, whyWeSmash, team, ctaCopy } from '../data/about'
+import {
+  aboutHero,
+  ctaCopy,
+  storyCopy,
+  storyImage,
+  team,
+  whyWeSmash,
+} from '../data/about'
 import AboutHero from '../sections/about/AboutHero'
 import AboutStory from '../sections/about/AboutStory'
 import WhyWeSmash from '../sections/about/WhyWeSmash'

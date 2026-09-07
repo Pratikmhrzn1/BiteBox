@@ -1,9 +1,6 @@
+import { useNavigate } from 'react-router-dom'
 import { logoImg } from '../assets'
-
-type FooterProps = {
-  onNav?: (route: string) => void
-  onLocationOpen?: () => void
-}
+import { useStore } from '../context/StoreContext'
 
 function InstagramIcon() {
   return (
@@ -51,20 +48,42 @@ const footerLinks = [
   { label: 'Contact Us', route: '/contact' },
 ] as const
 
-const contactRows = [
-  { emoji: '📍', text: 'Nakhipot, Lalitpur, Nepal' },
-  { emoji: '📞', text: '+977 9800000000' },
-  { emoji: '🕐', text: 'Mon–Sun · 11:30 AM – 10:00 PM' },
-] as const
+export default function Footer() {
+  const navigate = useNavigate()
+  const { content } = useStore()
 
-export default function Footer({ onNav, onLocationOpen }: FooterProps) {
+  const onNav = (route: string) => navigate(route)
+
+  const onLocationOpen = () => {
+    navigate('/')
+    window.setTimeout(() => {
+      document
+        .getElementById('locations')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 50)
+  }
+
+  const hoursSummary = content.openingHours.rows
+    .map((row) =>
+      row.closed || !row.from || !row.to
+        ? `${row.label} Closed`
+        : `${row.label} ${row.from} – ${row.to}`,
+    )
+    .join(' · ')
+
+  const contactRows = [
+    { emoji: '📍', text: content.restaurant.address },
+    { emoji: '📞', text: content.restaurant.phone },
+    { emoji: '🕐', text: hoursSummary },
+  ] as const
+
   return (
     <footer className="border-t-4 border-ink-dark bg-gradient-to-br from-brown to-espresso-dark">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-12 sm:px-6 md:grid-cols-3 lg:px-8">
         <div className="flex flex-col items-start gap-4">
           <button
             type="button"
-            onClick={() => onNav?.('/')}
+            onClick={() => onNav('/')}
             className="flex items-center gap-2"
           >
             <img src={logoImg} alt="BiteBox logo" className="h-10 w-auto" />
@@ -96,7 +115,7 @@ export default function Footer({ onNav, onLocationOpen }: FooterProps) {
               <button
                 key={label}
                 type="button"
-                onClick={() => onNav?.(route)}
+                onClick={() => onNav(route)}
                 className="text-left font-sans text-sm font-semibold text-card-bg transition hover:text-amber hover:underline hover:underline-offset-4"
               >
                 {label}
