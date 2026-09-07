@@ -78,6 +78,7 @@
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
@@ -146,6 +147,26 @@
     width: 2.75rem;
     height: 2.75rem;
     transform: translate(-50%, -50%);
+  }
+
+  /* One-shot staged entrance for page heroes. Content chunks start
+   * 12px low, blurred, and fade up ~100ms apart via --stagger-delay,
+   * so the order reads: headline, then support line, then controls.
+   * The prefers-reduced-motion block above cancels both the duration
+   * and the delay, so it collapses to a single frame. */
+  .stagger-enter {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+    animation: stagger-in 400ms cubic-bezier(0.2, 0, 0, 1) forwards;
+    animation-delay: var(--stagger-delay, 0ms);
+  }
+  @keyframes stagger-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
   }
 
   /* Prices and quantities sit in right-aligned columns; proportional digits

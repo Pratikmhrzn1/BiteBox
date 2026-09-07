@@ -44,6 +44,10 @@ export default {
         'nav-bg': '#FFF6E9',
         'espresso-dark': '#303411',
         'header-brown': '#4A2A18',
+        /* Near-black used by the hero and CTA bands on the About page. The
+         * existing ink-dark (#241A12) is the comic outline; this is the
+         * warmer, deeper ground those dark sections sit on. */
+        'espresso-black': '#1A0E07',
 
         /* --- Ink ---------------------------------------------------- */
         'ink-dark': '#241A12',

@@ -153,7 +153,7 @@ export default function MenuCustomizePopup({
                       type="button"
                       onClick={() => setSelectedSize(size)}
                       aria-pressed={isActive}
-                      className={`flex min-h-11 items-center justify-between rounded-chip border-2 border-ink-dark px-3 py-2 text-left transition-[background-color,transform] duration-fast ease-ui active:scale-[0.98] ${
+                      className={`flex min-h-11 items-center justify-between rounded-chip border-2 border-ink-dark px-3 py-2 text-left transition-[background-color,transform] duration-fast ease-ui active:scale-[0.96] ${
                         isActive ? 'bg-amber' : 'bg-white hover:bg-cream/50'
                       }`}
                     >

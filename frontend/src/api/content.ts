@@ -81,7 +81,16 @@ export const FALLBACK_CONTENT: SiteContent = {
   },
 }
 
-export const fetchContent = () => get<SiteContent & { updatedAt: string }>('/content')
+/**
+ * Fetches fresh site copy on every call. The server tags the response with an
+ * ETag but no Cache-Control, so a browser can re-serve yesterday's copy from
+ * cache after an admin edit; `cache: 'no-store'` guarantees the storefront
+ * always reflects the last change published from the admin panel.
+ */
+export const fetchContent = () =>
+  get<SiteContent & { updatedAt: string }>('/content', undefined, {
+    cache: 'no-store',
+  })
 
 export const updateContent = (content: SiteContent, token: string) =>
   put<SiteContent & { updatedAt: string }>('/content', content, token)

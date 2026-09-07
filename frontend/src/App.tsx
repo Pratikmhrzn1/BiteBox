@@ -55,7 +55,19 @@ function AppShell() {
           <Route path="/menu" element={<MenuPage />} />
           <Route
             path="/about"
-            element={<AboutPage onOrderNow={() => navigate('/menu')} />}
+            element={
+              <AboutPage
+                onOrderNow={() => navigate('/menu')}
+                onLocationOpen={() => {
+                  navigate('/')
+                  window.setTimeout(() => {
+                    document
+                      .getElementById('locations')
+                      ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }, 50)
+                }}
+              />
+            }
           />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/checkout" element={<CheckoutPage />} />

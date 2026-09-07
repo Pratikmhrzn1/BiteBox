@@ -147,7 +147,7 @@ export default function CartDrawer() {
                       alt={item.name}
                       loading="lazy"
                       decoding="async"
-                      className="h-10 w-10 shrink-0 rounded object-cover"
+                      className="h-10 w-10 shrink-0 rounded object-cover outline outline-1 -outline-offset-1 outline-black/10"
                     />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-2">

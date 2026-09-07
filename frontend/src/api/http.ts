@@ -66,8 +66,8 @@ async function request<T>(
   return response.json() as Promise<T>
 }
 
-export const get = <T>(path: string, token?: string) =>
-  request<T>(path, undefined, token)
+export const get = <T>(path: string, token?: string, init?: RequestInit) =>
+  request<T>(path, init, token)
 
 export const post = <T>(path: string, body: unknown, token?: string) =>
   request<T>(path, { method: 'POST', body: JSON.stringify(body) }, token)

@@ -1,41 +1,47 @@
 import {
   aboutHero,
+  aboutStory,
   ctaCopy,
-  storyCopy,
-  storyImage,
-  team,
-  whyWeSmash,
 } from '../data/about'
 import AboutHero from '../sections/about/AboutHero'
 import AboutStory from '../sections/about/AboutStory'
-import WhyWeSmash from '../sections/about/WhyWeSmash'
-import MeetTheTeam from '../sections/about/MeetTheTeam'
+import Founders from '../sections/about/Founders'
+import Locations from '../sections/about/Locations'
+import Values from '../sections/about/Values'
+import Numbers from '../sections/about/Numbers'
+import VibeStrip from '../sections/about/VibeStrip'
 import AboutCta from '../sections/about/AboutCta'
 
 type AboutPageProps = {
   onOrderNow: () => void
+  onLocationOpen: () => void
 }
 
-export default function AboutPage({ onOrderNow }: AboutPageProps) {
+export default function AboutPage({
+  onOrderNow,
+  onLocationOpen,
+}: AboutPageProps) {
   return (
     <main className="page-container">
       <div className="pb-16">
-        <AboutHero
-          image={aboutHero.image}
-          title={aboutHero.title}
-          subtitle={aboutHero.subtitle}
-        />
+        <AboutHero hero={aboutHero} />
 
-        <AboutStory storyCopy={storyCopy} storyImage={storyImage} />
+        <AboutStory story={aboutStory} />
 
-        <WhyWeSmash features={whyWeSmash} />
+        <Founders />
 
-        <MeetTheTeam members={team} />
+        <Locations onLocationOpen={onLocationOpen} />
+
+        <Values />
+
+        <Numbers />
+
+        <VibeStrip />
 
         <AboutCta
-          title={ctaCopy.title}
-          buttonLabel={ctaCopy.buttonLabel}
+          cta={ctaCopy}
           onOrderNow={onOrderNow}
+          onLocationOpen={onLocationOpen}
         />
       </div>
     </main>

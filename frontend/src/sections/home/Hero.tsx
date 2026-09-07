@@ -26,7 +26,10 @@ export default function Hero({ copy, onCta }: HeroProps) {
             either: Luckiest Guy ships one weight and the browser was
             synthesising a smeared faux bold at 60px+. Size and leading come
             from the display-* tokens. */}
-        <h1 className="font-display text-display-xl">
+        <h1
+          className="stagger-enter font-display text-display-xl"
+          style={{ '--stagger-delay': '0ms' } as React.CSSProperties}
+        >
           {copy.line1}
           <br />
           {/* Caveat is loaded at 600/700, so this weight is real. */}
@@ -36,13 +39,17 @@ export default function Hero({ copy, onCta }: HeroProps) {
           <br />
           {copy.line3}
         </h1>
-        <p className="mt-4 max-w-md font-sans text-body-lg font-medium text-white/90">
+        <p
+          className="stagger-enter mt-4 max-w-md font-sans text-body-lg font-medium text-white/90"
+          style={{ '--stagger-delay': '100ms' } as React.CSSProperties}
+        >
           {copy.subtext}
         </p>
         <button
           type="button"
           onClick={onCta}
-          className={buttonClass({ size: 'md', className: 'mt-6 w-fit' })}
+          className={`stagger-enter ${buttonClass({ size: 'md', className: 'mt-6 w-fit' })}`}
+          style={{ '--stagger-delay': '200ms' } as React.CSSProperties}
         >
           {copy.cta}
         </button>

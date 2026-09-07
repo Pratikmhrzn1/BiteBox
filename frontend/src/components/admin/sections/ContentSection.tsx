@@ -20,7 +20,7 @@ const loadSavedContent = () => fetchContent()
 
 export default function ContentSection() {
   const { token } = useAuth()
-  const { reloadContent } = useStore()
+  const { reloadContent, publishContentChange } = useStore()
   const { notify } = useAdminToast()
   const { data, loading, error, reload } = useAsync(loadSavedContent)
 
@@ -88,6 +88,7 @@ export default function ContentSection() {
       notify('Content saved and published to the site')
       reload()
       reloadContent()
+      publishContentChange()
     } catch (reason) {
       notify(
         reason instanceof Error ? reason.message : 'Could not save the content',
@@ -100,14 +101,14 @@ export default function ContentSection() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-3">
-        <p className="font-sans text-sm text-admin-muted">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-center font-sans text-sm text-admin-muted sm:text-left">
           Edits preview here and go live on the site with{' '}
           <span className="text-amber">Save All</span>.
         </p>
         <button
           type="button"
-          className={`${btnPrimary} disabled:cursor-not-allowed disabled:opacity-60`}
+          className={`${btnPrimary} w-full justify-center sm:w-auto disabled:cursor-not-allowed disabled:opacity-60`}
           disabled={saving}
           onClick={() => void saveAll()}
         >
@@ -116,8 +117,8 @@ export default function ContentSection() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <PanelCard title="Hero Banner">
-          <div className="grid grid-cols-3 gap-3">
+        <PanelCard title="Hero Banner" className="flex flex-col">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <Field label="Line 1">
               <input
                 value={draft.hero.line1}
@@ -140,7 +141,7 @@ export default function ContentSection() {
               />
             </Field>
           </div>
-          <div className="mt-3 space-y-3">
+          <div className="mt-3 flex flex-1 flex-col space-y-3">
             <Field label="Tagline / Subtext">
               <input
                 value={draft.hero.subtext}
@@ -155,14 +156,14 @@ export default function ContentSection() {
                 className={inputClass}
               />
             </Field>
-            <div className="flex h-16 items-end justify-center overflow-hidden rounded-chip bg-espresso-dark px-4 pb-3 pt-4">
+            <div className="flex min-h-16 flex-1 items-end justify-center overflow-hidden rounded-chip bg-espresso-dark px-4 py-4">
               <div className="text-center leading-none">
                 {/* Mirrors the live hero's faces, so the preview does not
                     lie about what the storefront will render. */}
-                <p className="font-display text-xl text-white">
+                <p className="font-display text-lg text-white sm:text-xl">
                   {draft.hero.line1}
                   <br />
-                  <span className="font-script text-2xl font-bold text-amber">
+                  <span className="font-script text-xl font-bold text-amber sm:text-2xl">
                     {draft.hero.line2}
                   </span>
                   <br />
@@ -175,8 +176,8 @@ export default function ContentSection() {
 
         <div className="space-y-4">
           <PanelCard title="Restaurant Info">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="col-span-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="sm:col-span-2">
                 <Field label="Address">
                   <input
                     value={draft.restaurant.address}
@@ -325,9 +326,9 @@ export default function ContentSection() {
           {draft.openingHours.rows.map((row, index) => (
             <div
               key={`${row.label}-${index}`}
-              className="flex flex-wrap items-end gap-2 rounded-chip bg-[#403225] p-3"
+              className="flex flex-col gap-3 rounded-chip bg-[#403225] p-3 sm:flex-row sm:flex-wrap sm:items-end"
             >
-              <div className="min-w-32 flex-1">
+              <div className="w-full min-w-32 flex-1 sm:w-auto">
                 <label className="mb-1 block font-sans text-[10px] font-bold tracking-widest text-admin-muted uppercase">
                   Day range
                 </label>
@@ -338,7 +339,7 @@ export default function ContentSection() {
                   className={inputClass}
                 />
               </div>
-              <div className="w-28">
+              <div className="w-full sm:w-28">
                 <label className="mb-1 block font-sans text-[10px] font-bold tracking-widest text-admin-muted uppercase">
                   From
                 </label>
@@ -349,7 +350,7 @@ export default function ContentSection() {
                   className={inputClass}
                 />
               </div>
-              <div className="w-28">
+              <div className="w-full sm:w-28">
                 <label className="mb-1 block font-sans text-[10px] font-bold tracking-widest text-admin-muted uppercase">
                   To
                 </label>
@@ -360,7 +361,7 @@ export default function ContentSection() {
                   className={inputClass}
                 />
               </div>
-              <label className="flex cursor-pointer items-center gap-1.5 rounded-chip border border-white/15 px-3 py-2 font-sans text-xs font-bold text-cream">
+              <label className="flex cursor-pointer items-center gap-1.5 rounded-chip border border-white/15 px-3 py-2 font-sans text-xs font-bold text-cream lg:mb-1">
                 <input
                   type="checkbox"
                   checked={row.closed}
@@ -386,7 +387,7 @@ export default function ContentSection() {
                       : current,
                   )
                 }
-                className="rounded-chip p-2 text-admin-ink transition-colors duration-fast ease-ui hover:bg-red-500/20 hover:text-red-300"
+                className="rounded-chip p-2 text-admin-ink transition-colors duration-fast ease-ui hover:bg-red-500/20 hover:text-red-300 lg:mb-1"
                 aria-label="Remove day range"
               >
                 <Trash2 className="h-4 w-4" />

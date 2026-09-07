@@ -163,65 +163,64 @@ export default function DashboardSection({
         ))}
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        <PanelCard
-          title="Live Orders"
-          action={
-            <button
-              type="button"
-              onClick={() => onOpenSection('orders')}
-              className="flex items-center gap-1 font-sans text-xs font-bold text-accent-red transition-colors duration-fast ease-ui hover:text-orange-300"
-            >
-              View all <ArrowRight className="h-3.5 w-3.5" />
-            </button>
-          }
-        >
-          {liveOrders.length === 0 ? (
-            <p className="py-6 text-center font-sans text-sm text-admin-muted">
-              Nothing in the kitchen right now.
-            </p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[460px] text-left font-sans text-sm">
-                <thead>
-                  <tr className="text-[11px] font-bold tracking-widest text-admin-muted uppercase">
-                    <th className="py-2 pr-3">Order</th>
-                    <th className="py-2 pr-3">Customer</th>
-                    <th className="py-2 pr-3">Time</th>
-                    <th className="py-2 pr-3">Items</th>
-                    <th className="py-2">Status</th>
+      <PanelCard
+        title="Live Orders"
+        action={
+          <button
+            type="button"
+            onClick={() => onOpenSection('orders')}
+            className="flex items-center gap-1 font-sans text-xs font-bold text-accent-red transition-colors duration-fast ease-ui hover:text-orange-300"
+          >
+            View all <ArrowRight className="h-3.5 w-3.5" />
+          </button>
+        }
+      >
+        {liveOrders.length === 0 ? (
+          <p className="py-6 text-center font-sans text-sm text-admin-muted">
+            Nothing in the kitchen right now.
+          </p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[620px] text-left font-sans text-sm">
+              <thead>
+                <tr className="text-[11px] font-bold tracking-widest text-admin-muted uppercase">
+                  <th className="py-2 pr-3">Order</th>
+                  <th className="py-2 pr-3">Customer</th>
+                  <th className="py-2 pr-3">Time</th>
+                  <th className="py-2 pr-3">Items</th>
+                  <th className="py-2">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {liveOrders.map((order) => (
+                  <tr key={order.id} className="border-t border-white/5">
+                    <td className="py-3 pr-3 font-mono text-xs font-bold text-amber whitespace-nowrap">
+                      {order.reference}
+                    </td>
+                    <td className="py-3 pr-3">
+                      <p className="font-semibold text-cream whitespace-nowrap">
+                        {order.customerName}
+                      </p>
+                      <TypeBadge type={order.orderType} />
+                    </td>
+                    <td className="py-3 pr-3 text-admin-ink whitespace-nowrap">
+                      {formatTime(order.createdAt)}
+                    </td>
+                    <td className="py-3 pr-3 text-admin-ink whitespace-nowrap">
+                      {order.items.reduce((sum, line) => sum + line.quantity, 0)} items
+                    </td>
+                    <td className="py-3">
+                      <OrderStatusPill status={order.status} />
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {liveOrders.map((order) => (
-                    <tr key={order.id} className="border-t border-white/5">
-                      <td className="py-3 pr-3 font-mono text-xs font-bold text-amber">
-                        {order.reference}
-                      </td>
-                      <td className="py-3 pr-3">
-                        <p className="font-semibold text-cream">
-                          {order.customerName}
-                        </p>
-                        <TypeBadge type={order.orderType} />
-                      </td>
-                      <td className="py-3 pr-3 text-admin-ink">
-                        {formatTime(order.createdAt)}
-                      </td>
-                      <td className="py-3 pr-3 text-admin-ink">
-                        {order.items.reduce((sum, line) => sum + line.quantity, 0)} items
-                      </td>
-                      <td className="py-3">
-                        <OrderStatusPill status={order.status} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </PanelCard>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </PanelCard>
 
-        <div className="space-y-4">
+      <div className="grid gap-4 lg:grid-cols-3">
           <PanelCard title="Needs Attention">
             <ul className="space-y-2">
               {attention.map(({ label, value, section, Icon }) => (
@@ -274,39 +273,38 @@ export default function DashboardSection({
           </PanelCard>
 
           <PanelCard title="Quick Actions">
-            <div className="grid grid-cols-1 gap-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               <button
                 type="button"
                 onClick={onAddMenuItem}
-                className="flex items-center gap-2 rounded-chip bg-accent-red px-3 py-2.5 font-sans text-sm font-bold text-white transition-colors duration-fast ease-ui hover:bg-red-700"
+                className="flex items-center justify-center gap-2 rounded-chip bg-accent-red px-3 py-2.5 font-sans text-sm font-bold text-white transition-colors duration-fast ease-ui hover:bg-red-700"
               >
                 <Plus className="h-4 w-4" /> Add Menu Item
               </button>
               <button
                 type="button"
                 onClick={() => onOpenSection('orders')}
-                className="flex items-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
+                className="flex items-center justify-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
               >
-                <ArrowRight className="h-4 w-4" /> View All Orders
+                <ArrowRight className="h-4 w-4" /> All Orders
               </button>
               <button
                 type="button"
                 onClick={() => downloadOrdersCsv(allOrders)}
-                className="flex items-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
+                className="flex items-center justify-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
               >
-                <Download className="h-4 w-4" /> Export Orders (CSV)
+                <Download className="h-4 w-4" /> Export CSV
               </button>
               <button
                 type="button"
                 onClick={() => onOpenSection('analytics')}
-                className="flex items-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
+                className="flex items-center justify-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
               >
-                <PieChart className="h-4 w-4" /> View Analytics
+                <PieChart className="h-4 w-4" /> Analytics
               </button>
             </div>
           </PanelCard>
         </div>
-      </div>
     </div>
   )
 }
