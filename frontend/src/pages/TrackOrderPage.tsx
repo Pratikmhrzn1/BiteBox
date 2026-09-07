@@ -37,8 +37,8 @@ export default function TrackOrderPage() {
 
   return (
     <main className="page-container max-w-2xl">
-      <h1 className="section-heading text-4xl sm:text-5xl">Track Your Order</h1>
-      <p className="mt-1 font-sans text-sm text-ink-muted">
+      <h1 className="section-heading text-display-lg">Track Your Order</h1>
+      <p className="mt-1 font-sans text-body-lg text-ink-muted">
         Enter the reference from your confirmation, e.g. BB-1042.
       </p>
 
@@ -70,10 +70,10 @@ export default function TrackOrderPage() {
 
       {error && !loading && (
         <div className="card-comic mt-8 rounded-card bg-card-bg p-6 text-center">
-          <p className="font-display text-2xl uppercase text-header-brown">
+          <p className="font-display text-display-sm uppercase text-header-brown">
             No order found
           </p>
-          <p className="mt-2 font-sans text-sm text-ink-muted">
+          <p className="mt-2 font-sans text-body-lg text-ink-muted">
             We couldn’t find an order with that reference. Double-check the code
             from your confirmation.
           </p>
@@ -87,7 +87,7 @@ export default function TrackOrderPage() {
               <p className="font-sans text-xs font-bold uppercase tracking-widest text-ink-muted">
                 Order
               </p>
-              <p className="font-display text-3xl text-header-brown">
+              <p className="font-display text-display-md text-header-brown">
                 {order.reference}
               </p>
               <p className="mt-1 font-sans text-sm text-ink-muted">
@@ -98,7 +98,7 @@ export default function TrackOrderPage() {
               <p className="font-sans text-xs font-bold uppercase tracking-widest text-ink-muted">
                 Total
               </p>
-              <p className="font-display text-3xl text-accent-red">
+              <p className="font-display text-display-md text-accent-red">
                 {formatPrice(order.total)}
               </p>
             </div>

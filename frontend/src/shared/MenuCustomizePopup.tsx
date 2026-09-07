@@ -102,7 +102,7 @@ export default function MenuCustomizePopup({
                 {formatPrice(unitPrice)}
               </span>
             </div>
-            <p className="mt-1 font-sans text-sm text-ink-muted">
+            <p className="mt-1 font-sans text-body-lg text-ink-muted">
               {item.description}
             </p>
             {item.reviewCount > 0 && (

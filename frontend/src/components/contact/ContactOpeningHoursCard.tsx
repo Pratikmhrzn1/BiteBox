@@ -12,7 +12,7 @@ export default function ContactOpeningHoursCard({
   return (
     <div className="rounded-card border-2 border-ink-dark bg-gradient-to-br from-olive-deep to-espresso-dark p-6 text-cream shadow-comic">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="flex items-center gap-2 font-display text-2xl uppercase">
+        <h2 className="flex items-center gap-2 font-display text-display-sm uppercase">
           <span aria-hidden="true">🕐</span> {label}
         </h2>
         <span

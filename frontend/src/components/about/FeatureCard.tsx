@@ -13,7 +13,7 @@ export default function FeatureCard({ feature }: FeatureCardProps) {
       <h3 className="mt-4 font-display text-xl uppercase text-header-brown">
         {feature.title}
       </h3>
-      <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">
+      <p className="mt-2 font-sans text-body leading-relaxed text-ink-muted">
         {feature.description}
       </p>
     </div>

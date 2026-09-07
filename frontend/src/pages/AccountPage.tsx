@@ -89,8 +89,8 @@ export default function AccountPage() {
     <main className="page-container">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="section-heading text-4xl sm:text-5xl">My Account</h1>
-          <p className="mt-1 font-sans text-sm text-ink-muted">
+          <h1 className="section-heading text-display-lg">My Account</h1>
+          <p className="mt-1 font-sans text-body-lg text-ink-muted">
             {user.name} · {user.email}
             {user.phone ? ` · ${user.phone}` : ''}
           </p>
@@ -111,7 +111,7 @@ export default function AccountPage() {
         </div>
       </div>
 
-      <h2 className="mt-10 font-display text-2xl uppercase text-header-brown">
+      <h2 className="mt-10 font-display text-display-sm uppercase text-header-brown">
         Order History
       </h2>
 
@@ -154,7 +154,7 @@ export default function AccountPage() {
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="font-display text-2xl text-accent-red">
+                  <p className="font-display text-display-sm text-accent-red">
                     {formatPrice(order.total)}
                   </p>
                 </div>

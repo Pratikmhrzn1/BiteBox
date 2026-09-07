@@ -68,10 +68,10 @@ export default function CheckoutPage() {
     return (
       <main className="page-container max-w-3xl">
         <div className="card-comic rounded-card bg-card-bg p-8 text-center sm:p-12">
-          <h1 className="font-display text-3xl uppercase text-header-brown">
+          <h1 className="font-display text-display-md uppercase text-header-brown">
             Your box is empty
           </h1>
-          <p className="mt-2 font-sans text-sm text-ink-muted">
+          <p className="mt-2 font-sans text-body-lg text-ink-muted">
             Add a dish or two and come back to check out.
           </p>
           <Link to="/menu" className={buttonClass({ size: 'md', className: 'mt-6' })}>
@@ -155,7 +155,7 @@ export default function CheckoutPage() {
       />
 
       <div className="card-comic mt-6 rounded-card p-6 sm:p-8">
-        <h2 className="font-display text-3xl uppercase text-header-brown">
+        <h2 className="font-display text-display-md uppercase text-header-brown">
           Your Details
         </h2>
 

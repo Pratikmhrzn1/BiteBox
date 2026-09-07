@@ -23,7 +23,7 @@ export function ErrorState({
       <span className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-ink-dark bg-accent-red">
         <AlertTriangle className="h-6 w-6 text-white" aria-hidden="true" />
       </span>
-      <p className="font-display text-2xl uppercase text-header-brown">
+      <p className="font-display text-display-sm uppercase text-header-brown">
         Something went wrong
       </p>
       <p className="max-w-md font-sans text-sm text-ink-muted">{message}</p>
@@ -47,7 +47,7 @@ export function EmptyState({
 }) {
   return (
     <div className="flex flex-col items-center justify-center gap-2 py-16 text-center">
-      <p className="font-display text-2xl uppercase text-header-brown">{title}</p>
+      <p className="font-display text-display-sm uppercase text-header-brown">{title}</p>
       {hint && <p className="max-w-md font-sans text-sm text-ink-muted">{hint}</p>}
       {action && <div className="mt-3">{action}</div>}
     </div>

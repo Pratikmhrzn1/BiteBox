@@ -53,10 +53,14 @@ export default function HomePage() {
         </div>
       )}
 
+      {/* The sidebar leads in the DOM because it sits left on desktop, but
+          that put an opening-hours table and a category list above the H1 on
+          every phone. order-* keeps the desktop layout and gives mobile the
+          hero first. */}
       <div className="flex flex-col gap-8 lg:flex-row">
         <Sidebar openingHours={openingHours} categories={categories} />
 
-        <div className="min-w-0 flex-1 lg:w-[70%]">
+        <div className="order-1 min-w-0 flex-1 lg:order-2 lg:w-[70%]">
           <Hero copy={content.hero} onCta={() => navigate('/menu')} />
         </div>
       </div>

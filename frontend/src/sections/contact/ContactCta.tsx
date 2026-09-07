@@ -12,7 +12,7 @@ export default function ContactCta({
 }: ContactCtaProps) {
   return (
     <section className="mt-14 rounded-card border-2 border-ink-dark bg-header-brown p-10 text-center shadow-comic-md sm:p-14">
-      <h2 className="font-display text-4xl uppercase text-card-bg sm:text-5xl">
+      <h2 className="font-display text-display-lg uppercase text-card-bg">
         {title}
       </h2>
       <button

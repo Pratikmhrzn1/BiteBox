@@ -157,10 +157,12 @@ export default function ContentSection() {
             </Field>
             <div className="flex h-16 items-end justify-center overflow-hidden rounded-chip bg-espresso-dark px-4 pb-3 pt-4">
               <div className="text-center leading-none">
-                <p className="font-titan text-xl font-bold text-white">
+                {/* Mirrors the live hero's faces, so the preview does not
+                    lie about what the storefront will render. */}
+                <p className="font-display text-xl text-white">
                   {draft.hero.line1}
                   <br />
-                  <span className="font-script text-2xl text-yellow-300">
+                  <span className="font-script text-2xl font-bold text-amber">
                     {draft.hero.line2}
                   </span>
                   <br />

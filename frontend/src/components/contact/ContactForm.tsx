@@ -102,10 +102,10 @@ export default function ContactForm() {
 
   return (
     <div className="card-comic rounded-card bg-card-bg p-6 sm:p-8">
-      <h2 className="font-display text-3xl uppercase text-header-brown">
+      <h2 className="font-display text-display-md uppercase text-header-brown">
         Send a Message
       </h2>
-      <p className="mt-2 font-sans text-sm text-ink-muted">
+      <p className="mt-2 font-sans text-body-lg text-ink-muted">
         Fill this out and we&apos;ll get back to you faster than you can smash a
         patty.
       </p>
@@ -115,7 +115,7 @@ export default function ContactForm() {
           <span className="flex h-16 w-16 items-center justify-center rounded-full bg-green-500 text-4xl text-white shadow-comic">
             ✓
           </span>
-          <p className="font-display text-2xl uppercase text-green-700">
+          <p className="font-display text-display-sm uppercase text-green-700">
             We got your message!
           </p>
           <p className="font-sans text-sm text-ink-dark">

@@ -210,7 +210,7 @@ export default function ReviewsSection() {
             <h3 className="font-sans text-base font-bold text-ink-dark">
               {review.title}
             </h3>
-            <p className="font-sans text-sm leading-snug text-ink-muted">
+            <p className="font-sans text-body leading-snug text-ink-muted">
               {review.body}
             </p>
             <p className="mt-auto pt-2 font-sans text-xs font-semibold text-ink-muted">

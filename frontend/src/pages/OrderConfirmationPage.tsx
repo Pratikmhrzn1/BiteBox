@@ -28,13 +28,13 @@ export default function OrderConfirmationPage() {
           <Check className="h-10 w-10 text-white" aria-hidden="true" />
         </span>
 
-        <h1 className="mt-6 font-display text-4xl uppercase text-header-brown">
+        <h1 className="mt-6 font-display text-display-lg uppercase text-header-brown">
           Order Confirmed!
         </h1>
-        <p className="mt-2 font-sans text-sm text-ink-muted">
+        <p className="mt-2 font-sans text-body-lg text-ink-muted">
           We’re firing up the grill. Keep this reference handy:
         </p>
-        <p className="mt-3 font-display text-4xl text-accent-red">{reference}</p>
+        <p className="mt-3 font-display text-display-lg text-accent-red">{reference}</p>
 
         {order && (
           <>

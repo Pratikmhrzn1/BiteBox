@@ -59,8 +59,8 @@ export default function MenuPage() {
     <main className="page-container">
       <div className="pb-16">
         <div className="mx-auto w-full">
-          <h1 className="section-heading text-4xl sm:text-5xl">Our Menu</h1>
-          <p className="mt-1 font-sans text-sm text-ink-muted">
+          <h1 className="section-heading text-display-lg">Our Menu</h1>
+          <p className="mt-1 font-sans text-body-lg text-ink-muted">
             {loading
               ? 'Loading the good stuff…'
               : `${menu.length} dishes, smashed to order.`}

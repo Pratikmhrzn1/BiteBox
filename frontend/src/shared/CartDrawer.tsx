@@ -75,7 +75,7 @@ export default function CartDrawer() {
       >
         <header className="flex items-center justify-between gap-3 border-b-2 border-ink-dark bg-amber px-5 py-4">
           <div className="flex items-center gap-3">
-            <h2 className="font-display text-2xl text-header-brown uppercase">
+            <h2 className="font-display text-display-sm text-header-brown uppercase">
               Your Order
             </h2>
             {cartCount > 0 && (
@@ -218,7 +218,7 @@ export default function CartDrawer() {
               <span className="font-display text-xl text-header-brown uppercase">
                 Total
               </span>
-              <span className="font-display text-2xl text-accent-red">
+              <span className="font-display text-display-sm text-accent-red">
                 {formatPrice(total)}
               </span>
             </div>

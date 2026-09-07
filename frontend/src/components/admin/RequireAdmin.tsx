@@ -13,7 +13,7 @@ export default function RequireAdmin({ children }: RequireAdminProps) {
   if (isChecking) {
     return (
       <div className="page-container flex min-h-screen items-center justify-center">
-        <p className="font-display text-2xl uppercase text-ink-muted">Checking…</p>
+        <p className="font-display text-display-sm uppercase text-ink-muted">Checking…</p>
       </div>
     )
   }

@@ -23,7 +23,7 @@ export default function RegisterPage() {
   if (isChecking) {
     return (
       <main className="page-container flex min-h-[60vh] items-center justify-center">
-        <p className="font-display text-2xl uppercase text-header-brown">Checking…</p>
+        <p className="font-display text-display-sm uppercase text-header-brown">Checking…</p>
       </main>
     )
   }
@@ -82,10 +82,10 @@ export default function RegisterPage() {
   return (
     <main className="page-container flex min-h-[70vh] items-center justify-center">
       <div className="card-comic w-full max-w-md rounded-card bg-card-bg p-6 sm:p-8">
-        <h1 className="font-display text-3xl uppercase text-header-brown">
+        <h1 className="font-display text-display-md uppercase text-header-brown">
           Join BiteBox
         </h1>
-        <p className="mt-2 font-sans text-sm text-ink-muted">
+        <p className="mt-2 font-sans text-body-lg text-ink-muted">
           Save your details, track orders and reorder in one tap.
         </p>
 

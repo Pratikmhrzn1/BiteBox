@@ -89,9 +89,18 @@ export default {
         'header-gap': 'calc(var(--header-h) + 1rem)',
       },
 
+      /* Two faces, with distinct jobs. Titan One was removed: it set only
+       * the hero H1 while Luckiest Guy set all 41 other headings, so the
+       * identity split at the single most important moment on the site.
+       * Both are heavy novelty display faces, so carrying both bought
+       * nothing but a second font request.
+       *
+       * Luckiest Guy and Caveat are the only faces allowed to be large.
+       * Note that Luckiest Guy ships a single weight - never pair it with
+       * font-bold, which synthesises a smeared faux bold. Caveat is loaded
+       * at 600/700, so a weight on it is real. */
       fontFamily: {
         display: ['"Luckiest Guy"', 'Impact', 'Haettenschweiler', 'sans-serif'],
-        titan: ['"Titan One"', 'Impact', 'sans-serif'],
         script: ['Caveat', '"Segoe Script"', 'cursive'],
         sans: ['Fredoka', 'system-ui', '-apple-system', '"Segoe UI"', 'sans-serif'],
       },
@@ -100,7 +109,8 @@ export default {
        * breakpoints. body-* fills the gap the audit found between text-sm
        * and text-4xl, where almost nothing lived. */
       fontSize: {
-        'display-xl': ['clamp(3rem, 8vw, 5rem)', { lineHeight: '0.95', letterSpacing: '-0.02em' }],
+        'display-2xl': ['clamp(3.5rem, 11vw, 6rem)', { lineHeight: '0.9', letterSpacing: '-0.02em' }],
+        'display-xl': ['clamp(2.75rem, 8vw, 4.5rem)', { lineHeight: '0.95', letterSpacing: '-0.02em' }],
         'display-lg': ['clamp(2.25rem, 5.5vw, 3.5rem)', { lineHeight: '1', letterSpacing: '-0.015em' }],
         'display-md': ['clamp(1.75rem, 4vw, 2.5rem)', { lineHeight: '1.05', letterSpacing: '-0.01em' }],
         'display-sm': ['clamp(1.375rem, 2.5vw, 1.75rem)', { lineHeight: '1.1' }],

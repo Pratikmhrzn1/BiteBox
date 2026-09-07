@@ -28,7 +28,7 @@ export default function CheckoutSummary({
   return (
     <div className="card-comic rounded-card p-6 shadow-comic-lg sm:p-8">
       <h1 className="section-heading">Checkout</h1>
-      <p className="mt-1 font-sans text-sm font-medium text-ink-muted">
+      <p className="mt-1 font-sans text-body-lg font-medium text-ink-muted">
         Review your order, then confirm to place it.
       </p>
 

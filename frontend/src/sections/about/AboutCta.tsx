@@ -12,7 +12,7 @@ export default function AboutCta({
 }: AboutCtaProps) {
   return (
     <section className="mt-14 rounded-card border-2 border-ink-dark bg-espresso-dark p-10 text-center shadow-comic-md sm:p-14">
-      <h2 className="font-display text-4xl uppercase text-cream sm:text-5xl">
+      <h2 className="font-display text-display-lg uppercase text-cream">
         {title}
       </h2>
       <button

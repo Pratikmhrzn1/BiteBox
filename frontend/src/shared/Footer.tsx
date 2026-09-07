@@ -87,7 +87,7 @@ export default function Footer() {
             className="flex items-center gap-2"
           >
             <img src={logoImg} alt="BiteBox logo" className="h-10 w-auto" />
-            <span className="font-display text-2xl text-amber">BiteBox</span>
+            <span className="font-display text-display-sm text-amber">BiteBox</span>
           </button>
           <p className="font-sans text-sm font-medium text-card-bg italic">
             Smashed fresh. Served loud.
