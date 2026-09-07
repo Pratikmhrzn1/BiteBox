@@ -1,3 +1,4 @@
+import { unsplashSrcSet } from '../../data/images'
 type ContactHeroProps = {
   title: string
   subtitle: string
@@ -18,8 +19,11 @@ export default function ContactHero({ title, subtitle, image }: ContactHeroProps
         </div>
         <img
           src={image}
+          srcSet={unsplashSrcSet(image, [160, 240, 320, 480])}
+          sizes="12rem"
           alt="A juicy smash burger"
           loading="eager"
+          fetchPriority="high"
           className="h-40 w-40 rounded-card border-2 border-ink-dark object-cover shadow-comic sm:h-48 sm:w-48"
         />
       </div>

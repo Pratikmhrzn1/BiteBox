@@ -280,8 +280,8 @@ export default function MenuItemModal({
         <div className="flex flex-wrap gap-3">
           {(
             [
-              ['spicy', 'Spicy 🌶️'],
-              ['vegetarian', 'Vegetarian 🌿'],
+              ['spicy', 'Spicy'],
+              ['vegetarian', 'Vegetarian'],
               ['bestSeller', 'Best seller ⭐'],
               ['available', 'Visible on menu'],
             ] as const

@@ -2,6 +2,7 @@ import MenuSearchBar from '../../components/menu/MenuSearchBar'
 
 import { SORT_OPTIONS } from './sortOptions'
 import type { SortOption } from './sortOptions'
+import { Leaf } from 'lucide-react'
 
 type MenuFilterBarProps = {
   categories: readonly string[]
@@ -56,11 +57,11 @@ export default function MenuFilterBar({
           type="button"
           onClick={() => onVegOnlyChange(!vegOnly)}
           aria-pressed={vegOnly}
-          className={`rounded-chip border-2 border-ink-dark px-3 py-1.5 font-sans text-xs font-bold uppercase shadow-comic-xs transition-colors duration-fast ease-ui ${
+          className={`inline-flex min-h-11 items-center gap-1.5 rounded-chip border-2 border-ink-dark px-3 font-sans text-xs font-bold uppercase shadow-comic-xs transition-[background-color,transform] duration-fast ease-ui active:scale-[0.96] ${
             vegOnly ? 'bg-olive text-white' : 'bg-white text-ink-dark hover:bg-cream'
           }`}
         >
-          🌿 Veg only
+          <Leaf className="h-3.5 w-3.5" aria-hidden="true" /> Veg only
         </button>
 
         <label className="ml-auto flex items-center gap-2 font-sans text-xs font-bold uppercase text-ink-muted">

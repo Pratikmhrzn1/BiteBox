@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { Check, Minus, Plus, X } from 'lucide-react'
+import { Check, Flame, Leaf, Minus, Plus, X } from 'lucide-react'
 import type { MenuItem, MenuOption } from '../api/menu'
 import StarRating from '../components/common/StarRating'
 import { formatPrice } from '../utils'
 import { buttonClass } from '../components/common/Button'
+import { unsplashSrcSet } from '../data/images'
 
 type MenuCustomizePopupProps = {
   item: MenuItem
@@ -87,7 +88,10 @@ export default function MenuCustomizePopup({
         <div className="relative h-48 overflow-hidden">
           <img
             src={item.image}
+            srcSet={unsplashSrcSet(item.image)}
+            sizes="(min-width: 640px) 28rem, 92vw"
             alt={item.name}
+            decoding="async"
             className="h-full w-full object-cover"
           />
           <button
@@ -102,12 +106,12 @@ export default function MenuCustomizePopup({
           <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
             {item.spicy && (
               <span className="rounded-full border-2 border-ink-dark bg-accent-red px-2 py-0.5 font-sans text-[10px] font-bold text-white uppercase">
-                🌶️ Spicy
+                <Flame className="h-3 w-3" aria-hidden="true" /> Spicy
               </span>
             )}
             {item.vegetarian && (
               <span className="rounded-full border-2 border-ink-dark bg-olive px-2 py-0.5 font-sans text-[10px] font-bold text-white uppercase">
-                🌿 Veg
+                <Leaf className="h-3 w-3" aria-hidden="true" /> Veg
               </span>
             )}
           </div>
@@ -196,7 +200,7 @@ export default function MenuCustomizePopup({
                           {extra.label}
                         </span>
                         <span className="font-sans text-sm font-bold text-ink-muted">
-                          + Rs {extra.price}
+                          +{formatPrice(extra.price)}
                         </span>
                       </button>
                     </li>

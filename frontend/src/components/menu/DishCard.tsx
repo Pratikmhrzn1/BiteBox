@@ -2,6 +2,8 @@ import type { MenuItem } from '../../api/menu'
 import Button from '../common/Button'
 import StarRating from '../common/StarRating'
 import { formatPrice } from '../../utils'
+import { unsplashSrcSet } from '../../data/images'
+import { Flame, Leaf } from 'lucide-react'
 
 /**
  * One dish, one card.
@@ -30,8 +32,11 @@ export default function DishCard({ item, onAdd }: DishCardProps) {
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
           src={item.image}
+          srcSet={unsplashSrcSet(item.image)}
+          sizes="(min-width: 1280px) 20rem, (min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
           alt={item.name}
           loading="lazy"
+          decoding="async"
           /* group-hover, not hover: on the img itself. Previously the zoom
              only fired while the cursor was over the image, so the card
              lifted and the image sat still. */
@@ -46,13 +51,13 @@ export default function DishCard({ item, onAdd }: DishCardProps) {
 
         <div className="absolute right-3 top-3 flex flex-col items-end gap-1">
           {item.spicy && (
-            <span className="rounded-full border-2 border-ink-dark bg-accent-red px-2 py-0.5 font-sans text-[10px] font-bold uppercase text-white shadow-comic-xs">
-              Spicy
+            <span className="inline-flex items-center gap-1 rounded-full border-2 border-ink-dark bg-accent-red px-2 py-0.5 font-sans text-[10px] font-bold uppercase text-white shadow-comic-xs">
+              <Flame className="h-3 w-3" aria-hidden="true" /> Spicy
             </span>
           )}
           {item.vegetarian && (
-            <span className="rounded-full border-2 border-ink-dark bg-olive px-2 py-0.5 font-sans text-[10px] font-bold uppercase text-white shadow-comic-xs">
-              Veg
+            <span className="inline-flex items-center gap-1 rounded-full border-2 border-ink-dark bg-olive px-2 py-0.5 font-sans text-[10px] font-bold uppercase text-white shadow-comic-xs">
+              <Leaf className="h-3 w-3" aria-hidden="true" /> Veg
             </span>
           )}
         </div>

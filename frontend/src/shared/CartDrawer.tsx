@@ -5,6 +5,7 @@ import { ORDER_TYPES } from '../api/orders'
 import { cartLineTotal, useCart } from '../context/CartContext'
 import { formatPrice } from '../utils'
 import { buttonClass } from '../components/common/Button'
+import { unsplashAt } from '../data/images'
 
 export default function CartDrawer() {
   const navigate = useNavigate()
@@ -142,8 +143,10 @@ export default function CartDrawer() {
                     className="flex items-center gap-3 rounded-card border-2 border-ink-dark bg-white p-3"
                   >
                     <img
-                      src={item.image}
+                      src={unsplashAt(item.image, 80)}
                       alt={item.name}
+                      loading="lazy"
+                      decoding="async"
                       className="h-10 w-10 shrink-0 rounded object-cover"
                     />
                     <div className="min-w-0 flex-1">

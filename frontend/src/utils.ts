@@ -52,3 +52,82 @@ export const readableInkOn = (background: string): string => {
 
   return againstInk > againstWhite ? '#241A12' : '#FFFFFF'
 }
+
+/** Sunday-first, matching Date#getDay. */
+const DAY_INDEX: Record<string, number> = {
+  sun: 0,
+  mon: 1,
+  tue: 2,
+  wed: 3,
+  thu: 4,
+  fri: 5,
+  sat: 6,
+}
+
+/** "11:30 AM", "10:00 PM" and "23:00" all become minutes from midnight. */
+const parseClock = (value: string): number | null => {
+  const match = /^\s*(\d{1,2})(?::(\d{2}))?\s*([ap]\.?m\.?)?\s*$/i.exec(value)
+  if (!match) return null
+
+  let hours = Number(match[1])
+  const minutes = Number(match[2] ?? 0)
+  const meridiem = match[3]?.toLowerCase().replace(/\./g, '')
+
+  if (hours > 23 || minutes > 59) return null
+  if (meridiem === 'pm' && hours < 12) hours += 12
+  if (meridiem === 'am' && hours === 12) hours = 0
+
+  return hours * 60 + minutes
+}
+
+/**
+ * Expands a row label into the days it covers. Handles a single day ("Sat"),
+ * a range in either dash ("Mon–Thu", "Fri-Sun"), and a list ("Mon, Wed").
+ * Ranges wrap, so "Fri–Sun" is Friday, Saturday, Sunday.
+ */
+const parseDays = (label: string): number[] => {
+  const days = new Set<number>()
+
+  for (const part of label.split(/[,/&]|\band\b/i)) {
+    const tokens = part
+      .split(/[–—-]/)
+      .map((token) => DAY_INDEX[token.trim().slice(0, 3).toLowerCase()])
+      .filter((day): day is number => day !== undefined)
+
+    if (tokens.length === 1) {
+      days.add(tokens[0])
+    } else if (tokens.length >= 2) {
+      const [start, end] = [tokens[0], tokens[tokens.length - 1]]
+      for (let step = 0; step <= 6; step += 1) {
+        const day = (start + step) % 7
+        days.add(day)
+        if (day === end) break
+      }
+    }
+  }
+
+  return [...days]
+}
+
+/**
+ * Whether the shop is open, according to the opening hours the admin actually
+ * published. This previously hardcoded 11:30-22:00 and ignored the content
+ * entirely, so the storefront advertised "Open Now" on days it was closed.
+ */
+export const isOpenNow = (
+  rows: { label: string; from: string; to: string; closed: boolean }[],
+  now: Date = new Date(),
+): boolean => {
+  const today = now.getDay()
+  const minutes = now.getHours() * 60 + now.getMinutes()
+
+  const row = rows.find((candidate) => parseDays(candidate.label).includes(today))
+  if (!row || row.closed || !row.from || !row.to) return false
+
+  const from = parseClock(row.from)
+  const to = parseClock(row.to)
+  if (from === null || to === null) return false
+
+  // A closing time earlier than the opening time runs past midnight.
+  return to > from ? minutes >= from && minutes < to : minutes >= from || minutes < to
+}

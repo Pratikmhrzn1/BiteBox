@@ -1,3 +1,4 @@
+import { Clock } from 'lucide-react'
 type ContactOpeningHoursCardProps = {
   label: string
   hours: string
@@ -13,7 +14,7 @@ export default function ContactOpeningHoursCard({
     <div className="rounded-card border-2 border-ink-dark bg-gradient-to-br from-olive-deep to-espresso-dark p-6 text-cream shadow-comic">
       <div className="flex items-center justify-between gap-4">
         <h2 className="flex items-center gap-2 font-display text-display-sm uppercase">
-          <span aria-hidden="true">🕐</span> {label}
+          <Clock className="h-5 w-5 shrink-0" aria-hidden="true" /> {label}
         </h2>
         <span
           className={`flex items-center gap-2 rounded-full border-2 border-ink-dark px-3 py-1 font-sans text-xs font-bold shadow-comic-sm ${

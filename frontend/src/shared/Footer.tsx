@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { logoImg } from '../assets'
 import { useStore } from '../context/StoreContext'
+import { Clock, MapPin, Phone } from 'lucide-react'
 
 function InstagramIcon() {
   return (
@@ -72,9 +73,9 @@ export default function Footer() {
     .join(' · ')
 
   const contactRows = [
-    { emoji: '📍', text: content.restaurant.address },
-    { emoji: '📞', text: content.restaurant.phone },
-    { emoji: '🕐', text: hoursSummary },
+    { Icon: MapPin, text: content.restaurant.address },
+    { Icon: Phone, text: content.restaurant.phone },
+    { Icon: Clock, text: hoursSummary },
   ] as const
 
   return (
@@ -130,12 +131,12 @@ export default function Footer() {
         >
           <h3 className="font-display text-xl text-amber uppercase">Find Us</h3>
           <ul className="space-y-3">
-            {contactRows.map(({ emoji, text }) => (
+            {contactRows.map(({ Icon, text }) => (
               <li
                 key={text}
-                className="flex items-center gap-3 font-sans text-sm font-medium text-card-bg"
+                className="flex items-start gap-3 font-sans text-sm font-medium text-card-bg"
               >
-                <span aria-hidden="true">{emoji}</span>
+                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-amber" aria-hidden="true" />
                 {text}
               </li>
             ))}

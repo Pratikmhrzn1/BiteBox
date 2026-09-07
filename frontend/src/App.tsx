@@ -13,6 +13,7 @@ import AccountPage from './pages/AccountPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import { ContactUs } from './pages/ContactUs'
+import NotFoundPage from './pages/NotFoundPage'
 import AdminPanelPage from './pages/AdminPanelPage'
 import RequireAdmin from './components/admin/RequireAdmin'
 import { ToastProvider } from './components/common/Toast'
@@ -34,9 +35,21 @@ function AppShell() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      {/* First thing in the tab order: lets keyboard and screen-reader users
+          past the nav instead of walking it on every page. Hidden until it
+          takes focus. */}
+      {!adminRoute && (
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-control focus:border-2 focus:border-ink-dark focus:bg-amber focus:px-4 focus:py-2 focus:font-sans focus:text-sm focus:font-bold focus:text-ink-dark"
+        >
+          Skip to content
+        </a>
+      )}
+
       {!adminRoute && <Navbar />}
 
-      <div className="flex-1">
+      <div id="main-content" tabIndex={-1} className="flex-1">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/menu" element={<MenuPage />} />
@@ -62,7 +75,7 @@ function AppShell() {
               </RequireAdmin>
             }
           />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
 

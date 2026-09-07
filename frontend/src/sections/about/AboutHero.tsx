@@ -1,3 +1,4 @@
+import { unsplashSrcSet } from '../../data/images'
 type AboutHeroProps = {
   image: string
   title: string
@@ -9,7 +10,10 @@ export default function AboutHero({ image, title, subtitle }: AboutHeroProps) {
     <section className="relative flex min-h-[22rem] items-center overflow-hidden rounded-card sm:min-h-[26rem]">
       <img
         src={image}
+        srcSet={unsplashSrcSet(image)}
+        sizes="100vw"
         alt="Moody burger kitchen"
+        fetchPriority="high"
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-br from-ink-dark/85 via-ink-dark/70 to-ink-dark/40" />

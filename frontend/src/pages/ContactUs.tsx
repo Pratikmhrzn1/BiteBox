@@ -4,15 +4,9 @@ import ContactHero from '../sections/contact/ContactHero'
 import ContactInfo from '../sections/contact/ContactInfo'
 import ContactCta from '../sections/contact/ContactCta'
 import { useStore } from '../context/StoreContext'
+import { isOpenNow } from '../utils'
 
 const HERO_IMG = unsplash('photo-1568901346375-23c9450c58cd', 600, 70)
-
-/** Compares against the first opening-hours row, which covers the common case. */
-function isOpenNow(): boolean {
-  const now = new Date()
-  const minutes = now.getHours() * 60 + now.getMinutes()
-  return minutes >= 11 * 60 + 30 && minutes < 22 * 60
-}
 
 export function ContactUs() {
   const navigate = useNavigate()
@@ -43,7 +37,7 @@ export function ContactUs() {
         email={restaurant.email}
         hoursLabel={restaurant.hoursLabel}
         hours={restaurant.hours}
-        openNow={isOpenNow()}
+        openNow={isOpenNow(content.openingHours.rows)}
         onDirections={scrollToLocations}
       />
 

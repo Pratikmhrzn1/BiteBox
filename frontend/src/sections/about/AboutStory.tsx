@@ -1,4 +1,5 @@
 import SectionHeading from '../../components/common/SectionHeading'
+import { unsplashSrcSet } from '../../data/images'
 
 type AboutStoryProps = {
   storyCopy: string
@@ -17,8 +18,11 @@ export default function AboutStory({ storyCopy, storyImage }: AboutStoryProps) {
       <div className="overflow-hidden rounded-card border-2 border-ink-dark shadow-comic-md">
         <img
           src={storyImage}
+          srcSet={unsplashSrcSet(storyImage)}
+          sizes="(min-width: 768px) 34rem, 92vw"
           alt="Inside the BiteBox kitchen"
           loading="lazy"
+          decoding="async"
           className="aspect-[4/3] h-full w-full object-cover"
         />
       </div>

@@ -1,4 +1,5 @@
 import SocialLinks from './SocialLinks'
+import { Mail, Phone } from 'lucide-react'
 
 type CallOrDmCardProps = {
   phone: string
@@ -13,10 +14,10 @@ export default function CallOrDmCard({ phone, email }: CallOrDmCardProps) {
       </h2>
       <ul className="mt-3 space-y-2">
         <li className="flex items-center gap-2 font-sans text-sm font-semibold text-ink-dark">
-          <span aria-hidden="true">📞</span> {phone}
+          <Phone className="h-4 w-4 shrink-0" aria-hidden="true" /> {phone}
         </li>
         <li className="flex items-center gap-2 font-sans text-sm font-semibold text-ink-dark">
-          <span aria-hidden="true">📧</span> {email}
+          <Mail className="h-4 w-4 shrink-0" aria-hidden="true" /> {email}
         </li>
       </ul>
       <div className="mt-5">

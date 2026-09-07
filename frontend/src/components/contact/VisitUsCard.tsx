@@ -1,3 +1,4 @@
+import { MapPin } from 'lucide-react'
 type VisitUsCardProps = {
   address: string
   mapEmbedUrl: string
@@ -12,7 +13,7 @@ export default function VisitUsCard({
   return (
     <div className="rounded-card border-2 border-ink-dark bg-header-brown p-6 shadow-comic">
       <h2 className="flex items-center gap-2 font-display text-display-sm uppercase text-amber">
-        <span aria-hidden="true">📍</span> Visit Us
+        <MapPin className="h-5 w-5 shrink-0" aria-hidden="true" /> Visit Us
       </h2>
       <p className="mt-3 font-sans text-sm font-medium text-card-bg">
         {address}

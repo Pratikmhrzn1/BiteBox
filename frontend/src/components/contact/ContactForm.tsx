@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../common/Toast'
 import { fieldClass, labelClass } from '../common/formStyles'
 import { buttonClass } from '../../components/common/Button'
+import { Check } from 'lucide-react'
 
 type ContactFormState = {
   name: string
@@ -112,8 +113,8 @@ export default function ContactForm() {
 
       {submitted ? (
         <div className="mt-8 flex flex-col items-center gap-4 rounded-card border-2 border-ink-dark bg-green-50 p-8 text-center">
-          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-green-500 text-4xl text-white shadow-comic">
-            ✓
+          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-green-600 text-white shadow-comic">
+            <Check className="h-8 w-8" aria-hidden="true" />
           </span>
           <p className="font-display text-display-sm uppercase text-green-700">
             We got your message!

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Eye, EyeOff, Pencil, Plus, Search, Star, Trash2 } from 'lucide-react'
+import { Eye, EyeOff, Flame, Leaf, Pencil, Plus, Search, Star, Trash2 } from 'lucide-react'
 import {
   createMenuItem,
   deleteMenuItem,
@@ -224,12 +224,12 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   {item.spicy && (
                     <span className="rounded-full bg-red-500/15 px-2 py-0.5 font-sans text-[10px] font-bold text-red-300">
-                      🌶️ Spicy
+                      <Flame className="h-3 w-3" aria-hidden="true" /> Spicy
                     </span>
                   )}
                   {item.vegetarian && (
                     <span className="rounded-full bg-lime-500/15 px-2 py-0.5 font-sans text-[10px] font-bold text-lime-300">
-                      🌿 Veg
+                      <Leaf className="h-3 w-3" aria-hidden="true" /> Veg
                     </span>
                   )}
                   {item.reviewCount > 0 && (
