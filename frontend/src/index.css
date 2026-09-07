@@ -2,16 +2,86 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Foundations. Anything defined here is consumed through a Tailwind token
+ * (see tailwind.config.js) or one of the helper classes at the bottom.
+ * Components should not redeclare these values.
+ */
 @layer base {
+  :root {
+    /* Height of the sticky header. The navbar sets its height from this and
+     * the sticky menu filter bar offsets from it, so they cannot drift. */
+    --header-h: 4.5rem;
+
+    /* The single ink used by every comic offset shadow. */
+    --shadow-ink: #241a12;
+
+    /* Focus ring. Amber reads clearly on both the cream surfaces and the
+     * dark espresso/admin ones, so one ring covers the whole product. */
+    --focus-color: #ffc93c;
+    --focus-ink: #241a12;
+    --focus-w: 3px;
+    --focus-offset: 2px;
+
+    /* Border weight the concentric radius helpers subtract. */
+    --border-w: 2px;
+
+    /* Radius scale, mirrored from the Tailwind tokens so calc() can reach it. */
+    --r-chip: 0.5rem;
+    --r-control: 0.75rem;
+    --r-card: 1rem;
+    --r-panel: 1.5rem;
+  }
+
   html {
     @apply scroll-smooth;
-    background-color: #f2a94e;
-    background-image: linear-gradient(160deg, #f7c873 0%, #f2a94e 100%);
-    background-attachment: fixed;
+    /* background-attachment: fixed was removed: it janks and mis-paints on
+     * iOS Safari, and repaints the gradient on every scroll frame. */
+    background-color: theme('colors.canvas');
+    background-image: linear-gradient(
+      170deg,
+      theme('colors.canvas') 0%,
+      theme('colors.canvas-deep') 100%
+    );
+    background-repeat: no-repeat;
+    min-height: 100%;
   }
 
   body {
-    @apply font-sans text-espresso-dark antialiased;
+    @apply bg-transparent font-sans text-espresso-dark antialiased;
+  }
+
+  /* Baseline focus ring.
+   *
+   * The audit found 33 components with no focus styling at all, and several
+   * that actively removed it via focus:outline-none. This guarantees a ring
+   * on every focusable element for keyboard users while staying invisible to
+   * pointer users. The !important is what makes it un-removable by an
+   * accidental utility class; it is scoped to :focus-visible only.
+   *
+   * The double outline (ring + ink halo) keeps it legible on amber surfaces,
+   * where a bare amber ring would disappear. */
+  *:focus-visible {
+    outline: var(--focus-w) solid var(--focus-color) !important;
+    outline-offset: var(--focus-offset);
+    box-shadow: 0 0 0 calc(var(--focus-w) + var(--focus-offset)) var(--focus-ink);
+  }
+
+  /* Respect the OS setting. Motion is never the only feedback channel in
+   * this product, so removing it costs no information. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -21,18 +91,58 @@
   }
 
   .section-heading {
-    @apply font-display text-3xl uppercase text-header-brown sm:text-4xl;
+    @apply font-display text-display-md uppercase text-header-brown;
   }
 
+  /* --- Buttons ---------------------------------------------------------
+   * One recipe per intent. Size comes from the caller (px/py), never from a
+   * new variant. active:scale-[0.96] is the tactile press the audit found
+   * missing across the product. */
   .btn-comic-red {
-    @apply inline-flex items-center justify-center rounded-xl bg-accent-red font-display uppercase text-white shadow-[4px_4px_0_#241A12] transition hover:-translate-y-0.5 hover:bg-red-700 active:translate-y-0 active:shadow-none;
+    @apply inline-flex items-center justify-center rounded-control bg-accent-red font-display uppercase text-white shadow-comic
+      transition-[transform,box-shadow,background-color] duration-fast ease-ui
+      hover:-translate-y-0.5 hover:bg-accent-red-hover
+      active:translate-y-0 active:scale-[0.96] active:shadow-none;
   }
 
   .btn-comic-cream {
-    @apply inline-flex items-center justify-center rounded-xl border-2 border-ink-dark bg-cream font-display uppercase text-ink-dark shadow-[4px_4px_0_#241A12] transition hover:bg-amber active:translate-y-0 active:shadow-none;
+    @apply inline-flex items-center justify-center rounded-control border-2 border-ink-dark bg-cream font-display uppercase text-ink-dark shadow-comic
+      transition-[transform,box-shadow,background-color] duration-fast ease-ui
+      hover:-translate-y-0.5 hover:bg-amber
+      active:translate-y-0 active:scale-[0.96] active:shadow-none;
   }
 
   .card-comic {
-    @apply border-2 border-ink-dark bg-card-bg shadow-[4px_4px_0_#241A12];
+    @apply border-2 border-ink-dark bg-card-bg shadow-comic;
+  }
+}
+
+@layer utilities {
+  /* --- Concentric radius -----------------------------------------------
+   * Outer radius = inner radius + padding. For a bordered card the inner
+   * element must subtract the border weight or the corner reads as a dent.
+   * Use these on anything nested inside a .card-comic. */
+  .radius-inner-chip {
+    border-radius: calc(var(--r-chip) - var(--border-w));
+  }
+  .radius-inner-control {
+    border-radius: calc(var(--r-control) - var(--border-w));
+  }
+  .radius-inner-card {
+    border-radius: calc(var(--r-card) - var(--border-w));
+  }
+  .radius-inner-panel {
+    border-radius: calc(var(--r-panel) - var(--border-w));
+  }
+  .radius-inner-card-t {
+    border-radius: calc(var(--r-card) - var(--border-w))
+      calc(var(--r-card) - var(--border-w)) 0 0;
+  }
+
+  /* Prices and quantities sit in right-aligned columns; proportional digits
+   * make those columns jitter row to row. */
+  .nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
   }
 }
