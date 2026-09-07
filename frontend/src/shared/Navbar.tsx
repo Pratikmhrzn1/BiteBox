@@ -12,12 +12,13 @@ const NAV_LINKS = [
   { label: 'Contact Us', to: '/contact' },
 ] as const
 
-const bar = 'h-0.5 w-6 rounded bg-accent-red transition'
+const bar =
+  'h-0.5 w-6 rounded bg-accent-red transition-[transform,opacity] duration-base ease-ui'
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
   isActive
     ? 'relative font-sans text-sm font-bold tracking-wide text-accent-red uppercase after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:rounded after:bg-accent-red'
-    : 'font-sans text-sm font-semibold tracking-wide text-espresso-dark uppercase transition hover:text-accent-red'
+    : 'font-sans text-sm font-semibold tracking-wide text-espresso-dark uppercase transition-colors duration-fast ease-ui hover:text-accent-red'
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -92,7 +93,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => go('/track')}
-            className="rounded-full p-2.5 transition hover:bg-espresso-dark/10 hover:text-accent-red"
+            className="rounded-full p-2.5 transition-colors duration-fast ease-ui hover:bg-espresso-dark/10 hover:text-accent-red"
             aria-label="Track an order"
             title="Track an order"
           >
@@ -103,7 +104,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setAccountOpen((open) => !open)}
-              className="flex items-center gap-1.5 rounded-full p-2.5 transition hover:bg-espresso-dark/10 hover:text-accent-red"
+              className="flex items-center gap-1.5 rounded-full p-2.5 transition-colors duration-fast ease-ui hover:bg-espresso-dark/10 hover:text-accent-red"
               aria-label={user ? `Account menu for ${user.name}` : 'Sign in'}
               aria-expanded={accountOpen}
               aria-haspopup="menu"
@@ -119,7 +120,7 @@ export default function Navbar() {
             {accountOpen && (
               <div
                 role="menu"
-                className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-control border-2 border-ink-dark bg-card-bg shadow-comic"
+                className="animate-pop-in absolute right-0 top-full z-50 mt-2 w-56 origin-top-right overflow-hidden rounded-control border-2 border-ink-dark bg-card-bg shadow-comic"
               >
                 {user ? (
                   <>
@@ -135,7 +136,7 @@ export default function Navbar() {
                       type="button"
                       role="menuitem"
                       onClick={() => go('/account')}
-                      className="flex w-full items-center gap-2 px-4 py-2.5 text-left font-sans text-sm font-semibold text-ink-dark transition hover:bg-amber"
+                      className="flex w-full items-center gap-2 px-4 py-2.5 text-left font-sans text-sm font-semibold text-ink-dark transition-colors duration-fast ease-ui hover:bg-amber"
                     >
                       <Package className="h-4 w-4" /> My Orders
                     </button>
@@ -144,7 +145,7 @@ export default function Navbar() {
                         type="button"
                         role="menuitem"
                         onClick={() => go('/admin')}
-                        className="flex w-full items-center gap-2 px-4 py-2.5 text-left font-sans text-sm font-semibold text-ink-dark transition hover:bg-amber"
+                        className="flex w-full items-center gap-2 px-4 py-2.5 text-left font-sans text-sm font-semibold text-ink-dark transition-colors duration-fast ease-ui hover:bg-amber"
                       >
                         <LayoutDashboard className="h-4 w-4" /> Admin Panel
                       </button>
@@ -155,7 +156,7 @@ export default function Navbar() {
                       onClick={handleSignOut}
                       /* Amber hover would have dropped this to 3.16:1. A
                          destructive item reads better filled anyway. */
-                      className="flex w-full items-center gap-2 border-t-2 border-ink-dark px-4 py-2.5 text-left font-sans text-sm font-semibold text-accent-red transition hover:bg-accent-red hover:text-white"
+                      className="flex w-full items-center gap-2 border-t-2 border-ink-dark px-4 py-2.5 text-left font-sans text-sm font-semibold text-accent-red transition-colors duration-fast ease-ui hover:bg-accent-red hover:text-white"
                     >
                       <LogOut className="h-4 w-4" /> Sign Out
                     </button>
@@ -166,7 +167,7 @@ export default function Navbar() {
                       type="button"
                       role="menuitem"
                       onClick={() => go('/login')}
-                      className="w-full px-4 py-2.5 text-left font-sans text-sm font-semibold text-ink-dark transition hover:bg-amber"
+                      className="w-full px-4 py-2.5 text-left font-sans text-sm font-semibold text-ink-dark transition-colors duration-fast ease-ui hover:bg-amber"
                     >
                       Sign In
                     </button>
@@ -174,7 +175,7 @@ export default function Navbar() {
                       type="button"
                       role="menuitem"
                       onClick={() => go('/register')}
-                      className="w-full border-t-2 border-ink-dark px-4 py-2.5 text-left font-sans text-sm font-semibold text-ink-dark transition hover:bg-amber"
+                      className="w-full border-t-2 border-ink-dark px-4 py-2.5 text-left font-sans text-sm font-semibold text-ink-dark transition-colors duration-fast ease-ui hover:bg-amber"
                     >
                       Create Account
                     </button>
@@ -186,7 +187,7 @@ export default function Navbar() {
 
           <button
             type="button"
-            className="relative rounded-full p-2.5 text-espresso-dark transition hover:bg-accent-red/10 hover:text-accent-red"
+            className="relative rounded-full p-2.5 text-espresso-dark transition-colors duration-fast ease-ui hover:bg-accent-red/10 hover:text-accent-red"
             aria-label={`Cart with ${cartCount} items`}
             onClick={openCart}
           >
@@ -198,7 +199,7 @@ export default function Navbar() {
         <div className="flex items-center gap-1 lg:hidden">
           <button
             type="button"
-            className="relative rounded-full p-2.5 text-espresso-dark transition hover:bg-espresso-dark/10 hover:text-accent-red"
+            className="relative rounded-full p-2.5 text-espresso-dark transition-colors duration-fast ease-ui hover:bg-espresso-dark/10 hover:text-accent-red"
             aria-label={`Cart with ${cartCount} items`}
             onClick={openCart}
           >
@@ -221,7 +222,7 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="border-t border-espresso-dark/10 bg-nav-bg px-4 py-4 lg:hidden">
+        <div className="animate-rise-in border-t border-espresso-dark/10 bg-nav-bg px-4 py-4 lg:hidden">
           <nav className="flex flex-col gap-3">
             {NAV_LINKS.map((link) => (
               <NavLink
@@ -239,7 +240,7 @@ export default function Navbar() {
           <div className="mt-4 flex flex-col gap-3 border-t border-espresso-dark/10 pt-4">
             <button
               type="button"
-              className="flex items-center gap-2 font-sans text-sm font-semibold text-espresso-dark transition hover:text-accent-red"
+              className="flex items-center gap-2 font-sans text-sm font-semibold text-espresso-dark transition-colors duration-fast ease-ui hover:text-accent-red"
               onClick={() => go('/track')}
             >
               <MapPin className="h-5 w-5" aria-hidden="true" /> Track an Order
@@ -249,7 +250,7 @@ export default function Navbar() {
               <>
                 <button
                   type="button"
-                  className="flex items-center gap-2 font-sans text-sm font-semibold text-espresso-dark transition hover:text-accent-red"
+                  className="flex items-center gap-2 font-sans text-sm font-semibold text-espresso-dark transition-colors duration-fast ease-ui hover:text-accent-red"
                   onClick={() => go('/account')}
                 >
                   <Package className="h-5 w-5" aria-hidden="true" /> My Orders
@@ -257,7 +258,7 @@ export default function Navbar() {
                 {user.role === 'ADMIN' && (
                   <button
                     type="button"
-                    className="flex items-center gap-2 font-sans text-sm font-semibold text-espresso-dark transition hover:text-accent-red"
+                    className="flex items-center gap-2 font-sans text-sm font-semibold text-espresso-dark transition-colors duration-fast ease-ui hover:text-accent-red"
                     onClick={() => go('/admin')}
                   >
                     <LayoutDashboard className="h-5 w-5" aria-hidden="true" /> Admin Panel
@@ -274,7 +275,7 @@ export default function Navbar() {
             ) : (
               <button
                 type="button"
-                className="flex items-center gap-2 font-sans text-sm font-semibold text-espresso-dark transition hover:text-accent-red"
+                className="flex items-center gap-2 font-sans text-sm font-semibold text-espresso-dark transition-colors duration-fast ease-ui hover:text-accent-red"
                 onClick={() => go('/login')}
               >
                 <User className="h-5 w-5" aria-hidden="true" /> Sign In

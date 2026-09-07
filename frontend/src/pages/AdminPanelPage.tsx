@@ -91,7 +91,7 @@ function AdminPanelShell() {
                 key={id}
                 type="button"
                 onClick={() => setSection(id)}
-                className={`shrink-0 rounded-chip px-3 py-1.5 font-sans text-sm font-bold transition ${
+                className={`shrink-0 rounded-chip px-3 py-1.5 font-sans text-sm font-bold transition-colors duration-fast ease-ui ${
                   section === id
                     ? 'bg-accent-red text-white'
                     : 'border border-white/15 text-admin-ink'

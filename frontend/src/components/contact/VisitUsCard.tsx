@@ -29,7 +29,7 @@ export default function VisitUsCard({
       <button
         type="button"
         onClick={onDirections}
-        className="mt-4 rounded-full border-2 border-ink-dark bg-amber px-5 py-2.5 font-sans text-sm font-bold text-ink-dark shadow-comic transition hover:-translate-y-0.5 hover:bg-accent-red hover:text-white active:translate-y-0 active:shadow-none"
+        className="mt-4 rounded-full border-2 border-ink-dark bg-amber px-5 py-2.5 font-sans text-sm font-bold text-ink-dark shadow-comic transition-[background-color,border-color,color,box-shadow,transform] duration-fast ease-ui hover:-translate-y-0.5 hover:bg-accent-red hover:text-white active:translate-y-0 active:shadow-none"
       >
         Get Directions
       </button>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Check, Minus, Plus, X } from 'lucide-react'
 import type { MenuItem, MenuOption } from '../api/menu'
 import StarRating from '../components/common/StarRating'
@@ -26,17 +26,35 @@ export default function MenuCustomizePopup({
     item.sizes.length > 1 ? item.sizes[0] : null,
   )
 
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const returnFocusRef = useRef<HTMLElement | null>(null)
+
+  // Callers pass onClose as an inline arrow, so its identity changes on every
+  // parent render. Reading it through a ref keeps the effect below mount-only.
+  const onCloseRef = useRef(onClose)
   useEffect(() => {
+    onCloseRef.current = onClose
+  })
+
+  useEffect(() => {
+    // Opening a dialog without moving focus leaves keyboard users behind it,
+    // and closing without restoring drops them at the top of the document.
+    returnFocusRef.current = document.activeElement as HTMLElement | null
+    closeButtonRef.current?.focus()
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
+      if (event.key === 'Escape') onCloseRef.current()
     }
     window.addEventListener('keydown', onKeyDown)
     document.body.style.overflow = 'hidden'
     return () => {
       window.removeEventListener('keydown', onKeyDown)
       document.body.style.overflow = ''
+      returnFocusRef.current?.focus()
     }
-  }, [onClose])
+    // Mount and unmount only: re-running would pull focus out of the dialog
+    // and back to the close button mid-interaction.
+  }, [])
 
   const toggleExtra = (id: string) => {
     setSelectedExtraIds((current) =>
@@ -55,12 +73,12 @@ export default function MenuCustomizePopup({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink-dark/60 p-4"
+      className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-ink-dark/60 p-4"
       onClick={onClose}
       role="presentation"
     >
       <div
-        className="card-comic max-h-[90vh] w-full max-w-md overflow-y-auto rounded-card shadow-comic-lg"
+        className="card-comic animate-pop-in max-h-[90vh] w-full max-w-md overflow-y-auto rounded-card shadow-comic-lg"
         onClick={(event) => event.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -73,9 +91,10 @@ export default function MenuCustomizePopup({
             className="h-full w-full object-cover"
           />
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            className="absolute right-3 top-3 rounded-full border-2 border-ink-dark bg-card-bg p-1.5 text-ink-dark shadow-comic-xs transition hover:bg-amber"
+            className="absolute right-3 top-3 flex h-11 w-11 items-center justify-center rounded-full border-2 border-ink-dark bg-card-bg text-ink-dark shadow-comic-xs transition-[background-color,transform] duration-fast ease-ui hover:bg-amber active:scale-[0.96]"
             aria-label="Close customization"
           >
             <X className="h-4 w-4" />
@@ -130,7 +149,7 @@ export default function MenuCustomizePopup({
                       type="button"
                       onClick={() => setSelectedSize(size)}
                       aria-pressed={isActive}
-                      className={`flex items-center justify-between rounded-chip border-2 border-ink-dark px-3 py-2 text-left transition ${
+                      className={`flex min-h-11 items-center justify-between rounded-chip border-2 border-ink-dark px-3 py-2 text-left transition-[background-color,transform] duration-fast ease-ui active:scale-[0.98] ${
                         isActive ? 'bg-amber' : 'bg-white hover:bg-cream/50'
                       }`}
                     >
@@ -161,7 +180,7 @@ export default function MenuCustomizePopup({
                         type="button"
                         onClick={() => toggleExtra(extra.id)}
                         aria-pressed={isSelected}
-                        className={`flex w-full items-center justify-between rounded-chip border-2 border-ink-dark px-3 py-2 text-left transition ${
+                        className={`flex min-h-11 w-full items-center justify-between rounded-chip border-2 border-ink-dark px-3 py-2 text-left transition-[background-color,transform] duration-fast ease-ui active:scale-[0.98] ${
                           isSelected ? 'bg-amber' : 'bg-white hover:bg-cream/50'
                         }`}
                       >
@@ -191,22 +210,22 @@ export default function MenuCustomizePopup({
             <span className="font-sans text-sm font-bold uppercase text-ink-dark">
               Quantity
             </span>
-            <div className="flex items-center gap-3 rounded-full border-2 border-ink-dark bg-white px-3 py-1.5">
+            <div className="flex items-center rounded-full border-2 border-ink-dark bg-white">
               <button
                 type="button"
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="text-ink-dark transition hover:text-accent-red"
+                className="flex h-11 w-11 items-center justify-center rounded-full text-ink-dark transition-[color,transform] duration-fast ease-ui hover:text-accent-red active:scale-[0.96]"
                 aria-label="Decrease quantity"
               >
                 <Minus className="h-4 w-4" />
               </button>
-              <span className="min-w-6 text-center font-sans text-lg font-bold text-ink-dark">
+              <span className="nums min-w-6 text-center font-sans text-lg font-bold text-ink-dark">
                 {quantity}
               </span>
               <button
                 type="button"
                 onClick={() => setQuantity((q) => Math.min(50, q + 1))}
-                className="text-ink-dark transition hover:text-accent-red"
+                className="flex h-11 w-11 items-center justify-center rounded-full text-ink-dark transition-[color,transform] duration-fast ease-ui hover:text-accent-red active:scale-[0.96]"
                 aria-label="Increase quantity"
               >
                 <Plus className="h-4 w-4" />

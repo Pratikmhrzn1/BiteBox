@@ -173,7 +173,7 @@ export default function CheckoutPage() {
                     type="button"
                     onClick={() => setOrderType(type.value)}
                     aria-pressed={selected}
-                    className={`rounded-control border-2 p-3 text-left transition ${
+                    className={`rounded-control border-2 p-3 text-left transition-colors duration-fast ease-ui ${
                       selected
                         ? 'border-accent-red bg-amber shadow-comic-sm'
                         : 'border-ink-dark bg-white hover:bg-cream/50'
@@ -281,7 +281,7 @@ export default function CheckoutPage() {
                     type="button"
                     onClick={() => setPaymentMethod(method.value)}
                     aria-pressed={selected}
-                    className={`rounded-control border-2 p-3 text-left transition ${
+                    className={`rounded-control border-2 p-3 text-left transition-colors duration-fast ease-ui ${
                       selected
                         ? 'border-accent-red bg-amber shadow-comic-sm'
                         : 'border-ink-dark bg-white hover:bg-cream/50'

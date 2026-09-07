@@ -280,7 +280,7 @@ export default function ContentSection() {
                           )
                         }
                         title={label}
-                        className={`flex h-8 w-8 items-center justify-center rounded-full border-2 transition ${
+                        className={`flex h-8 w-8 items-center justify-center rounded-full border-2 transition-colors duration-fast ease-ui ${
                           isActive ? 'border-amber' : 'border-transparent'
                         }`}
                         style={{ backgroundColor: value }}
@@ -315,7 +315,7 @@ export default function ContentSection() {
                   : current,
               )
             }
-            className="inline-flex items-center gap-1 font-sans text-xs font-bold text-accent-red transition hover:text-orange-300"
+            className="inline-flex items-center gap-1 font-sans text-xs font-bold text-accent-red transition-colors duration-fast ease-ui hover:text-orange-300"
           >
             <Plus className="h-3.5 w-3.5" /> Add day range
           </button>
@@ -386,7 +386,7 @@ export default function ContentSection() {
                       : current,
                   )
                 }
-                className="rounded-chip p-2 text-admin-ink transition hover:bg-red-500/20 hover:text-red-300"
+                className="rounded-chip p-2 text-admin-ink transition-colors duration-fast ease-ui hover:bg-red-500/20 hover:text-red-300"
                 aria-label="Remove day range"
               >
                 <Trash2 className="h-4 w-4" />

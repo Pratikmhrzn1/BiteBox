@@ -170,7 +170,7 @@ export default function DashboardSection({
             <button
               type="button"
               onClick={() => onOpenSection('orders')}
-              className="flex items-center gap-1 font-sans text-xs font-bold text-accent-red transition hover:text-orange-300"
+              className="flex items-center gap-1 font-sans text-xs font-bold text-accent-red transition-colors duration-fast ease-ui hover:text-orange-300"
             >
               View all <ArrowRight className="h-3.5 w-3.5" />
             </button>
@@ -229,7 +229,7 @@ export default function DashboardSection({
                   <button
                     type="button"
                     onClick={() => onOpenSection(section)}
-                    className="flex w-full items-center gap-3 rounded-chip px-2 py-2 text-left transition hover:bg-white/5"
+                    className="flex w-full items-center gap-3 rounded-chip px-2 py-2 text-left transition-colors duration-fast ease-ui hover:bg-white/5"
                   >
                     <Icon className="h-4 w-4 shrink-0 text-admin-muted" />
                     <span className="flex-1 font-sans text-sm font-semibold text-cream">
@@ -278,28 +278,28 @@ export default function DashboardSection({
               <button
                 type="button"
                 onClick={onAddMenuItem}
-                className="flex items-center gap-2 rounded-chip bg-accent-red px-3 py-2.5 font-sans text-sm font-bold text-white transition hover:bg-red-700"
+                className="flex items-center gap-2 rounded-chip bg-accent-red px-3 py-2.5 font-sans text-sm font-bold text-white transition-colors duration-fast ease-ui hover:bg-red-700"
               >
                 <Plus className="h-4 w-4" /> Add Menu Item
               </button>
               <button
                 type="button"
                 onClick={() => onOpenSection('orders')}
-                className="flex items-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition hover:bg-white/5"
+                className="flex items-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
               >
                 <ArrowRight className="h-4 w-4" /> View All Orders
               </button>
               <button
                 type="button"
                 onClick={() => downloadOrdersCsv(allOrders)}
-                className="flex items-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition hover:bg-white/5"
+                className="flex items-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
               >
                 <Download className="h-4 w-4" /> Export Orders (CSV)
               </button>
               <button
                 type="button"
                 onClick={() => onOpenSection('analytics')}
-                className="flex items-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition hover:bg-white/5"
+                className="flex items-center gap-2 rounded-chip border border-white/15 px-3 py-2.5 font-sans text-sm font-semibold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
               >
                 <PieChart className="h-4 w-4" /> View Analytics
               </button>

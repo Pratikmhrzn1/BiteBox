@@ -148,7 +148,7 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
               key={id}
               type="button"
               onClick={() => setFilter(id)}
-              className={`rounded-chip px-3 py-1.5 font-sans text-sm font-bold transition ${
+              className={`rounded-chip px-3 py-1.5 font-sans text-sm font-bold transition-colors duration-fast ease-ui ${
                 filter === id
                   ? 'bg-accent-red text-white'
                   : 'border border-white/15 text-admin-ink hover:bg-white/5'
@@ -169,7 +169,7 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
         <button
           type="button"
           onClick={() => downloadOrdersCsv(filteredOrders)}
-          className="inline-flex items-center gap-2 rounded-chip bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white transition hover:bg-red-700"
+          className="inline-flex items-center gap-2 rounded-chip bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white transition-colors duration-fast ease-ui hover:bg-red-700"
         >
           <Download className="h-4 w-4" /> Export CSV
         </button>
@@ -210,7 +210,7 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
                 {filteredOrders.map((order) => (
                   <tr
                     key={order.id}
-                    className={`cursor-pointer border-t border-white/5 transition hover:bg-white/5 ${
+                    className={`cursor-pointer border-t border-white/5 transition-colors duration-fast ease-ui hover:bg-white/5 ${
                       busyId === order.id ? 'opacity-50' : ''
                     }`}
                     onClick={() => setDetailId(order.id)}
@@ -301,7 +301,7 @@ function OrderDetailPanel({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-chip p-1.5 text-admin-ink transition hover:bg-white/10 hover:text-cream"
+            className="rounded-chip p-1.5 text-admin-ink transition-colors duration-fast ease-ui hover:bg-white/10 hover:text-cream"
             aria-label="Close order details"
           >
             <X className="h-5 w-5" />
@@ -400,7 +400,7 @@ function OrderDetailPanel({
                   type="button"
                   disabled={busy}
                   onClick={() => onSetStatus(status)}
-                  className={`rounded-chip px-2.5 py-1.5 font-sans text-xs font-bold transition disabled:opacity-50 ${
+                  className={`rounded-chip px-2.5 py-1.5 font-sans text-xs font-bold transition-colors duration-fast ease-ui disabled:opacity-50 ${
                     order.status === status
                       ? 'bg-accent-red text-white'
                       : 'border border-white/15 text-admin-ink hover:bg-white/5'
@@ -424,7 +424,7 @@ function OrderDetailPanel({
                     type="button"
                     disabled={busy}
                     onClick={() => onSetPayment(status)}
-                    className={`rounded-chip px-2.5 py-1.5 font-sans text-xs font-bold capitalize transition disabled:opacity-50 ${
+                    className={`rounded-chip px-2.5 py-1.5 font-sans text-xs font-bold capitalize transition-colors duration-fast ease-ui disabled:opacity-50 ${
                       order.paymentStatus === status
                         ? 'bg-accent-red text-white'
                         : 'border border-white/15 text-admin-ink hover:bg-white/5'
@@ -441,7 +441,7 @@ function OrderDetailPanel({
             <button
               type="button"
               onClick={() => window.print()}
-              className="flex flex-1 items-center justify-center gap-2 rounded-chip border border-white/15 px-4 py-2.5 font-sans text-sm font-bold text-cream transition hover:bg-white/5"
+              className="flex flex-1 items-center justify-center gap-2 rounded-chip border border-white/15 px-4 py-2.5 font-sans text-sm font-bold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
             >
               <Printer className="h-4 w-4" /> Print
             </button>

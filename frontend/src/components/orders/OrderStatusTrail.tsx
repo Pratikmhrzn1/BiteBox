@@ -42,7 +42,7 @@ export default function OrderStatusTrail({
           <li key={step} className="flex flex-1 items-center gap-2 min-w-[5.5rem]">
             <div className="flex flex-col items-center gap-1.5">
               <span
-                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-ink-dark font-sans text-xs font-bold transition ${
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-ink-dark font-sans text-xs font-bold transition-colors duration-fast ease-ui ${
                   isDone ? 'bg-accent-red text-white' : 'bg-white text-ink-muted'
                 } ${isCurrent ? 'ring-4 ring-amber' : ''}`}
                 aria-hidden="true"

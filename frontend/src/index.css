@@ -131,6 +131,23 @@
       calc(var(--r-card) - var(--border-w)) 0 0;
   }
 
+  /* Expands a control's touch target to 44px without changing its visual
+   * size or the layout around it. For small icon buttons that genuinely
+   * need to stay small - a corner dismiss, a star in a rating row - where
+   * padding the element out would break the composition. */
+  .tap-target {
+    position: relative;
+  }
+  .tap-target::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2.75rem;
+    height: 2.75rem;
+    transform: translate(-50%, -50%);
+  }
+
   /* Prices and quantities sit in right-aligned columns; proportional digits
    * make those columns jitter row to row. */
   .nums {

@@ -12,7 +12,7 @@ const SLICE_COLORS = ['#CE3D27', '#D25F26', '#FFC93C', '#717D07', '#7D4A37']
 
 function BarTooltip({ label, value }: { label: string; value: string }) {
   return (
-    <span className="pointer-events-none absolute -top-8 left-1/2 z-10 -translate-x-1/2 rounded bg-[#1A0E07] px-2 py-1 font-sans text-[10px] font-bold whitespace-nowrap text-amber opacity-0 transition group-hover:opacity-100">
+    <span className="pointer-events-none absolute -top-8 left-1/2 z-10 -translate-x-1/2 rounded bg-[#1A0E07] px-2 py-1 font-sans text-[10px] font-bold whitespace-nowrap text-amber opacity-0 transition-colors duration-fast ease-ui group-hover:opacity-100">
       {label}: {value}
     </span>
   )
@@ -37,7 +37,7 @@ function VerticalBars({
         >
           <BarTooltip label={point.label} value={format(point.value)} />
           <div
-            className={`${color} w-full rounded-t transition hover:brightness-110`}
+            className={`${color} w-full rounded-t transition-colors duration-fast ease-ui hover:brightness-110`}
             // Zero-value bars keep a 2px stub so the axis still reads as a series.
             style={{ height: `max(2px, ${(point.value / max) * 100}%)` }}
           />
@@ -219,7 +219,7 @@ export default function AnalyticsSection() {
               >
                 <BarTooltip label={hour.label} value={`${hour.value} orders`} />
                 <div
-                  className="w-full rounded-t bg-olive transition hover:brightness-125"
+                  className="w-full rounded-t bg-olive transition-colors duration-fast ease-ui hover:brightness-125"
                   style={{ height: `max(2px, ${(hour.value / maxPeak) * 100}%)` }}
                 />
               </div>

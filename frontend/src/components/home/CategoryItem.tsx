@@ -33,7 +33,7 @@ export default function CategoryItem({ category }: CategoryItemProps) {
       <button
         type="button"
         onClick={() => navigate(`/menu?category=${encodeURIComponent(category)}`)}
-        className="group flex w-full items-center justify-between rounded-chip px-4 py-3 text-left transition hover:bg-cream/10"
+        className="group flex w-full items-center justify-between rounded-chip px-4 py-3 text-left transition-colors duration-fast ease-ui hover:bg-cream/10"
       >
         <span className="flex items-center gap-3">
           <img src={icon} alt="" aria-hidden="true" className="h-5 w-5" />
@@ -42,7 +42,7 @@ export default function CategoryItem({ category }: CategoryItemProps) {
           </span>
         </span>
         <ChevronRight
-          className="h-4 w-4 text-cream/60 transition group-hover:text-white"
+          className="h-4 w-4 text-cream/60 transition-colors duration-fast ease-ui group-hover:text-white"
           aria-hidden="true"
         />
       </button>

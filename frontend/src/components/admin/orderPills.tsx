@@ -42,7 +42,7 @@ export function OrderStatusPill({
   status: OrderStatus
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void
 }) {
-  const classes = `rounded-full border px-2.5 py-1 font-sans text-xs font-bold transition ${STATUS_STYLES[status]}`
+  const classes = `rounded-full border px-2.5 py-1 font-sans text-xs font-bold transition-[background-color,border-color,color,box-shadow,transform] duration-fast ease-ui ${STATUS_STYLES[status]}`
 
   if (!onClick) {
     return <span className={classes}>{STATUS_LABELS[status]}</span>

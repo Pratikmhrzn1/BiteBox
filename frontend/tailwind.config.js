@@ -130,6 +130,32 @@ export default {
         ui: 'cubic-bezier(0.2, 0, 0, 1)',
         exit: 'cubic-bezier(0.4, 0, 1, 1)',
       },
+
+      /* Entrances for things that appear in response to a click: menus,
+       * modals, toasts. Each is short enough to feel like a consequence of
+       * the click rather than a scene change, and all of them are neutered
+       * by the prefers-reduced-motion block in index.css. */
+      keyframes: {
+        'fade-in': {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+        /* For surfaces anchored to their trigger - dropdowns, modals. */
+        'pop-in': {
+          from: { opacity: '0', transform: 'scale(0.96) translateY(-4px)' },
+          to: { opacity: '1', transform: 'scale(1) translateY(0)' },
+        },
+        /* For surfaces that arrive from off-screen edges - toasts. */
+        'rise-in': {
+          from: { opacity: '0', transform: 'translateY(8px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'fade-in': 'fade-in 150ms cubic-bezier(0.2, 0, 0, 1)',
+        'pop-in': 'pop-in 200ms cubic-bezier(0.2, 0, 0, 1)',
+        'rise-in': 'rise-in 200ms cubic-bezier(0.2, 0, 0, 1)',
+      },
     },
   },
   plugins: [],

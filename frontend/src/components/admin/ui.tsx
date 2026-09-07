@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { X } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
 
 export const cardClass =
@@ -12,16 +13,16 @@ export const labelClass =
   'mb-1.5 block font-sans text-xs font-bold uppercase tracking-wider text-amber'
 
 export const btnPrimary =
-  'inline-flex items-center justify-center gap-2 rounded-chip bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white transition hover:bg-red-700'
+  'inline-flex items-center justify-center gap-2 rounded-chip bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white transition-colors duration-fast ease-ui hover:bg-red-700'
 
 export const btnGhost =
-  'inline-flex items-center justify-center gap-2 rounded-chip border border-white/15 px-4 py-2 font-sans text-sm font-semibold text-cream transition hover:bg-white/5'
+  'inline-flex items-center justify-center gap-2 rounded-chip border border-white/15 px-4 py-2 font-sans text-sm font-semibold text-cream transition-colors duration-fast ease-ui hover:bg-white/5'
 
 export const btnDanger =
-  'inline-flex items-center justify-center gap-2 rounded-chip bg-red-700 px-4 py-2 font-sans text-sm font-bold text-white transition hover:bg-red-600'
+  'inline-flex items-center justify-center gap-2 rounded-chip bg-red-700 px-4 py-2 font-sans text-sm font-bold text-white transition-colors duration-fast ease-ui hover:bg-red-600'
 
 export const btnToggle = (active: boolean): string =>
-  `rounded-chip px-3 py-1.5 font-sans text-sm font-bold transition ${
+  `rounded-chip px-3 py-1.5 font-sans text-sm font-bold transition-colors duration-fast ease-ui active:scale-[0.96] ${
     active
       ? 'bg-accent-red text-white'
       : 'border border-white/15 text-admin-ink hover:bg-white/5'
@@ -77,14 +78,43 @@ export function Modal({
   footer?: ReactNode
   width?: string
 }) {
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const returnFocusRef = useRef<HTMLElement | null>(null)
+
+  // onClose arrives as an inline arrow, so it is read through a ref to keep
+  // the effect below mount-only.
+  const onCloseRef = useRef(onClose)
+  useEffect(() => {
+    onCloseRef.current = onClose
+  })
+
+  // The storefront's dialogs close on Escape and manage focus; this one did
+  // neither, so an admin could only dismiss it by clicking the backdrop.
+  useEffect(() => {
+    returnFocusRef.current = document.activeElement as HTMLElement | null
+    closeButtonRef.current?.focus()
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onCloseRef.current()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = ''
+      returnFocusRef.current?.focus()
+    }
+    // Mount and unmount only, for the same reason as the storefront dialog.
+  }, [])
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+      className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
       onClick={onClose}
       role="presentation"
     >
       <div
-        className={`${cardClass} w-full ${width} max-h-[90vh] overflow-hidden`}
+        className={`${cardClass} animate-pop-in w-full ${width} max-h-[90vh] overflow-hidden`}
         onClick={(event) => event.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -95,9 +125,10 @@ export function Modal({
             {title}
           </h3>
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            className="rounded-chip p-1.5 text-admin-ink transition hover:bg-white/10 hover:text-cream"
+            className="flex h-11 w-11 items-center justify-center rounded-chip text-admin-ink transition-[background-color,color,transform] duration-fast ease-ui hover:bg-white/10 hover:text-cream active:scale-[0.96]"
             aria-label="Close"
           >
             <X className="h-5 w-5" />

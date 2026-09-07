@@ -122,7 +122,7 @@ export default function MenuItemModal({
         <button
           type="button"
           onClick={() => addOption(field)}
-          className="inline-flex items-center gap-1 font-sans text-xs font-bold text-accent-red transition hover:text-orange-300"
+          className="inline-flex items-center gap-1 font-sans text-xs font-bold text-accent-red transition-colors duration-fast ease-ui hover:text-orange-300"
         >
           <Plus className="h-3.5 w-3.5" /> Add
         </button>
@@ -151,7 +151,7 @@ export default function MenuItemModal({
             <button
               type="button"
               onClick={() => removeOption(field, option.id)}
-              className="rounded-chip p-2 text-admin-ink transition hover:bg-red-500/20 hover:text-red-300"
+              className="rounded-chip p-2 text-admin-ink transition-colors duration-fast ease-ui hover:bg-red-500/20 hover:text-red-300"
               aria-label={`Remove ${field === 'sizes' ? 'size' : 'extra'}`}
             >
               <Trash2 className="h-4 w-4" />
@@ -179,7 +179,7 @@ export default function MenuItemModal({
             type="button"
             disabled={!valid}
             onClick={handleSave}
-            className="inline-flex items-center justify-center gap-2 rounded-chip bg-accent-red px-5 py-2 font-sans text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 rounded-chip bg-accent-red px-5 py-2 font-sans text-sm font-bold text-white transition-colors duration-fast ease-ui hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {initial ? 'Save Changes' : 'Create Item'}
           </button>

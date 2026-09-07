@@ -48,7 +48,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`pointer-events-auto flex items-center gap-3 rounded-control border-2 border-ink-dark px-4 py-3 shadow-comic ${
+            className={`animate-rise-in pointer-events-auto flex items-center gap-3 rounded-control border-2 border-ink-dark px-4 py-3 shadow-comic ${
               toast.tone === 'success' ? 'bg-amber' : 'bg-accent-red'
             }`}
           >
@@ -75,7 +75,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               type="button"
               onClick={() => dismiss(toast.id)}
               aria-label="Dismiss notification"
-              className={`shrink-0 rounded-full p-1 transition hover:bg-black/10 ${
+              className={`tap-target shrink-0 rounded-full p-1 transition-colors duration-fast ease-ui hover:bg-black/10 ${
                 toast.tone === 'success' ? 'text-ink-dark' : 'text-white'
               }`}
             >

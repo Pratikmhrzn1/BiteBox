@@ -54,7 +54,7 @@ export default function CartDrawer() {
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-[rgba(36,26,18,0.55)] transition-opacity duration-300 ease-in-out ${
+      className={`fixed inset-0 z-50 bg-[rgba(36,26,18,0.55)] transition-opacity duration-slow ease-ui ${
         isCartOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
       }`}
       onClick={closeCart}
@@ -68,7 +68,7 @@ export default function CartDrawer() {
         role="dialog"
         aria-modal="true"
         aria-label="Your order"
-        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md transform flex-col overflow-hidden border-l-2 border-ink-dark bg-card-bg shadow-comic-drawer transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md transform flex-col overflow-hidden border-l-2 border-ink-dark bg-card-bg shadow-comic-drawer transition-transform duration-slow ease-ui ${
           isCartOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         onClick={(event) => event.stopPropagation()}
@@ -88,7 +88,7 @@ export default function CartDrawer() {
             ref={closeButtonRef}
             type="button"
             onClick={closeCart}
-            className="rounded-full border-2 border-ink-dark bg-card-bg p-1.5 text-ink-dark shadow-comic-xs transition hover:bg-accent-red hover:text-white"
+            className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-ink-dark bg-card-bg text-ink-dark shadow-comic-xs transition-[background-color,color,transform] duration-fast ease-ui hover:bg-accent-red hover:text-white active:scale-[0.96]"
             aria-label="Close cart"
           >
             <X className="h-5 w-5" />
@@ -105,8 +105,8 @@ export default function CartDrawer() {
                 aria-pressed={orderType === type.value}
                 className={
                   orderType === type.value
-                    ? 'flex-1 rounded-full bg-accent-red px-3 py-2 font-sans text-sm font-bold text-white shadow-comic-sm transition'
-                    : 'flex-1 rounded-full border-2 border-ink-dark bg-cream px-3 py-2 font-sans text-sm font-bold text-ink-dark transition hover:bg-amber'
+                    ? 'min-h-11 flex-1 rounded-full bg-accent-red px-3 font-sans text-sm font-bold text-white shadow-comic-sm transition-[background-color,transform] duration-fast ease-ui active:scale-[0.96]'
+                    : 'min-h-11 flex-1 rounded-full border-2 border-ink-dark bg-cream px-3 font-sans text-sm font-bold text-ink-dark transition-[background-color,transform] duration-fast ease-ui hover:bg-amber active:scale-[0.96]'
                 }
               >
                 {type.label}
@@ -154,7 +154,9 @@ export default function CartDrawer() {
                         <button
                           type="button"
                           onClick={() => removeItem(item.key)}
-                          className="shrink-0 rounded-full p-0.5 text-ink-muted transition hover:bg-accent-red hover:text-white"
+                          /* tap-target keeps the 44px touch area without
+                             growing a corner dismiss into the layout. */
+                          className="tap-target shrink-0 rounded-full p-0.5 text-ink-muted transition-colors duration-fast ease-ui hover:bg-accent-red hover:text-white"
                           aria-label={`Remove ${item.name} from order`}
                         >
                           <X className="h-3.5 w-3.5" />
@@ -166,25 +168,28 @@ export default function CartDrawer() {
                         </p>
                       )}
                       <div className="mt-2 flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-1 rounded-full border-2 border-ink-dark bg-card-bg px-1.5 py-0.5">
+                        {/* Quantity is the most-tapped control in the cart.
+                            Each step was an 18px target; they are now a full
+                            44px, which sets the stepper's height. */}
+                        <div className="flex items-center rounded-full border-2 border-ink-dark bg-card-bg">
                           <button
                             type="button"
                             onClick={() => updateQuantity(item.key, item.quantity - 1)}
-                            className="p-0.5 text-ink-dark transition hover:text-accent-red"
+                            className="flex h-11 w-11 items-center justify-center rounded-full text-ink-dark transition-[color,transform] duration-fast ease-ui hover:text-accent-red active:scale-[0.96]"
                             aria-label={`Decrease quantity of ${item.name}`}
                           >
-                            <Minus className="h-3.5 w-3.5" />
+                            <Minus className="h-4 w-4" />
                           </button>
-                          <span className="min-w-5 text-center font-sans text-sm font-bold text-ink-dark">
+                          <span className="nums min-w-6 text-center font-sans text-sm font-bold text-ink-dark">
                             {item.quantity}
                           </span>
                           <button
                             type="button"
                             onClick={() => updateQuantity(item.key, item.quantity + 1)}
-                            className="p-0.5 text-ink-dark transition hover:text-accent-red"
+                            className="flex h-11 w-11 items-center justify-center rounded-full text-ink-dark transition-[color,transform] duration-fast ease-ui hover:text-accent-red active:scale-[0.96]"
                             aria-label={`Increase quantity of ${item.name}`}
                           >
-                            <Plus className="h-3.5 w-3.5" />
+                            <Plus className="h-4 w-4" />
                           </button>
                         </div>
                         <span className="shrink-0 font-sans text-sm font-bold text-accent-red">
@@ -235,7 +240,7 @@ export default function CartDrawer() {
               <button
                 type="button"
                 onClick={clearCart}
-                className="inline-flex items-center gap-1.5 font-sans text-xs font-semibold text-ink-muted transition hover:text-accent-red"
+                className="inline-flex items-center gap-1.5 font-sans text-xs font-semibold text-ink-muted transition-colors duration-fast ease-ui hover:text-accent-red"
               >
                 <Trash2 className="h-3.5 w-3.5" aria-hidden="true" /> Clear box
               </button>

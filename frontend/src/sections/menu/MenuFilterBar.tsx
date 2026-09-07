@@ -17,8 +17,8 @@ type MenuFilterBarProps = {
 
 const pill = (active: boolean) =>
   active
-    ? 'shrink-0 rounded-chip bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white shadow-comic-sm transition hover:-translate-y-0.5 active:translate-y-0 active:shadow-none'
-    : 'shrink-0 rounded-chip border-2 border-ink-dark bg-white px-4 py-2 font-sans text-sm font-bold text-ink-dark shadow-comic-sm transition hover:-translate-y-0.5 hover:bg-amber active:translate-y-0 active:shadow-none'
+    ? 'shrink-0 rounded-chip bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white shadow-comic-sm transition-[background-color,border-color,color,box-shadow,transform] duration-fast ease-ui hover:-translate-y-0.5 active:translate-y-0 active:shadow-none'
+    : 'shrink-0 rounded-chip border-2 border-ink-dark bg-white px-4 py-2 font-sans text-sm font-bold text-ink-dark shadow-comic-sm transition-[background-color,border-color,color,box-shadow,transform] duration-fast ease-ui hover:-translate-y-0.5 hover:bg-amber active:translate-y-0 active:shadow-none'
 
 export default function MenuFilterBar({
   categories,
@@ -56,7 +56,7 @@ export default function MenuFilterBar({
           type="button"
           onClick={() => onVegOnlyChange(!vegOnly)}
           aria-pressed={vegOnly}
-          className={`rounded-chip border-2 border-ink-dark px-3 py-1.5 font-sans text-xs font-bold uppercase shadow-comic-xs transition ${
+          className={`rounded-chip border-2 border-ink-dark px-3 py-1.5 font-sans text-xs font-bold uppercase shadow-comic-xs transition-colors duration-fast ease-ui ${
             vegOnly ? 'bg-olive text-white' : 'bg-white text-ink-dark hover:bg-cream'
           }`}
         >

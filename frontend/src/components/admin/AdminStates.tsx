@@ -25,7 +25,7 @@ export function AdminError({
         <button
           type="button"
           onClick={onRetry}
-          className="rounded-chip border border-white/20 px-4 py-2 font-sans text-sm font-bold text-cream transition hover:bg-white/10"
+          className="rounded-chip border border-white/20 px-4 py-2 font-sans text-sm font-bold text-cream transition-colors duration-fast ease-ui hover:bg-white/10"
         >
           Retry
         </button>

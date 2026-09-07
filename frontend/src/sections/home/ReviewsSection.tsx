@@ -67,9 +67,28 @@ export default function ReviewsSection() {
     }
   }
 
-  // Reviews are a bonus section: while they load, or if the request failed,
-  // render nothing rather than a spinner or an error the visitor cannot act on.
-  if (reviewsState.loading || reviewsState.error) return null
+  // Reviews are a bonus section: a failed request renders nothing rather than
+  // an error the visitor cannot act on.
+  if (reviewsState.error) return null
+
+  // While loading, hold the space. Returning null here made the Locations
+  // section below jump up and then back down once reviews arrived.
+  if (reviewsState.loading) {
+    return (
+      <section className="mt-14" aria-busy="true">
+        <SectionHeading>What People Say</SectionHeading>
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 3 }, (_, index) => (
+            <div
+              key={index}
+              className="card-comic h-40 animate-pulse rounded-card"
+              aria-hidden="true"
+            />
+          ))}
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className="mt-14">
