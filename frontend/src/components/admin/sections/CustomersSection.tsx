@@ -35,7 +35,7 @@ export default function CustomersSection() {
   return (
     <div className="space-y-4">
       <div className="relative sm:max-w-sm">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8a6a4f]" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-admin-muted" />
         <input
           type="search"
           value={query}
@@ -45,13 +45,13 @@ export default function CustomersSection() {
         />
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-white/5 bg-[#3D1F0E]">
+      <div className="overflow-hidden rounded-2xl border border-white/5 bg-admin-surface">
         {filtered.length === 0 ? (
           <EmptyState title="No customers found" hint="Try a different search." />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px] text-left font-sans text-sm">
-              <thead className="text-[11px] font-bold tracking-widest text-[#8a6a4f] uppercase">
+              <thead className="text-[11px] font-bold tracking-widest text-admin-muted uppercase">
                 <tr>
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3">Email</th>
@@ -67,8 +67,8 @@ export default function CustomersSection() {
                     <td className="px-4 py-3 font-semibold text-cream">
                       {user.name}
                     </td>
-                    <td className="px-4 py-3 text-[#c9a583]">{user.email}</td>
-                    <td className="px-4 py-3 text-[#c9a583]">
+                    <td className="px-4 py-3 text-admin-ink">{user.email}</td>
+                    <td className="px-4 py-3 text-admin-ink">
                       {user.phone ?? '—'}
                     </td>
                     <td className="px-4 py-3">
@@ -76,7 +76,7 @@ export default function CustomersSection() {
                         className={`rounded-full px-2.5 py-1 font-sans text-xs font-bold ${
                           user.role === 'ADMIN'
                             ? 'bg-accent-red/20 text-accent-red'
-                            : 'bg-white/5 text-[#c9a583]'
+                            : 'bg-white/5 text-admin-ink'
                         }`}
                       >
                         {user.role}
@@ -85,7 +85,7 @@ export default function CustomersSection() {
                     <td className="px-4 py-3 font-bold text-amber">
                       {user._count.orders}
                     </td>
-                    <td className="px-4 py-3 text-[#c9a583]">
+                    <td className="px-4 py-3 text-admin-ink">
                       {formatDate(user.createdAt)}
                     </td>
                   </tr>

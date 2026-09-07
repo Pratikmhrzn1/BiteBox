@@ -146,8 +146,8 @@ export default function DashboardSection({
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {kpis.map(({ label, value, note, Icon, color }) => (
-          <div key={label} className="rounded-2xl border border-white/5 bg-[#3D1F0E] p-5">
-            <div className="flex items-center gap-2 text-[#8a6a4f]">
+          <div key={label} className="rounded-2xl border border-white/5 bg-admin-surface p-5">
+            <div className="flex items-center gap-2 text-admin-muted">
               <Icon className="h-4 w-4" />
               <p className="font-sans text-[11px] font-bold tracking-widest uppercase">
                 {label}
@@ -156,7 +156,7 @@ export default function DashboardSection({
             <p className={`mt-2 truncate font-sans text-2xl font-bold ${color}`}>
               {value}
             </p>
-            <p className="mt-0.5 font-sans text-xs font-semibold text-[#a07c5c]">
+            <p className="mt-0.5 font-sans text-xs font-semibold text-admin-muted">
               {note}
             </p>
           </div>
@@ -177,14 +177,14 @@ export default function DashboardSection({
           }
         >
           {liveOrders.length === 0 ? (
-            <p className="py-6 text-center font-sans text-sm text-[#8a6a4f]">
+            <p className="py-6 text-center font-sans text-sm text-admin-muted">
               Nothing in the kitchen right now.
             </p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full min-w-[460px] text-left font-sans text-sm">
                 <thead>
-                  <tr className="text-[11px] font-bold tracking-widest text-[#8a6a4f] uppercase">
+                  <tr className="text-[11px] font-bold tracking-widest text-admin-muted uppercase">
                     <th className="py-2 pr-3">Order</th>
                     <th className="py-2 pr-3">Customer</th>
                     <th className="py-2 pr-3">Time</th>
@@ -204,10 +204,10 @@ export default function DashboardSection({
                         </p>
                         <TypeBadge type={order.orderType} />
                       </td>
-                      <td className="py-3 pr-3 text-[#c9a583]">
+                      <td className="py-3 pr-3 text-admin-ink">
                         {formatTime(order.createdAt)}
                       </td>
-                      <td className="py-3 pr-3 text-[#c9a583]">
+                      <td className="py-3 pr-3 text-admin-ink">
                         {order.items.reduce((sum, line) => sum + line.quantity, 0)} items
                       </td>
                       <td className="py-3">
@@ -231,13 +231,13 @@ export default function DashboardSection({
                     onClick={() => onOpenSection(section)}
                     className="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left transition hover:bg-white/5"
                   >
-                    <Icon className="h-4 w-4 shrink-0 text-[#8a6a4f]" />
+                    <Icon className="h-4 w-4 shrink-0 text-admin-muted" />
                     <span className="flex-1 font-sans text-sm font-semibold text-cream">
                       {label}
                     </span>
                     <span
                       className={`font-sans text-sm font-bold ${
-                        value > 0 ? 'text-amber' : 'text-[#8a6a4f]'
+                        value > 0 ? 'text-amber' : 'text-admin-muted'
                       }`}
                     >
                       {value}
@@ -250,7 +250,7 @@ export default function DashboardSection({
 
           <PanelCard title="Top Items">
             {topItems.length === 0 ? (
-              <p className="py-4 text-center font-sans text-sm text-[#8a6a4f]">
+              <p className="py-4 text-center font-sans text-sm text-admin-muted">
                 No sales recorded yet.
               </p>
             ) : (

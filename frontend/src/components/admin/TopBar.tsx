@@ -25,20 +25,20 @@ export default function TopBar({ title, subtitle, pendingCount = 0 }: TopBarProp
   const clock = useLiveClock()
 
   return (
-    <header className="sticky top-0 z-30 border-b border-white/5 bg-[#1F100A]/95 px-6 py-5 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-white/5 bg-admin-bg/95 px-6 py-5 backdrop-blur">
       <div className="flex items-center justify-between gap-4">
         <div>
           <h1 className="font-sans text-2xl font-bold text-cream">{title}</h1>
-          <p className="mt-0.5 font-sans text-sm text-[#a07c5c]">{subtitle}</p>
+          <p className="mt-0.5 font-sans text-sm text-admin-muted">{subtitle}</p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="hidden items-center gap-2 rounded-lg border border-white/10 bg-[#2A150A] px-3 py-2 font-mono text-sm text-amber sm:flex">
+          <div className="hidden items-center gap-2 rounded-lg border border-white/10 bg-admin-field px-3 py-2 font-mono text-sm text-amber sm:flex">
             <Clock className="h-4 w-4" />
             {clock}
           </div>
           <div
-            className="relative rounded-lg border border-white/10 bg-[#2A150A] p-2.5 text-[#c9a583]"
+            className="relative rounded-lg border border-white/10 bg-admin-field p-2.5 text-admin-ink"
             title={`${pendingCount} item${pendingCount === 1 ? '' : 's'} need attention`}
           >
             <Bell className="h-5 w-5" aria-hidden="true" />

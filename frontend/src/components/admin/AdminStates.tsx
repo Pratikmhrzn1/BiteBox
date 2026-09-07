@@ -5,7 +5,7 @@ export function AdminLoading({ label = 'Loading…' }: { label?: string }) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
       <RefreshCw className="h-6 w-6 animate-spin text-amber" aria-hidden="true" />
-      <p className="font-sans text-sm font-semibold text-[#a07c5c]">{label}</p>
+      <p className="font-sans text-sm font-semibold text-admin-muted">{label}</p>
     </div>
   )
 }

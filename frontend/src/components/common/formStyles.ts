@@ -1,6 +1,6 @@
 /** Shared input styling so every public form looks the same. */
 export const fieldClass = (hasError: boolean): string =>
-  `w-full rounded-xl border-2 bg-white px-4 py-3 font-sans text-sm text-ink-dark placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-amber ${
+  `w-full rounded-xl border-2 bg-white px-4 py-3 font-sans text-sm text-ink-dark placeholder:text-ink-muted ${
     hasError ? 'border-accent-red' : 'border-ink-dark'
   }`
 

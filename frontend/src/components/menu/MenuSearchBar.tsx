@@ -20,7 +20,7 @@ export default function MenuSearchBar({
         value={query}
         onChange={(event) => onQueryChange(event.target.value)}
         placeholder="Search menu..."
-        className="w-full rounded-lg border-2 border-ink-dark bg-white py-2 pl-9 pr-3 font-sans text-sm font-medium text-ink-dark shadow-[3px_3px_0_#241A12] outline-none placeholder:text-ink-muted focus:bg-amber/20"
+        className="w-full rounded-lg border-2 border-ink-dark bg-white py-2 pl-9 pr-3 font-sans text-sm font-medium text-ink-dark shadow-[3px_3px_0_#241A12] placeholder:text-ink-muted focus:bg-amber/20"
       />
     </div>
   )

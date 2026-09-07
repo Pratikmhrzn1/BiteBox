@@ -151,7 +151,7 @@ export default function MenuItemModal({
             <button
               type="button"
               onClick={() => removeOption(field, option.id)}
-              className="rounded-lg p-2 text-[#c9a583] transition hover:bg-red-500/20 hover:text-red-300"
+              className="rounded-lg p-2 text-admin-ink transition hover:bg-red-500/20 hover:text-red-300"
               aria-label={`Remove ${field === 'sizes' ? 'size' : 'extra'}`}
             >
               <Trash2 className="h-4 w-4" />
@@ -159,7 +159,7 @@ export default function MenuItemModal({
           </div>
         ))}
         {draft[field].length === 0 && (
-          <p className="font-sans text-xs text-[#8a6a4f]">{hint}</p>
+          <p className="font-sans text-xs text-admin-muted">{hint}</p>
         )}
       </div>
     </div>
@@ -190,7 +190,7 @@ export default function MenuItemModal({
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
           <div className="sm:w-36">
             <span className={labelClass}>Image</span>
-            <div className="relative aspect-square overflow-hidden rounded-xl border border-white/10 bg-[#2A150A]">
+            <div className="relative aspect-square overflow-hidden rounded-xl border border-white/10 bg-admin-field">
               {draft.image ? (
                 <img
                   src={draft.image}
@@ -198,7 +198,7 @@ export default function MenuItemModal({
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <div className="flex h-full w-full items-center justify-center font-sans text-xs text-[#8a6a4f]">
+                <div className="flex h-full w-full items-center justify-center font-sans text-xs text-admin-muted">
                   No image
                 </div>
               )}
@@ -288,13 +288,13 @@ export default function MenuItemModal({
           ).map(([key, label]) => (
             <label
               key={key}
-              className="flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-[#2A150A] px-3 py-2 font-sans text-sm font-semibold text-cream"
+              className="flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-admin-field px-3 py-2 font-sans text-sm font-semibold text-cream"
             >
               <input
                 type="checkbox"
                 checked={Boolean(draft[key])}
                 onChange={(event) => set(key, event.target.checked)}
-                className="h-4 w-4 accent-[#E8452C]"
+                className="h-4 w-4 accent-accent-red"
               />
               {label}
             </label>

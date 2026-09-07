@@ -32,7 +32,7 @@ export default function MenuFilterBar({
   onVegOnlyChange,
 }: MenuFilterBarProps) {
   return (
-    <div className="sticky top-[68px] z-30 -mx-4 mt-6 border-y-2 border-ink-dark bg-card-bg px-4 py-3 sm:-mx-6 sm:px-6 lg:top-16 lg:-mx-8 lg:px-8">
+    <div className="sticky top-header z-30 -mx-4 mt-6 border-y-2 border-ink-dark bg-card-bg px-4 py-3 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
       <div className="flex flex-col gap-3 md:flex-row md:items-center">
         <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {categories.map((category) => (
@@ -68,7 +68,7 @@ export default function MenuFilterBar({
           <select
             value={sort}
             onChange={(event) => onSortChange(event.target.value as SortOption)}
-            className="cursor-pointer rounded-lg border-2 border-ink-dark bg-white px-3 py-1.5 font-sans text-xs font-bold text-ink-dark shadow-[2px_2px_0_#241A12] focus:outline-none focus:ring-2 focus:ring-amber"
+            className="cursor-pointer rounded-lg border-2 border-ink-dark bg-white px-3 py-1.5 font-sans text-xs font-bold text-ink-dark shadow-[2px_2px_0_#241A12]"
           >
             {SORT_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>

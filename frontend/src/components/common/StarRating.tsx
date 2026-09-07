@@ -49,7 +49,7 @@ export default function StarRating({
           aria-checked={star === rating}
           aria-label={`${star} star${star === 1 ? '' : 's'}`}
           onClick={() => onChange(star)}
-          className="rounded transition hover:scale-110 focus:outline-none focus:ring-2 focus:ring-amber"
+          className="rounded transition hover:scale-110"
         >
           <Star
             className={`${iconClass} ${star <= rating ? 'text-amber' : 'text-ink-muted/35'}`}

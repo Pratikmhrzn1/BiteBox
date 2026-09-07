@@ -10,6 +10,8 @@ type CheckoutSummaryProps = {
   total: number
   onBackToMenu: () => void
   onPlaceOrder: () => void
+  /** Mirrors the page's submit state so this button cannot fire a second order. */
+  submitting?: boolean
 }
 
 export default function CheckoutSummary({
@@ -20,6 +22,7 @@ export default function CheckoutSummary({
   total,
   onBackToMenu,
   onPlaceOrder,
+  submitting = false,
 }: CheckoutSummaryProps) {
   return (
     <div className="card-comic rounded-2xl p-6 shadow-[8px_8px_0_#241A12] sm:p-8">
@@ -45,16 +48,18 @@ export default function CheckoutSummary({
         <button
           type="button"
           onClick={onBackToMenu}
-          className="btn-comic-cream px-6 py-3 text-base"
+          disabled={submitting}
+          className="btn-comic-cream px-6 py-3 text-base disabled:cursor-not-allowed disabled:opacity-60"
         >
           Add More
         </button>
         <button
           type="button"
           onClick={onPlaceOrder}
-          className="btn-comic-red flex-1 px-6 py-3 text-base"
+          disabled={submitting}
+          className="btn-comic-red flex-1 px-6 py-3 text-base disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Place Order
+          {submitting ? 'Placing order…' : 'Place Order'}
         </button>
       </div>
     </div>

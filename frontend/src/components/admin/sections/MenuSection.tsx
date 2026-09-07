@@ -137,7 +137,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
               className={`rounded-lg px-3 py-1.5 font-sans text-sm font-bold transition ${
                 category === cat
                   ? 'bg-accent-red text-white'
-                  : 'border border-white/15 text-[#c9a583] hover:bg-white/5'
+                  : 'border border-white/15 text-admin-ink hover:bg-white/5'
               }`}
             >
               {cat}
@@ -150,7 +150,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
       </div>
 
       <div className="relative sm:max-w-sm">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8a6a4f]" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-admin-muted" />
         <input
           type="search"
           value={query}
@@ -167,7 +167,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
           {filtered.map((item) => (
             <div
               key={item.id}
-              className={`group overflow-hidden rounded-2xl border border-white/5 bg-[#3D1F0E] transition ${
+              className={`group overflow-hidden rounded-2xl border border-white/5 bg-admin-surface transition ${
                 busyId === item.id ? 'opacity-50' : ''
               } ${item.available ? '' : 'opacity-70'}`}
             >
@@ -177,8 +177,8 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                   alt={item.name}
                   className="h-full w-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#3D1F0E] to-transparent" />
-                <span className="absolute left-3 top-3 rounded-full bg-[#2A150A]/90 px-2 py-0.5 font-sans text-[10px] font-bold tracking-widest text-amber uppercase">
+                <div className="absolute inset-0 bg-gradient-to-t from-admin-surface to-transparent" />
+                <span className="absolute left-3 top-3 rounded-full bg-admin-field/90 px-2 py-0.5 font-sans text-[10px] font-bold tracking-widest text-amber uppercase">
                   {item.category}
                 </span>
                 {!item.available && (
@@ -199,7 +199,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                   className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full transition ${
                     item.bestSeller
                       ? 'bg-amber text-[#241A12]'
-                      : 'bg-[#2A150A]/80 text-[#8a6a4f] hover:text-amber'
+                      : 'bg-admin-field/80 text-admin-muted hover:text-amber'
                   }`}
                 >
                   <Star
@@ -218,7 +218,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                     {formatPrice(item.price)}
                   </span>
                 </div>
-                <p className="line-clamp-2 font-sans text-xs text-[#a07c5c]">
+                <p className="line-clamp-2 font-sans text-xs text-admin-muted">
                   {item.description}
                 </p>
                 <div className="flex flex-wrap gap-1.5 pt-1">
@@ -238,12 +238,12 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                     </span>
                   )}
                   {item.sizes.length > 0 && (
-                    <span className="rounded-full bg-white/5 px-2 py-0.5 font-sans text-[10px] font-bold text-[#c9a583]">
+                    <span className="rounded-full bg-white/5 px-2 py-0.5 font-sans text-[10px] font-bold text-admin-ink">
                       {item.sizes.length} sizes
                     </span>
                   )}
                   {item.extras.length > 0 && (
-                    <span className="rounded-full bg-white/5 px-2 py-0.5 font-sans text-[10px] font-bold text-[#c9a583]">
+                    <span className="rounded-full bg-white/5 px-2 py-0.5 font-sans text-[10px] font-bold text-admin-ink">
                       {item.extras.length} extras
                     </span>
                   )}
@@ -260,7 +260,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                       )
                     }
                     title={item.available ? 'Hide from menu' : 'Show on menu'}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-white/5 px-2.5 py-1.5 font-sans text-xs font-bold text-[#c9a583] transition hover:bg-white/10"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-white/5 px-2.5 py-1.5 font-sans text-xs font-bold text-admin-ink transition hover:bg-white/10"
                   >
                     {item.available ? (
                       <>
@@ -322,7 +322,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
             </>
           }
         >
-          <p className="font-sans text-sm text-[#c9a583]">
+          <p className="font-sans text-sm text-admin-ink">
             Permanently remove{' '}
             <span className="font-bold text-cream">{deleting.name}</span> from the
             menu? Past orders keep their own record, so history is unaffected. To

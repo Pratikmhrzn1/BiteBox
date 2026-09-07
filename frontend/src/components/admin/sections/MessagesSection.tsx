@@ -17,8 +17,8 @@ const FILTERS: ('All' | MessageStatus)[] = ['All', 'NEW', 'READ', 'ARCHIVED']
 
 const STATUS_STYLES: Record<MessageStatus, string> = {
   NEW: 'bg-accent-red/20 text-accent-red',
-  READ: 'bg-white/5 text-[#c9a583]',
-  ARCHIVED: 'bg-white/5 text-[#8a6a4f]',
+  READ: 'bg-white/5 text-admin-ink',
+  ARCHIVED: 'bg-white/5 text-admin-muted',
 }
 
 type MessagesSectionProps = {
@@ -118,7 +118,7 @@ export default function MessagesSection({ onChanged }: MessagesSectionProps) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-2xl border border-white/5 bg-[#3D1F0E]">
+        <div className="rounded-2xl border border-white/5 bg-admin-surface">
           <EmptyState
             title="No messages here"
             hint="Enquiries from the contact form land in this inbox."
@@ -129,7 +129,7 @@ export default function MessagesSection({ onChanged }: MessagesSectionProps) {
           {filtered.map((message) => (
             <li
               key={message.id}
-              className={`rounded-2xl border border-white/5 bg-[#3D1F0E] p-5 transition ${
+              className={`rounded-2xl border border-white/5 bg-admin-surface p-5 transition ${
                 busyId === message.id ? 'opacity-50' : ''
               }`}
             >
@@ -148,7 +148,7 @@ export default function MessagesSection({ onChanged }: MessagesSectionProps) {
                       {message.subject}
                     </span>
                   </div>
-                  <p className="mt-0.5 font-sans text-xs text-[#8a6a4f]">
+                  <p className="mt-0.5 font-sans text-xs text-admin-muted">
                     <a
                       href={`mailto:${message.email}`}
                       className="transition hover:text-amber"
@@ -161,7 +161,7 @@ export default function MessagesSection({ onChanged }: MessagesSectionProps) {
                 </div>
               </div>
 
-              <p className="mt-3 whitespace-pre-wrap font-sans text-sm text-[#c9a583]">
+              <p className="mt-3 whitespace-pre-wrap font-sans text-sm text-admin-ink">
                 {message.message}
               </p>
 

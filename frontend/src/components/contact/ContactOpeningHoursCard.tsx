@@ -10,7 +10,7 @@ export default function ContactOpeningHoursCard({
   openNow,
 }: ContactOpeningHoursCardProps) {
   return (
-    <div className="rounded-2xl border-2 border-ink-dark bg-gradient-to-br from-olive to-espresso-dark p-6 text-cream shadow-[4px_4px_0_#241A12]">
+    <div className="rounded-2xl border-2 border-ink-dark bg-gradient-to-br from-olive-deep to-espresso-dark p-6 text-cream shadow-[4px_4px_0_#241A12]">
       <div className="flex items-center justify-between gap-4">
         <h2 className="flex items-center gap-2 font-display text-2xl uppercase">
           <span aria-hidden="true">🕐</span> {label}

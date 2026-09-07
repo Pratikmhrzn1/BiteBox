@@ -151,7 +151,7 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
               className={`rounded-lg px-3 py-1.5 font-sans text-sm font-bold transition ${
                 filter === id
                   ? 'bg-accent-red text-white'
-                  : 'border border-white/15 text-[#c9a583] hover:bg-white/5'
+                  : 'border border-white/15 text-admin-ink hover:bg-white/5'
               }`}
             >
               {id === 'All' ? 'All' : STATUS_LABELS[id]}
@@ -176,7 +176,7 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
       </div>
 
       <div className="relative sm:max-w-md">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8a6a4f]" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-admin-muted" />
         <input
           type="search"
           value={query}
@@ -186,7 +186,7 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
         />
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-white/5 bg-[#3D1F0E]">
+      <div className="overflow-hidden rounded-2xl border border-white/5 bg-admin-surface">
         {filteredOrders.length === 0 ? (
           <EmptyState
             title="No orders found"
@@ -195,7 +195,7 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[860px] text-left font-sans text-sm">
-              <thead className="text-[11px] font-bold tracking-widest text-[#8a6a4f] uppercase">
+              <thead className="text-[11px] font-bold tracking-widest text-admin-muted uppercase">
                 <tr>
                   <th className="px-4 py-3">Order</th>
                   <th className="px-4 py-3">Customer</th>
@@ -220,7 +220,7 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
                     </td>
                     <td className="px-4 py-3">
                       <p className="font-semibold text-cream">{order.customerName}</p>
-                      <p className="text-xs text-[#8a6a4f]">{order.customerPhone}</p>
+                      <p className="text-xs text-admin-muted">{order.customerPhone}</p>
                     </td>
                     <td className="px-4 py-3">
                       <TypeBadge type={order.orderType} />
@@ -234,7 +234,7 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
                     <td className="px-4 py-3 font-bold text-cream">
                       {formatPrice(order.total)}
                     </td>
-                    <td className="px-4 py-3 text-[#c9a583]">
+                    <td className="px-4 py-3 text-admin-ink">
                       {formatDateTime(order.createdAt)}
                     </td>
                     <td className="px-4 py-3">
@@ -283,25 +283,25 @@ function OrderDetailPanel({
   return (
     <div className="fixed inset-0 z-40 flex justify-end bg-black/60" onClick={onClose}>
       <div
-        className="h-full w-full max-w-md overflow-y-auto border-l border-white/10 bg-[#2A150A] shadow-2xl"
+        className="h-full w-full max-w-md overflow-y-auto border-l border-white/10 bg-admin-field shadow-2xl"
         onClick={(event) => event.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label={`Order ${order.reference} details`}
       >
-        <div className="sticky top-0 flex items-center justify-between border-b border-white/5 bg-[#2A150A] px-5 py-4">
+        <div className="sticky top-0 flex items-center justify-between border-b border-white/5 bg-admin-field px-5 py-4">
           <div>
             <p className="font-mono text-base font-bold text-amber">
               {order.reference}
             </p>
-            <p className="font-sans text-xs text-[#8a6a4f]">
+            <p className="font-sans text-xs text-admin-muted">
               {formatDateTime(order.createdAt)}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-[#c9a583] transition hover:bg-white/10 hover:text-cream"
+            className="rounded-lg p-1.5 text-admin-ink transition hover:bg-white/10 hover:text-cream"
             aria-label="Close order details"
           >
             <X className="h-5 w-5" />
@@ -314,16 +314,16 @@ function OrderDetailPanel({
               <p className="font-sans text-lg font-bold text-cream">
                 {order.customerName}
               </p>
-              <p className="font-sans text-sm text-[#8a6a4f]">
+              <p className="font-sans text-sm text-admin-muted">
                 {order.customerPhone}
               </p>
               {order.customerAddress && (
-                <p className="mt-1 font-sans text-sm text-[#c9a583]">
+                <p className="mt-1 font-sans text-sm text-admin-ink">
                   {order.customerAddress}
                 </p>
               )}
               {order.user && (
-                <p className="mt-1 font-sans text-xs text-[#8a6a4f]">
+                <p className="mt-1 font-sans text-xs text-admin-muted">
                   Account: {order.user.email}
                 </p>
               )}
@@ -361,7 +361,7 @@ function OrderDetailPanel({
                     </span>
                   </div>
                   {line.extras.length > 0 && (
-                    <p className="mt-1 font-sans text-xs text-[#a07c5c]">
+                    <p className="mt-1 font-sans text-xs text-admin-muted">
                       {line.extras.map((extra) => extra.label).join(', ')}
                     </p>
                   )}
@@ -371,18 +371,18 @@ function OrderDetailPanel({
           </div>
 
           <div className="space-y-1.5 rounded-lg border border-white/10 px-4 py-3 font-sans text-sm">
-            <div className="flex justify-between text-[#c9a583]">
+            <div className="flex justify-between text-admin-ink">
               <span>Subtotal</span>
               <span>{formatPrice(order.subtotal)}</span>
             </div>
             {order.deliveryFee > 0 && (
-              <div className="flex justify-between text-[#c9a583]">
+              <div className="flex justify-between text-admin-ink">
                 <span>Delivery</span>
                 <span>{formatPrice(order.deliveryFee)}</span>
               </div>
             )}
             <div className="flex justify-between border-t border-white/10 pt-1.5">
-              <span className="text-[#c9a583]">Total</span>
+              <span className="text-admin-ink">Total</span>
               <span className="text-xl font-bold text-amber">
                 {formatPrice(order.total)}
               </span>
@@ -403,7 +403,7 @@ function OrderDetailPanel({
                   className={`rounded-lg px-2.5 py-1.5 font-sans text-xs font-bold transition disabled:opacity-50 ${
                     order.status === status
                       ? 'bg-accent-red text-white'
-                      : 'border border-white/15 text-[#c9a583] hover:bg-white/5'
+                      : 'border border-white/15 text-admin-ink hover:bg-white/5'
                   }`}
                 >
                   {STATUS_LABELS[status]}
@@ -427,7 +427,7 @@ function OrderDetailPanel({
                     className={`rounded-lg px-2.5 py-1.5 font-sans text-xs font-bold capitalize transition disabled:opacity-50 ${
                       order.paymentStatus === status
                         ? 'bg-accent-red text-white'
-                        : 'border border-white/15 text-[#c9a583] hover:bg-white/5'
+                        : 'border border-white/15 text-admin-ink hover:bg-white/5'
                     }`}
                   >
                     {status.toLowerCase()}
@@ -447,7 +447,7 @@ function OrderDetailPanel({
             </button>
           </div>
 
-          <p className="text-center font-sans text-xs text-[#8a6a4f]">
+          <p className="text-center font-sans text-xs text-admin-muted">
             {ORDER_TYPE_LABELS[order.orderType]} order
           </p>
         </div>

@@ -18,7 +18,7 @@ const FILTERS: ('All' | ReviewStatus)[] = ['All', 'PENDING', 'APPROVED', 'HIDDEN
 const STATUS_STYLES: Record<ReviewStatus, string> = {
   PENDING: 'bg-amber/20 text-amber',
   APPROVED: 'bg-emerald-500/15 text-emerald-300',
-  HIDDEN: 'bg-white/5 text-[#8a6a4f]',
+  HIDDEN: 'bg-white/5 text-admin-muted',
 }
 
 type ReviewsSectionProps = {
@@ -135,7 +135,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
                   />
                 ))}
               </div>
-              <p className="mt-1 font-sans text-xs text-[#8a6a4f]">
+              <p className="mt-1 font-sans text-xs text-admin-muted">
                 {stats.total} approved
               </p>
             </div>
@@ -143,7 +143,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
             <ul className="flex-1 space-y-1">
               {[5, 4, 3, 2, 1].map((star) => (
                 <li key={star} className="flex items-center gap-2">
-                  <span className="w-3 font-sans text-xs font-bold text-[#8a6a4f]">
+                  <span className="w-3 font-sans text-xs font-bold text-admin-muted">
                     {star}
                   </span>
                   <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/5">
@@ -154,7 +154,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
                       }}
                     />
                   </div>
-                  <span className="w-6 text-right font-sans text-xs text-[#c9a583]">
+                  <span className="w-6 text-right font-sans text-xs text-admin-ink">
                     {stats.counts[star - 1]}
                   </span>
                 </li>
@@ -164,7 +164,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
         </PanelCard>
 
         <PanelCard title="Moderation Queue">
-          <p className="font-sans text-sm text-[#c9a583]">
+          <p className="font-sans text-sm text-admin-ink">
             {counts.PENDING === 0
               ? 'Nothing waiting — every review has been actioned.'
               : `${counts.PENDING} review${counts.PENDING === 1 ? '' : 's'} waiting for a decision. New reviews stay hidden from the site until approved.`}
@@ -202,7 +202,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-2xl border border-white/5 bg-[#3D1F0E]">
+        <div className="rounded-2xl border border-white/5 bg-admin-surface">
           <EmptyState title="No reviews here" hint="Try a different filter." />
         </div>
       ) : (
@@ -210,7 +210,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
           {filtered.map((review) => (
             <article
               key={review.id}
-              className={`rounded-2xl border border-white/5 bg-[#3D1F0E] p-5 transition ${
+              className={`rounded-2xl border border-white/5 bg-admin-surface p-5 transition ${
                 busyId === review.id ? 'opacity-50' : ''
               }`}
             >
@@ -233,7 +233,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
                     {review.status}
                   </span>
                 </div>
-                <span className="font-sans text-xs text-[#8a6a4f]">
+                <span className="font-sans text-xs text-admin-muted">
                   {formatDate(review.createdAt)}
                 </span>
               </div>
@@ -241,8 +241,8 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
               <h3 className="mt-2 font-sans text-base font-bold text-cream">
                 {review.title}
               </h3>
-              <p className="mt-1 font-sans text-sm text-[#c9a583]">{review.body}</p>
-              <p className="mt-2 font-sans text-xs font-semibold text-[#8a6a4f]">
+              <p className="mt-1 font-sans text-sm text-admin-ink">{review.body}</p>
+              <p className="mt-2 font-sans text-xs font-semibold text-admin-muted">
                 {review.authorName}
                 {review.itemName ? ` · ${review.itemName}` : ''}
               </p>

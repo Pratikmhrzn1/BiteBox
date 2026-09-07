@@ -101,7 +101,7 @@ export default function ContentSection() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <p className="font-sans text-sm text-[#a07c5c]">
+        <p className="font-sans text-sm text-admin-muted">
           Edits preview here and go live on the site with{' '}
           <span className="text-amber">Save All</span>.
         </p>
@@ -233,7 +233,7 @@ export default function ContentSection() {
                         : current,
                     )
                   }
-                  className="h-4 w-4 accent-[#E8452C]"
+                  className="h-4 w-4 accent-accent-red"
                 />
                 Show announcement on the homepage
               </label>
@@ -326,7 +326,7 @@ export default function ContentSection() {
               className="flex flex-wrap items-end gap-2 rounded-lg bg-[#403225] p-3"
             >
               <div className="min-w-32 flex-1">
-                <label className="mb-1 block font-sans text-[10px] font-bold tracking-widest text-[#a07c5c] uppercase">
+                <label className="mb-1 block font-sans text-[10px] font-bold tracking-widest text-admin-muted uppercase">
                   Day range
                 </label>
                 <input
@@ -337,7 +337,7 @@ export default function ContentSection() {
                 />
               </div>
               <div className="w-28">
-                <label className="mb-1 block font-sans text-[10px] font-bold tracking-widest text-[#a07c5c] uppercase">
+                <label className="mb-1 block font-sans text-[10px] font-bold tracking-widest text-admin-muted uppercase">
                   From
                 </label>
                 <input
@@ -348,7 +348,7 @@ export default function ContentSection() {
                 />
               </div>
               <div className="w-28">
-                <label className="mb-1 block font-sans text-[10px] font-bold tracking-widest text-[#a07c5c] uppercase">
+                <label className="mb-1 block font-sans text-[10px] font-bold tracking-widest text-admin-muted uppercase">
                   To
                 </label>
                 <input
@@ -363,7 +363,7 @@ export default function ContentSection() {
                   type="checkbox"
                   checked={row.closed}
                   onChange={(event) => setHour(index, { closed: event.target.checked })}
-                  className="h-3.5 w-3.5 accent-[#E8452C]"
+                  className="h-3.5 w-3.5 accent-accent-red"
                 />
                 Closed
               </label>
@@ -384,14 +384,14 @@ export default function ContentSection() {
                       : current,
                   )
                 }
-                className="rounded-lg p-2 text-[#c9a583] transition hover:bg-red-500/20 hover:text-red-300"
+                className="rounded-lg p-2 text-admin-ink transition hover:bg-red-500/20 hover:text-red-300"
                 aria-label="Remove day range"
               >
                 <Trash2 className="h-4 w-4" />
               </button>
             </div>
           ))}
-          <p className="font-sans text-xs text-[#8a6a4f]">
+          <p className="font-sans text-xs text-admin-muted">
               Preview: {draft.openingHours.rows
                 .filter((row) => row.label.trim())
                 .map((row) =>

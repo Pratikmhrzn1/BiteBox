@@ -8,7 +8,7 @@ import { PanelCard } from '../ui'
 import { AdminError, AdminLoading } from '../AdminStates'
 
 /** Palette reused across the donut and category charts. */
-const SLICE_COLORS = ['#E8452C', '#D25F26', '#FFC93C', '#8C9A09', '#7D4A37']
+const SLICE_COLORS = ['#CE3D27', '#D25F26', '#FFC93C', '#717D07', '#7D4A37']
 
 function BarTooltip({ label, value }: { label: string; value: string }) {
   return (
@@ -53,7 +53,7 @@ function AxisLabels({ data }: { data: SeriesPoint[] }) {
       {data.map((point, index) => (
         <span
           key={`${point.label}-${index}`}
-          className="flex-1 text-center font-sans text-[10px] font-bold text-[#8a6a4f] uppercase"
+          className="flex-1 text-center font-sans text-[10px] font-bold text-admin-muted uppercase"
         >
           {point.label}
         </span>
@@ -68,7 +68,7 @@ function Donut({ data }: { data: SeriesPoint[] }) {
 
   if (total === 0) {
     return (
-      <p className="py-8 text-center font-sans text-sm text-[#8a6a4f]">
+      <p className="py-8 text-center font-sans text-sm text-admin-muted">
         No orders to break down yet.
       </p>
     )
@@ -155,8 +155,8 @@ export default function AnalyticsSection() {
             value: data.reviewCount === 0 ? '—' : `${data.averageRating}★`,
           },
         ].map((stat) => (
-          <div key={stat.label} className="rounded-2xl border border-white/5 bg-[#3D1F0E] p-5">
-            <p className="font-sans text-[11px] font-bold tracking-widest text-[#8a6a4f] uppercase">
+          <div key={stat.label} className="rounded-2xl border border-white/5 bg-admin-surface p-5">
+            <p className="font-sans text-[11px] font-bold tracking-widest text-admin-muted uppercase">
               {stat.label}
             </p>
             <p className="mt-2 truncate font-sans text-2xl font-bold text-amber">
@@ -183,7 +183,7 @@ export default function AnalyticsSection() {
 
         <PanelCard title="Best Sellers">
           {data.topItems.length === 0 ? (
-            <p className="py-8 text-center font-sans text-sm text-[#8a6a4f]">
+            <p className="py-8 text-center font-sans text-sm text-admin-muted">
               No sales recorded yet.
             </p>
           ) : (
@@ -225,7 +225,7 @@ export default function AnalyticsSection() {
               </div>
             ))}
           </div>
-          <div className="mt-2 flex justify-between font-sans text-[10px] font-bold text-[#8a6a4f] uppercase">
+          <div className="mt-2 flex justify-between font-sans text-[10px] font-bold text-admin-muted uppercase">
             <span>12 AM</span>
             <span>6 AM</span>
             <span>12 PM</span>
@@ -236,13 +236,13 @@ export default function AnalyticsSection() {
 
         <PanelCard title="Sales by Category">
           {data.byCategory.length === 0 ? (
-            <p className="py-8 text-center font-sans text-sm text-[#8a6a4f]">
+            <p className="py-8 text-center font-sans text-sm text-admin-muted">
               No sales recorded yet.
             </p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left font-sans text-sm">
-                <thead className="text-[11px] font-bold tracking-widest text-[#8a6a4f] uppercase">
+                <thead className="text-[11px] font-bold tracking-widest text-admin-muted uppercase">
                   <tr>
                     <th className="pb-2">Category</th>
                     <th className="pb-2 text-right">Items sold</th>
@@ -265,7 +265,7 @@ export default function AnalyticsSection() {
                           <span className="font-semibold text-cream">{row.label}</span>
                         </span>
                       </td>
-                      <td className="py-2.5 text-right text-[#c9a583]">{row.orders}</td>
+                      <td className="py-2.5 text-right text-admin-ink">{row.orders}</td>
                       <td className="py-2.5 text-right font-bold text-amber">
                         {formatPrice(row.revenue)}
                       </td>

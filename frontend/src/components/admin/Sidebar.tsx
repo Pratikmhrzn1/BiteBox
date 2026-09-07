@@ -45,7 +45,7 @@ export default function Sidebar({
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-4">
-        <p className="px-2 pb-2 font-sans text-[10px] font-bold tracking-widest text-[#8a6a4f] uppercase">
+        <p className="px-2 pb-2 font-sans text-[10px] font-bold tracking-widest text-admin-muted uppercase">
           Manage
         </p>
         <ul className="space-y-1">
@@ -60,7 +60,7 @@ export default function Sidebar({
                   className={`flex w-full items-center gap-3 rounded-lg border-l-4 px-3 py-2.5 text-left font-sans text-sm font-semibold transition ${
                     isActive
                       ? 'border-accent-red bg-[#2b1609] text-amber'
-                      : 'border-transparent text-[#c9a583] hover:bg-white/5 hover:text-cream'
+                      : 'border-transparent text-admin-ink hover:bg-white/5 hover:text-cream'
                   }`}
                 >
                   <Icon className="h-4 w-4 shrink-0" />
@@ -86,7 +86,7 @@ export default function Sidebar({
             <p className="truncate font-sans text-sm font-bold text-cream">
               {adminName}
             </p>
-            <p className="truncate font-sans text-xs text-[#8a6a4f]">{adminEmail}</p>
+            <p className="truncate font-sans text-xs text-admin-muted">{adminEmail}</p>
           </div>
         </div>
         <button
@@ -99,7 +99,7 @@ export default function Sidebar({
         <button
           type="button"
           onClick={onSignOut}
-          className="flex w-full items-center gap-2 rounded-lg px-3 py-1.5 font-sans text-xs font-semibold text-[#c9a583] transition hover:text-accent-red"
+          className="flex w-full items-center gap-2 rounded-lg px-3 py-1.5 font-sans text-xs font-semibold text-admin-ink transition hover:text-accent-red"
         >
           <LogOut className="h-3.5 w-3.5" /> Sign Out
         </button>

@@ -150,6 +150,7 @@ export default function CheckoutPage() {
         total={total}
         onBackToMenu={() => navigate('/menu')}
         onPlaceOrder={() => void handlePlaceOrder()}
+        submitting={submitting}
       />
 
       <div className="card-comic mt-6 rounded-2xl p-6 sm:p-8">

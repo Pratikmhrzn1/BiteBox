@@ -43,7 +43,7 @@ export type SiteContent = {
 }
 
 export const ANNOUNCEMENT_COLORS = [
-  { label: 'Red', value: '#E8452C' },
+  { label: 'Red', value: '#CE3D27' },
   { label: 'Burnt Orange', value: '#D25F26' },
   { label: 'Olive', value: '#8C9A09' },
   { label: 'Espresso', value: '#303411' },
@@ -62,7 +62,7 @@ export const FALLBACK_CONTENT: SiteContent = {
       'Smashed fresh. Served loud. Nakhipot’s favourite smash burgers since day one.',
     cta: 'Order Now',
   },
-  announcement: { enabled: false, text: '', color: '#E8452C' },
+  announcement: { enabled: false, text: '', color: '#CE3D27' },
   openingHours: {
     title: 'Opening Hours',
     rows: [

@@ -11,6 +11,7 @@ import { useToast } from '../components/common/Toast'
 import { locations, locationsTitle } from '../data/home'
 import { useCart } from '../context/CartContext'
 import { useStore } from '../context/StoreContext'
+import { readableInkOn } from '../utils'
 
 export default function HomePage() {
   const navigate = useNavigate()
@@ -41,8 +42,11 @@ export default function HomePage() {
     <main className="page-container">
       {content.announcement.enabled && content.announcement.text && (
         <div
-          className="mb-6 rounded-2xl border-2 border-ink-dark px-4 py-3 text-center font-sans text-sm font-bold text-white shadow-[4px_4px_0_#241A12]"
-          style={{ backgroundColor: content.announcement.color }}
+          className="mb-6 rounded-2xl border-2 border-ink-dark px-4 py-3 text-center font-sans text-sm font-bold shadow-[4px_4px_0_#241A12]"
+          style={{
+            backgroundColor: content.announcement.color,
+            color: readableInkOn(content.announcement.color),
+          }}
           role="status"
         >
           {content.announcement.text}

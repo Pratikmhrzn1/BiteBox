@@ -3,10 +3,10 @@ import { X } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 export const cardClass =
-  'rounded-2xl border border-white/5 bg-[#3D1F0E]'
+  'rounded-2xl border border-white/5 bg-admin-surface'
 
 export const inputClass =
-  'w-full rounded-lg border border-white/10 bg-[#2A150A] px-3 py-2 font-sans text-sm text-cream placeholder:text-[#8a6a4f] focus:border-accent-red focus:outline-none'
+  'w-full rounded-lg border border-white/10 bg-admin-field px-3 py-2 font-sans text-sm text-cream placeholder:text-admin-muted focus:border-accent-red'
 
 export const labelClass =
   'mb-1.5 block font-sans text-xs font-bold uppercase tracking-wider text-amber'
@@ -24,7 +24,7 @@ export const btnToggle = (active: boolean): string =>
   `rounded-lg px-3 py-1.5 font-sans text-sm font-bold transition ${
     active
       ? 'bg-accent-red text-white'
-      : 'border border-white/15 text-[#c9a583] hover:bg-white/5'
+      : 'border border-white/15 text-admin-ink hover:bg-white/5'
   }`
 
 export function Field({
@@ -97,7 +97,7 @@ export function Modal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-[#c9a583] transition hover:bg-white/10 hover:text-cream"
+            className="rounded-lg p-1.5 text-admin-ink transition hover:bg-white/10 hover:text-cream"
             aria-label="Close"
           >
             <X className="h-5 w-5" />
@@ -127,7 +127,7 @@ export function EmptyState({
     <div className="flex flex-col items-center justify-center gap-1 py-12 text-center">
       <p className="font-sans text-sm font-bold text-cream">{title}</p>
       {hint && (
-        <p className="font-sans text-xs text-[#a07c5c]">{hint}</p>
+        <p className="font-sans text-xs text-admin-muted">{hint}</p>
       )}
     </div>
   )

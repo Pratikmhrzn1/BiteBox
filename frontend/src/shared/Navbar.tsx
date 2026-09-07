@@ -67,8 +67,10 @@ export default function Navbar() {
     ) : null
 
   return (
-    <header className="sticky top-0 z-40 border-b border-espresso-dark/10 bg-cream">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 border-b border-espresso-dark/10 bg-nav-bg">
+      {/* h-header pins this to --header-h so the sticky menu filter bar can
+          offset from the same token instead of a hardcoded pixel guess. */}
+      <div className="mx-auto flex h-header max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <button
           type="button"
           className="shrink-0 cursor-pointer"
@@ -151,7 +153,9 @@ export default function Navbar() {
                       type="button"
                       role="menuitem"
                       onClick={handleSignOut}
-                      className="flex w-full items-center gap-2 border-t-2 border-ink-dark px-4 py-2.5 text-left font-sans text-sm font-semibold text-accent-red transition hover:bg-amber"
+                      /* Amber hover would have dropped this to 3.16:1. A
+                         destructive item reads better filled anyway. */
+                      className="flex w-full items-center gap-2 border-t-2 border-ink-dark px-4 py-2.5 text-left font-sans text-sm font-semibold text-accent-red transition hover:bg-accent-red hover:text-white"
                     >
                       <LogOut className="h-4 w-4" /> Sign Out
                     </button>
@@ -217,7 +221,7 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="border-t border-espresso-dark/10 bg-cream px-4 py-4 lg:hidden">
+        <div className="border-t border-espresso-dark/10 bg-nav-bg px-4 py-4 lg:hidden">
           <nav className="flex flex-col gap-3">
             {NAV_LINKS.map((link) => (
               <NavLink

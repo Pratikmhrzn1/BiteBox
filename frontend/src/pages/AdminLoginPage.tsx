@@ -67,7 +67,7 @@ export default function AdminLoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@bitebox.com.np"
-              className="w-full rounded-xl border-2 border-ink-dark bg-white px-4 py-3 font-sans text-sm text-ink-dark placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-amber"
+              className="w-full rounded-xl border-2 border-ink-dark bg-white px-4 py-3 font-sans text-sm text-ink-dark placeholder:text-ink-muted"
             />
           </div>
 
@@ -84,7 +84,7 @@ export default function AdminLoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full rounded-xl border-2 border-ink-dark bg-white px-4 py-3 font-sans text-sm text-ink-dark placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-amber"
+              className="w-full rounded-xl border-2 border-ink-dark bg-white px-4 py-3 font-sans text-sm text-ink-dark placeholder:text-ink-muted"
             />
           </div>
 

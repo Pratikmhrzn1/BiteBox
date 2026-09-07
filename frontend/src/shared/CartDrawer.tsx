@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Minus, Plus, Trash2, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { ORDER_TYPES } from '../api/orders'
@@ -22,8 +22,18 @@ export default function CartDrawer() {
     total,
   } = useCart()
 
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const returnFocusRef = useRef<HTMLElement | null>(null)
+
   useEffect(() => {
     if (!isCartOpen) return
+
+    // The drawer stays mounted so it can slide, which means focus has to be
+    // moved in deliberately and handed back on close - otherwise `inert`
+    // drops the focused element and focus falls to <body>.
+    returnFocusRef.current = document.activeElement as HTMLElement | null
+    closeButtonRef.current?.focus()
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') closeCart()
     }
@@ -32,6 +42,7 @@ export default function CartDrawer() {
     return () => {
       window.removeEventListener('keydown', onKeyDown)
       document.body.style.overflow = ''
+      returnFocusRef.current?.focus()
     }
   }, [isCartOpen, closeCart])
 
@@ -46,7 +57,11 @@ export default function CartDrawer() {
         isCartOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
       }`}
       onClick={closeCart}
-      aria-hidden={!isCartOpen}
+      /* Closed, the drawer is still in the DOM so it can animate. `inert`
+         takes it out of the tab order and the accessibility tree together;
+         aria-hidden alone left ~15 invisible controls keyboard-reachable on
+         every page. */
+      inert={!isCartOpen}
     >
       <aside
         role="dialog"
@@ -69,6 +84,7 @@ export default function CartDrawer() {
             )}
           </div>
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={closeCart}
             className="rounded-full border-2 border-ink-dark bg-card-bg p-1.5 text-ink-dark shadow-[2px_2px_0_#241A12] transition hover:bg-accent-red hover:text-white"
