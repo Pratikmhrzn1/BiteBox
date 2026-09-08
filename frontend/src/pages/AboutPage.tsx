@@ -3,8 +3,6 @@ import AboutStory from '../sections/about/AboutStory'
 import Founders from '../sections/about/Founders'
 import Locations from '../sections/about/Locations'
 import Values from '../sections/about/Values'
-import Numbers from '../sections/about/Numbers'
-import VibeStrip from '../sections/about/VibeStrip'
 import AboutCta from '../sections/about/AboutCta'
 
 type AboutPageProps = {
