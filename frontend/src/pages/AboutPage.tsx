@@ -1,9 +1,4 @@
-import {
-  aboutHero,
-  aboutStory,
-  ctaCopy,
-} from '../data/about'
-import AboutHero from '../sections/about/AboutHero'
+import { aboutStory, ctaCopy } from '../data/about'
 import AboutStory from '../sections/about/AboutStory'
 import Founders from '../sections/about/Founders'
 import Locations from '../sections/about/Locations'
@@ -24,13 +19,11 @@ export default function AboutPage({
   return (
     <main className="page-container">
       <div className="pb-16">
-        <AboutHero hero={aboutHero} />
-
         <AboutStory story={aboutStory} />
 
         <Founders />
 
-        <Locations onLocationOpen={onLocationOpen} />
+        <Locations />
 
         <Values />
 

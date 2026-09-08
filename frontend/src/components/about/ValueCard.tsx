@@ -24,10 +24,10 @@ export default function ValueCard({ value, variant }: ValueCardProps) {
 
   return (
     <article
-      className={`flex flex-col items-center rounded-card border-2 border-ink-dark p-6 text-center shadow-comic transition-[transform,box-shadow] duration-base ease-ui hover:-translate-y-0.5 hover:shadow-comic-md ${surface}`}
+      className={`group flex flex-col items-center rounded-card border-2 border-ink-dark p-6 text-center shadow-comic transition-[transform,box-shadow] duration-base ease-ui hover:-translate-y-1 hover:shadow-comic-md ${surface}`}
     >
       <span
-        className={`flex h-16 w-16 items-center justify-center rounded-card ${emojiTile}`}
+        className={`flex h-16 w-16 items-center justify-center rounded-card transition-transform duration-base ease-ui group-hover:-rotate-3 group-hover:scale-105 ${emojiTile}`}
         aria-hidden="true"
       >
         <Icon className="h-8 w-8" />

@@ -1,16 +1,7 @@
 import 'dotenv/config';
-import {
-  OrderStatus,
-  OrderType,
-  PaymentMethod,
-  PaymentStatus,
-  Prisma,
-  PrismaClient,
-  ReviewStatus,
-} from '@prisma/client';
+import { Prisma, PrismaClient, ReviewStatus } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { DEFAULT_SITE_CONTENT } from '../src/common/site-content';
-import { buildOrderReference, deliveryFeeFor } from '../src/common/pricing';
 
 const prisma = new PrismaClient();
 
@@ -161,59 +152,8 @@ const REVIEWS = [
     title: 'Patty perfection',
     body: 'Right level of smash, great cheese pull. My new weekend ritual.',
     status: ReviewStatus.APPROVED,
-  },
-  {
-    author: 'Priya Maharjan',
-    slug: 'loaded-nachos',
-    rating: 4,
-    title: 'Hearty and hot',
-    body: 'Massive portion, loaded with topping. Could use a hint more jalapeño kick.',
-    status: ReviewStatus.APPROVED,
-  },
-  {
-    author: 'Anisha Karki',
-    slug: 'veg-smash-burger',
-    rating: 5,
-    title: 'Veggies done right',
-    body: 'A veg patty that actually has flavour and crunch. Loved the smoky aioli.',
-    status: ReviewStatus.APPROVED,
-  },
-  {
-    author: 'Karan Joshi',
-    slug: 'classic-fries',
-    rating: 5,
-    title: 'Fries to fight for',
-    body: 'Perfectly seasoned, crispy outside and fluffy inside. Dangerously easy to finish.',
-    status: ReviewStatus.APPROVED,
-  },
-  {
-    author: 'Sunita Lama',
-    slug: 'berry-mint-cooler',
-    rating: 4,
-    title: 'Refreshing sip',
-    body: 'Happy-hours price was a steal. Refreshing, not overly sweet.',
-    status: ReviewStatus.APPROVED,
-  },
-  {
-    author: 'Rajesh KC',
-    slug: 'smashed-chicken-burger',
-    rating: 3,
-    title: 'Good, late delivery',
-    body: 'Burger was great but delivery took 45 minutes. Food quality still held up.',
-    status: ReviewStatus.PENDING,
-  },
-  {
-    author: 'Bikash Tamang',
-    slug: 'double-smashed-burger',
-    rating: 2,
-    title: 'Skimpy on sauce',
-    body: 'Patties were nice but barely any sauce, came out a bit dry. Could be better.',
-    status: ReviewStatus.HIDDEN,
-  },
+  }
 ];
-
-/** Cart lines for a demo order, priced exactly the way OrdersService does. */
-type DemoLine = { slug: string; quantity: number; extras?: typeof CHEESE[] };
 
 async function main() {
   const adminEmail = process.env.ADMIN_EMAIL ?? 'admin@bitebox.com.np';
@@ -229,7 +169,6 @@ async function main() {
 
   // ── Users ───────────────────────────────────────────────────────────────
   const adminPasswordHash = await bcrypt.hash(adminPassword, 10);
-  const customerPasswordHash = await bcrypt.hash('password123', 10);
 
   await prisma.user.upsert({
     where: { email: adminEmail },
@@ -242,33 +181,6 @@ async function main() {
       role: 'ADMIN',
     },
   });
-
-  const customers = await Promise.all(
-    [
-      {
-        name: 'Sujal Maharjan',
-        email: 'sujal@bitebox.com.np',
-        phone: '+977 9812345678',
-        address: 'Nakhipot, Lalitpur',
-      },
-      {
-        name: 'Priya Shrestha',
-        email: 'priya@bitebox.com.np',
-        phone: '+977 9849554321',
-        address: 'Patan, Lalitpur',
-      },
-    ].map((customer) =>
-      prisma.user.upsert({
-        where: { email: customer.email },
-        update: {},
-        create: {
-          ...customer,
-          passwordHash: customerPasswordHash,
-          role: 'CUSTOMER',
-        },
-      }),
-    ),
-  );
 
   // ── Categories and menu ─────────────────────────────────────────────────
   const categoryIds = new Map<string, string>();
@@ -312,175 +224,6 @@ async function main() {
     });
   }
 
-  // ── Demo orders spread over the last week ───────────────────────────────
-  const demoOrders: {
-    customerIndex: number;
-    lines: DemoLine[];
-    orderType: OrderType;
-    status: OrderStatus;
-    paymentMethod: PaymentMethod;
-    paymentStatus: PaymentStatus;
-    daysAgo: number;
-    hour: number;
-  }[] = [
-    {
-      customerIndex: 0,
-      lines: [
-        { slug: 'smashed-chicken-burger', quantity: 2, extras: [CHEESE] },
-        { slug: 'mango-lassi', quantity: 1 },
-      ],
-      orderType: OrderType.DELIVERY,
-      status: OrderStatus.DELIVERED,
-      paymentMethod: PaymentMethod.ESEWA,
-      paymentStatus: PaymentStatus.PAID,
-      daysAgo: 6,
-      hour: 13,
-    },
-    {
-      customerIndex: 1,
-      lines: [{ slug: 'double-smashed-burger', quantity: 1, extras: [PATTY] }],
-      orderType: OrderType.DINE_IN,
-      status: OrderStatus.DELIVERED,
-      paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
-      paymentStatus: PaymentStatus.PAID,
-      daysAgo: 5,
-      hour: 19,
-    },
-    {
-      customerIndex: 0,
-      lines: [
-        { slug: 'loaded-nachos', quantity: 1 },
-        { slug: 'mango-lassi', quantity: 2 },
-      ],
-      orderType: OrderType.TAKEAWAY,
-      status: OrderStatus.DELIVERED,
-      paymentMethod: PaymentMethod.KHALTI,
-      paymentStatus: PaymentStatus.PAID,
-      daysAgo: 4,
-      hour: 12,
-    },
-    {
-      customerIndex: 1,
-      lines: [
-        { slug: 'crispy-chicken-taco', quantity: 3 },
-        { slug: 'classic-fries', quantity: 1 },
-      ],
-      orderType: OrderType.DELIVERY,
-      status: OrderStatus.DELIVERED,
-      paymentMethod: PaymentMethod.ESEWA,
-      paymentStatus: PaymentStatus.PAID,
-      daysAgo: 3,
-      hour: 20,
-    },
-    {
-      customerIndex: 0,
-      lines: [
-        { slug: 'veg-smash-burger', quantity: 2 },
-        { slug: 'berry-mint-cooler', quantity: 2 },
-      ],
-      orderType: OrderType.DINE_IN,
-      status: OrderStatus.DELIVERED,
-      paymentMethod: PaymentMethod.CARD,
-      paymentStatus: PaymentStatus.PAID,
-      daysAgo: 2,
-      hour: 18,
-    },
-    {
-      customerIndex: 1,
-      lines: [
-        { slug: 'smashed-chicken-burger', quantity: 1, extras: [CHEESE, SPICY] },
-        { slug: 'classic-fries', quantity: 2 },
-      ],
-      orderType: OrderType.DELIVERY,
-      status: OrderStatus.OUT_FOR_DELIVERY,
-      paymentMethod: PaymentMethod.KHALTI,
-      paymentStatus: PaymentStatus.PAID,
-      daysAgo: 1,
-      hour: 19,
-    },
-    {
-      customerIndex: 0,
-      lines: [{ slug: 'double-smashed-burger', quantity: 1 }],
-      orderType: OrderType.TAKEAWAY,
-      status: OrderStatus.READY,
-      paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
-      paymentStatus: PaymentStatus.PENDING,
-      daysAgo: 0,
-      hour: 12,
-    },
-    {
-      customerIndex: 1,
-      lines: [
-        { slug: 'smashed-taco', quantity: 2 },
-        { slug: 'berry-mint-cooler', quantity: 1 },
-      ],
-      orderType: OrderType.DELIVERY,
-      status: OrderStatus.PREPARING,
-      paymentMethod: PaymentMethod.ESEWA,
-      paymentStatus: PaymentStatus.PAID,
-      daysAgo: 0,
-      hour: 13,
-    },
-    {
-      customerIndex: 0,
-      lines: [{ slug: 'loaded-nachos', quantity: 2, extras: [CHEESE] }],
-      orderType: OrderType.DINE_IN,
-      status: OrderStatus.PLACED,
-      paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
-      paymentStatus: PaymentStatus.PENDING,
-      daysAgo: 0,
-      hour: 14,
-    },
-  ];
-
-  const menuBySlug = new Map(MENU.map((item) => [item.slug, item]));
-
-  for (const [index, demo] of demoOrders.entries()) {
-    const customer = customers[demo.customerIndex];
-
-    const items = demo.lines.map((line) => {
-      const item = menuBySlug.get(line.slug)!;
-      const extras = line.extras ?? [];
-      const extrasTotal = extras.reduce((sum, extra) => sum + extra.price, 0);
-      return {
-        itemId: menuIds.get(line.slug)!.id,
-        slug: line.slug,
-        name: item.name,
-        unitPrice: item.price,
-        quantity: line.quantity,
-        extras,
-        lineTotal: (item.price + extrasTotal) * line.quantity,
-      };
-    });
-
-    const subtotal = items.reduce((sum, line) => sum + line.lineTotal, 0);
-    const deliveryFee = deliveryFeeFor(demo.orderType);
-
-    const createdAt = new Date();
-    createdAt.setDate(createdAt.getDate() - demo.daysAgo);
-    createdAt.setHours(demo.hour, 30, 0, 0);
-
-    await prisma.order.create({
-      data: {
-        reference: buildOrderReference(index),
-        userId: customer.id,
-        customerName: customer.name,
-        customerPhone: customer.phone ?? '',
-        customerAddress:
-          demo.orderType === OrderType.DELIVERY ? customer.address : null,
-        items: items as unknown as Prisma.InputJsonValue,
-        subtotal,
-        deliveryFee,
-        total: subtotal + deliveryFee,
-        orderType: demo.orderType,
-        status: demo.status,
-        paymentMethod: demo.paymentMethod,
-        paymentStatus: demo.paymentStatus,
-        createdAt,
-      },
-    });
-  }
-
   // ── Contact messages ────────────────────────────────────────────────────
   await prisma.contactMessage.createMany({
     data: [
@@ -490,14 +233,7 @@ async function main() {
         phone: '+977 9841001122',
         subject: 'Catering',
         message: 'Do you cater office lunches for 30 people in Lalitpur?',
-      },
-      {
-        name: 'Meera Joshi',
-        email: 'meera@example.com',
-        subject: 'Feedback',
-        message: 'The veg smash burger is the best I have had in Kathmandu valley.',
-        status: 'READ',
-      },
+      }
     ],
   });
 
@@ -513,9 +249,8 @@ async function main() {
 
   console.log('🌱 Seeded BiteBox');
   console.log(`   ${MENU.length} dishes across ${CATEGORIES.length} categories`);
-  console.log(`   ${demoOrders.length} orders, ${REVIEWS.length} reviews`);
+  console.log(`   ${REVIEWS.length} reviews`);
   console.log(`   Admin    → ${adminEmail} / ${adminPassword}`);
-  console.log('   Customer → sujal@bitebox.com.np / password123');
 }
 
 main()

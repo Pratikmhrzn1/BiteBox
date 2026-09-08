@@ -58,13 +58,13 @@ function AppShell() {
             element={
               <AboutPage
                 onOrderNow={() => navigate('/menu')}
+                /* The About page carries its own outlet maps now, so this
+                 * scrolls to them instead of navigating to the home page to
+                 * show the same two maps. */
                 onLocationOpen={() => {
-                  navigate('/')
-                  window.setTimeout(() => {
-                    document
-                      .getElementById('locations')
-                      ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                  }, 50)
+                  document
+                    .getElementById('locations')
+                    ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
                 }}
               />
             }

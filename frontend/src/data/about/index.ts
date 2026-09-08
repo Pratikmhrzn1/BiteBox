@@ -1,4 +1,3 @@
-export * from './aboutHero'
 export * from './cta'
 export * from './founders'
 export * from './numbers'

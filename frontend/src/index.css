@@ -31,6 +31,12 @@
     --r-control: 0.75rem;
     --r-card: 1rem;
     --r-panel: 1.5rem;
+
+    /* Entrance easing. The `ui` curve in tailwind.config.js is tuned for
+     * feedback that must keep up with a pointer; content arriving on scroll
+     * wants the opposite - a long decelerating tail that settles rather than
+     * stops. Expo-out is that curve. */
+    --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   html {
@@ -82,6 +88,13 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
+    }
+
+    /* The hero's image drift is decoration, not feedback. The blanket rule
+     * above only collapses its duration, which would strand it on its last
+     * frame - a permanently over-cropped photo. Cancel it outright. */
+    .ken-burns {
+      animation: none !important;
     }
   }
 }
@@ -169,10 +182,191 @@
     }
   }
 
+  /* --- Speech balloon ---------------------------------------------------
+   * The founder quotes are the only place on the site where a person speaks
+   * in their own voice, and they were set as plain tinted rectangles - the
+   * one moment the comic identity had something to say and said it in the
+   * same shape as everything else. The tail points back up at the photograph
+   * above, so the quote is attributed by form rather than by another label.
+   *
+   * The tail is a square rotated 45deg carrying borders on its top and left
+   * edges only: after the rotation those two become the diamond's upper
+   * faces, and the unbordered lower half paints the balloon's own fill over
+   * the body's top border, which is the join. --balloon-fill must therefore
+   * match the body's background exactly or the seam shows. */
+  .balloon {
+    position: relative;
+  }
+  .balloon::before {
+    content: '';
+    position: absolute;
+    top: -0.6rem;
+    left: 2.25rem;
+    height: 1.3rem;
+    width: 1.3rem;
+    background: var(--balloon-fill);
+    border-top: var(--border-w) solid theme('colors.ink-dark');
+    border-left: var(--border-w) solid theme('colors.ink-dark');
+    transform: rotate(45deg);
+  }
+  /* Alongside a portrait the tail belongs on the left edge, aimed at the
+   * face. Borders on the left and bottom edges this time: after the same
+   * 45deg rotation those two become the diamond's left-facing faces. */
+  @media (min-width: 640px) {
+    .balloon-sm-left::before {
+      top: 1.6rem;
+      left: -0.65rem;
+      border-top: 0;
+      border-left: var(--border-w) solid theme('colors.ink-dark');
+      border-bottom: var(--border-w) solid theme('colors.ink-dark');
+    }
+  }
+
+  .balloon-amber {
+    --balloon-fill: theme('colors.amber');
+  }
+  .balloon-dark {
+    --balloon-fill: theme('colors.header-brown');
+  }
+
   /* Prices and quantities sit in right-aligned columns; proportional digits
    * make those columns jitter row to row. */
   .nums {
     font-variant-numeric: tabular-nums;
     font-feature-settings: 'tnum' 1;
+  }
+}
+
+@layer utilities {
+  /* --- Scroll reveal ---------------------------------------------------
+   * Every band on the About page used to sit at full opacity before it
+   * entered the viewport, so an eight-section page read as one static slab.
+   * Reveal gives the scroll a direction: a band arrives from 20px below as
+   * it reaches reading position and lands with expo deceleration.
+   *
+   * Two shapes, because a section and a grid of cards are not the same
+   * object:
+   *   .reveal         - moves the element itself.
+   *   .reveal-stagger - holds the container still and deals its direct
+   *                     children out 80ms apart, so a card grid arrives as
+   *                     cards rather than as a slab.
+   *
+   * Both start at opacity 0 and so must end in `forwards`. Reduced motion is
+   * covered twice over: the block above zeroes the duration and the delay,
+   * landing the same end state on the first frame, and useReveal skips the
+   * observer entirely under that setting. */
+  .reveal,
+  .reveal-stagger > * {
+    opacity: 0;
+  }
+
+  /* `backwards`, deliberately, not `forwards`. A forwards fill keeps the
+   * final keyframe's `transform: translateY(0)` applied at animation
+   * priority forever, which silently outranks every `hover:-translate-y-1`
+   * on the cards these grids contain - the reveal would cost them their
+   * hover lift. `backwards` covers the stagger delay so a waiting child
+   * holds its start frame instead of flashing in, and then releases the
+   * element entirely once it lands; the resting opacity below is what
+   * holds it visible. */
+  .reveal.is-revealed,
+  .reveal-stagger.is-revealed > * {
+    opacity: 1;
+    animation: reveal-up 550ms var(--ease-entrance) backwards;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  /* 80ms rather than the conventional 100ms: these groups run four and five
+   * wide, and at 100ms the last card lands a full second after the first,
+   * which reads as the page still loading. */
+  .reveal-stagger.is-revealed > *:nth-child(2) {
+    animation-delay: calc(var(--reveal-delay, 0ms) + 80ms);
+  }
+  .reveal-stagger.is-revealed > *:nth-child(3) {
+    animation-delay: calc(var(--reveal-delay, 0ms) + 160ms);
+  }
+  .reveal-stagger.is-revealed > *:nth-child(4) {
+    animation-delay: calc(var(--reveal-delay, 0ms) + 240ms);
+  }
+  .reveal-stagger.is-revealed > *:nth-child(5) {
+    animation-delay: calc(var(--reveal-delay, 0ms) + 320ms);
+  }
+  .reveal-stagger.is-revealed > *:nth-child(n + 6) {
+    animation-delay: calc(var(--reveal-delay, 0ms) + 400ms);
+  }
+
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Slow drift on the hero photograph. 1.06 over 24s is below the threshold
+   * where the eye reads it as movement - it reads as the image being alive.
+   * Transform only, so it composites without touching layout. */
+  .ken-burns {
+    animation: ken-burns 24s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
+  }
+
+  @keyframes ken-burns {
+    from {
+      transform: scale(1) translate3d(0, 0, 0);
+    }
+    to {
+      transform: scale(1.06) translate3d(-1.5%, 0, 0);
+    }
+  }
+
+  /* --- Horizontal scrollers --------------------------------------------
+   * A snap strip cuts its last card mid-frame, which reads as a clipped
+   * layout rather than as "there is more this way". The mask fades whichever
+   * edge the content actually continues past, and only that edge, so a strip
+   * resting at its start does not fade its own first image. Both stops
+   * collapse to 0 by default, which is a hard edge, not a fade. */
+  .edge-fade {
+    --fade-l: 0px;
+    --fade-r: 0px;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--fade-l),
+      #000 calc(100% - var(--fade-r)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--fade-l),
+      #000 calc(100% - var(--fade-r)),
+      transparent 100%
+    );
+  }
+  .edge-fade[data-fade-l='true'] {
+    --fade-l: 4rem;
+  }
+  .edge-fade[data-fade-r='true'] {
+    --fade-r: 4rem;
+  }
+
+  /* The platform scrollbar under a 13rem image strip is taller than the gap
+   * it sits in. Slim it rather than hide it - it is the only affordance a
+   * pointer user gets before hovering. */
+  .scrollbar-slim {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.ink-dark') transparent;
+  }
+  .scrollbar-slim::-webkit-scrollbar {
+    height: 6px;
+  }
+  .scrollbar-slim::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-slim::-webkit-scrollbar-thumb {
+    background: theme('colors.ink-dark');
+    border-radius: 999px;
   }
 }
