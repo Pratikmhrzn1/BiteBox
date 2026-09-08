@@ -27,9 +27,6 @@ export default function AboutPage({
 
         <Values />
 
-        <Numbers />
-
-        <VibeStrip />
 
         <AboutCta
           cta={ctaCopy}

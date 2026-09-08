@@ -1,5 +1,4 @@
-import { unsplash } from '../images'
-
+import bitebox from '../../assets/bitebox.jpeg'
 export type AboutStoryData = {
   label: string
   heading: string
@@ -15,5 +14,5 @@ export const aboutStory: AboutStoryData = {
     'Burgers and tacos made with care, speed, and zero shortcuts. No freezer. No compromise. Just fresh ingredients and a relentless obsession with getting the flavour right — every single time.',
     'Today, BiteBox runs two buzzing outlets — one in the heart of Tumbahal, Patan, and one on the iconic Freak Street, Basantapur. Two locations. Same obsession.',
   ],
-  image: unsplash('photo-1556910103-1c02745aae4d', 1200, 60),
+  image: bitebox,
 }

@@ -6,7 +6,7 @@ export type AboutCtaData = {
 }
 
 export const ctaCopy: AboutCtaData = {
-  heading: 'Come Hungry. Leave Happy.',
+  heading: 'Mitho Food Are The Messiest',
   subtext: 'Walk in at Patan or Basantapur — your smash is waiting.',
   orderLabel: 'Order Now',
   findLabel: 'Find Us',
