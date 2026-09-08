@@ -12,7 +12,7 @@ const SLICE_COLORS = ['#CE3D27', '#D25F26', '#FFC93C', '#717D07', '#7D4A37']
 
 function BarTooltip({ label, value }: { label: string; value: string }) {
   return (
-    <span className="pointer-events-none absolute -top-8 left-1/2 z-10 -translate-x-1/2 rounded bg-[#1A0E07] px-2 py-1 font-sans text-[10px] font-bold whitespace-nowrap text-amber opacity-0 transition-colors duration-fast ease-ui group-hover:opacity-100">
+    <span className="pointer-events-none absolute -top-8 left-1/2 z-10 -translate-x-1/2 rounded bg-espresso-black px-2 py-1 font-sans text-[10px] font-bold whitespace-nowrap text-amber opacity-0 transition-colors duration-fast ease-ui group-hover:opacity-100">
       {label}: {value}
     </span>
   )
@@ -155,7 +155,7 @@ export default function AnalyticsSection() {
             value: data.reviewCount === 0 ? '—' : `${data.averageRating}★`,
           },
         ].map((stat) => (
-          <div key={stat.label} className="rounded-card border border-white/5 bg-admin-surface p-5">
+          <div key={stat.label} className="rounded-card border border-white/10 bg-admin-surface p-5">
             <p className="font-sans text-[11px] font-bold tracking-widest text-admin-muted uppercase">
               {stat.label}
             </p>
@@ -251,7 +251,7 @@ export default function AnalyticsSection() {
                 </thead>
                 <tbody>
                   {data.byCategory.map((row, index) => (
-                    <tr key={row.label} className="border-t border-white/5">
+                    <tr key={row.label} className="border-t border-white/10">
                       <td className="py-2.5">
                         <span className="flex items-center gap-2">
                           <span

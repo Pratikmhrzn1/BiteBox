@@ -2,7 +2,8 @@ import { useState, type FormEvent } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../components/common/Toast'
-import { fieldClass, labelClass } from '../components/common/formStyles'
+import { fieldClass, focusFirstError } from '../components/common/formStyles'
+import FormField from '../components/common/FormField'
 import { buttonClass } from '../components/common/Button'
 
 type Errors = Partial<Record<'name' | 'email' | 'phone' | 'password', string>>
@@ -30,6 +31,13 @@ export default function RegisterPage() {
 
   if (user) return <Navigate to="/account" replace />
 
+  const fields = [
+    { id: 'name', label: 'Full Name', type: 'text', placeholder: 'Zoe Smashburger', required: true, autoComplete: 'name' },
+    { id: 'email', label: 'Email Address', type: 'email', placeholder: 'you@example.com', required: true, autoComplete: 'email' },
+    { id: 'phone', label: 'Phone Number', type: 'tel', placeholder: '+977 …', required: false, hint: 'Optional. Used only for order updates.', autoComplete: 'tel' },
+    { id: 'password', label: 'Password', type: 'password', placeholder: 'At least 6 characters', required: true, autoComplete: 'new-password' },
+  ] as const
+
   const update = (field: keyof typeof form) => (value: string) => {
     setForm((current) => ({ ...current, [field]: value }))
     setErrors((current) => ({ ...current, [field]: undefined }))
@@ -50,7 +58,13 @@ export default function RegisterPage() {
     event.preventDefault()
     const nextErrors = validate()
     setErrors(nextErrors)
-    if (Object.keys(nextErrors).length > 0) return
+    if (Object.keys(nextErrors).length > 0) {
+      focusFirstError(
+        fields.map((field) => [field.id, `register-${field.id}`] as const),
+        nextErrors,
+      )
+      return
+    }
 
     setSubmitting(true)
     setSubmitError(null)
@@ -72,12 +86,6 @@ export default function RegisterPage() {
     }
   }
 
-  const fields = [
-    { id: 'name', label: 'Full Name', type: 'text', placeholder: 'Zoe Smashburger', required: true, autoComplete: 'name' },
-    { id: 'email', label: 'Email Address', type: 'email', placeholder: 'you@example.com', required: true, autoComplete: 'email' },
-    { id: 'phone', label: 'Phone Number (optional)', type: 'tel', placeholder: '+977 …', required: false, autoComplete: 'tel' },
-    { id: 'password', label: 'Password', type: 'password', placeholder: 'At least 6 characters', required: true, autoComplete: 'new-password' },
-  ] as const
 
   return (
     <main className="page-container flex min-h-[70vh] items-center justify-center">
@@ -91,26 +99,26 @@ export default function RegisterPage() {
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-5" noValidate>
           {fields.map((field) => (
-            <div key={field.id}>
-              <label htmlFor={`register-${field.id}`} className={labelClass}>
-                {field.label}
-                {field.required && <span className="text-accent-red"> *</span>}
-              </label>
-              <input
-                id={`register-${field.id}`}
-                type={field.type}
-                autoComplete={field.autoComplete}
-                value={form[field.id]}
-                onChange={(event) => update(field.id)(event.target.value)}
-                placeholder={field.placeholder}
-                className={fieldClass(Boolean(errors[field.id]))}
-              />
-              {errors[field.id] && (
-                <p className="mt-1.5 font-sans text-xs font-semibold text-accent-red">
-                  {errors[field.id]}
-                </p>
+            <FormField
+              key={field.id}
+              id={`register-${field.id}`}
+              label={field.label}
+              error={errors[field.id]}
+              hint={'hint' in field ? field.hint : undefined}
+              required={field.required}
+            >
+              {(control) => (
+                <input
+                  {...control}
+                  type={field.type}
+                  autoComplete={field.autoComplete}
+                  value={form[field.id]}
+                  onChange={(event) => update(field.id)(event.target.value)}
+                  placeholder={field.placeholder}
+                  className={fieldClass(Boolean(errors[field.id]))}
+                />
               )}
-            </div>
+            </FormField>
           ))}
 
           {submitError && (

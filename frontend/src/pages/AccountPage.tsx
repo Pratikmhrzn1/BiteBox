@@ -137,7 +137,7 @@ export default function AccountPage() {
                 <div>
                   <div className="flex items-center gap-2">
                     <Package className="h-4 w-4 text-accent-red" aria-hidden="true" />
-                    <span className="font-display text-xl text-header-brown">
+                    <span className="font-display text-display-xs text-header-brown">
                       {order.reference}
                     </span>
                     <span

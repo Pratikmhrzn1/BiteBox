@@ -6,9 +6,18 @@ import { useStore } from '../../context/StoreContext'
 import { useToast } from '../../components/common/Toast'
 import SectionHeading from '../../components/common/SectionHeading'
 import StarRating from '../../components/common/StarRating'
-import { fieldClass, labelClass } from '../../components/common/formStyles'
+import { fieldClass, focusFirstError, labelClass } from '../../components/common/formStyles'
+import FormField from '../../components/common/FormField'
 import { formatDate } from '../../utils'
 import { buttonClass } from '../../components/common/Button'
+
+type FieldErrors = Partial<Record<'authorName' | 'title' | 'body', string>>
+
+const FIELD_ORDER = [
+  ['authorName', 'review-name'],
+  ['title', 'review-title'],
+  ['body', 'review-body'],
+] as const
 
 export default function ReviewsSection() {
   const { user, token } = useAuth()
@@ -23,20 +32,29 @@ export default function ReviewsSection() {
   const [open, setOpen] = useState(false)
   const [rating, setRating] = useState(5)
   const [form, setForm] = useState({ authorName: '', menuItem: '', title: '', body: '' })
+  const [errors, setErrors] = useState<FieldErrors>({})
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
   const reviews = (reviewsState.data ?? []).slice(0, 6)
   const summary = summaryState.data
 
+  const updateField = (field: keyof typeof form) => (value: string) => {
+    setForm((current) => ({ ...current, [field]: value }))
+    setErrors((current) => ({ ...current, [field]: undefined }))
+  }
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
-    if (!form.title.trim() || !form.body.trim()) {
-      setError('Add a headline and a few words.')
-      return
-    }
-    if (!user && !form.authorName.trim()) {
-      setError('Tell us your name so we can credit the review.')
+    const nextErrors: FieldErrors = {}
+    if (!user && !form.authorName.trim())
+      nextErrors.authorName = 'Tell us your name so we can credit the review'
+    if (!form.title.trim()) nextErrors.title = 'Give it a headline'
+    if (!form.body.trim()) nextErrors.body = 'Add a few words about the food'
+
+    setErrors(nextErrors)
+    if (Object.keys(nextErrors).length > 0) {
+      focusFirstError(FIELD_ORDER, nextErrors)
       return
     }
 
@@ -56,6 +74,7 @@ export default function ReviewsSection() {
       // New reviews are held for moderation, so the list will not change yet.
       notify('Thanks! Your review is awaiting approval.')
       setForm({ authorName: '', menuItem: '', title: '', body: '' })
+      setErrors({})
       setRating(5)
       setOpen(false)
     } catch (reason) {
@@ -126,76 +145,76 @@ export default function ReviewsSection() {
               <StarRating rating={rating} onChange={setRating} size="lg" />
             </div>
             <div className="min-w-[12rem] flex-1">
-              <label htmlFor="review-item" className={labelClass}>
-                Dish (optional)
-              </label>
-              <select
+              <FormField
                 id="review-item"
-                value={form.menuItem}
-                onChange={(event) =>
-                  setForm((current) => ({ ...current, menuItem: event.target.value }))
-                }
-                className={`${fieldClass(false)} cursor-pointer`}
+                label="Dish"
+                hint="Optional. Leave it on a general review if you like."
               >
-                <option value="">A general review</option>
-                {menu.map((item) => (
-                  <option key={item.slug} value={item.slug}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
+                {(control) => (
+                  <select
+                    {...control}
+                    value={form.menuItem}
+                    onChange={(event) => updateField('menuItem')(event.target.value)}
+                    className={`${fieldClass(false)} cursor-pointer`}
+                  >
+                    <option value="">A general review</option>
+                    {menu.map((item) => (
+                      <option key={item.slug} value={item.slug}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </FormField>
             </div>
           </div>
 
           {!user && (
-            <div>
-              <label htmlFor="review-name" className={labelClass}>
-                Your name <span className="text-accent-red">*</span>
-              </label>
-              <input
-                id="review-name"
-                type="text"
-                value={form.authorName}
-                onChange={(event) =>
-                  setForm((current) => ({ ...current, authorName: event.target.value }))
-                }
-                placeholder="Zoe Smashburger"
-                className={fieldClass(false)}
-              />
-            </div>
+            <FormField
+              id="review-name"
+              label="Your name"
+              error={errors.authorName}
+              required
+            >
+              {(control) => (
+                <input
+                  {...control}
+                  type="text"
+                  autoComplete="name"
+                  value={form.authorName}
+                  onChange={(event) => updateField('authorName')(event.target.value)}
+                  placeholder="Zoe Smashburger"
+                  className={fieldClass(Boolean(errors.authorName))}
+                />
+              )}
+            </FormField>
           )}
 
-          <div>
-            <label htmlFor="review-title" className={labelClass}>
-              Headline <span className="text-accent-red">*</span>
-            </label>
-            <input
-              id="review-title"
-              type="text"
-              value={form.title}
-              onChange={(event) =>
-                setForm((current) => ({ ...current, title: event.target.value }))
-              }
-              placeholder="Best smash in Lalitpur"
-              className={fieldClass(false)}
-            />
-          </div>
+          <FormField id="review-title" label="Headline" error={errors.title} required>
+            {(control) => (
+              <input
+                {...control}
+                type="text"
+                value={form.title}
+                onChange={(event) => updateField('title')(event.target.value)}
+                placeholder="Best smash in Lalitpur"
+                className={fieldClass(Boolean(errors.title))}
+              />
+            )}
+          </FormField>
 
-          <div>
-            <label htmlFor="review-body" className={labelClass}>
-              Your review <span className="text-accent-red">*</span>
-            </label>
-            <textarea
-              id="review-body"
-              rows={3}
-              value={form.body}
-              onChange={(event) =>
-                setForm((current) => ({ ...current, body: event.target.value }))
-              }
-              placeholder="Tell us what you thought…"
-              className={`${fieldClass(false)} resize-none`}
-            />
-          </div>
+          <FormField id="review-body" label="Your review" error={errors.body} required>
+            {(control) => (
+              <textarea
+                {...control}
+                rows={3}
+                value={form.body}
+                onChange={(event) => updateField('body')(event.target.value)}
+                placeholder="Tell us what you thought…"
+                className={`${fieldClass(Boolean(errors.body))} resize-none`}
+              />
+            )}
+          </FormField>
 
           {error && (
             <p className="font-sans text-sm font-semibold text-accent-red" role="alert">

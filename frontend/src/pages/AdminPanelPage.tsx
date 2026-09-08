@@ -82,19 +82,23 @@ function AdminPanelShell() {
           pendingCount={
             (summary.data?.newMessages ?? 0) + (summary.data?.pendingReviews ?? 0)
           }
+          onOpenPending={() => setSection('messages')}
         />
 
-        <nav className="border-b border-white/5 px-6 py-3 lg:hidden">
+        <nav className="border-b border-white/10 px-6 py-3 lg:hidden">
           <div className="flex gap-2 overflow-x-auto">
             {ADMIN_SECTIONS.map(({ id, label }) => (
               <button
                 key={id}
                 type="button"
                 onClick={() => setSection(id)}
-                className={`shrink-0 rounded-chip px-3 py-1.5 font-sans text-sm font-bold transition-colors duration-fast ease-ui ${
+                /* This row is the only way to move between sections on a
+                   phone, so it takes the full 44px rather than the 36px the
+                   desktop-only inline controls use. */
+                className={`inline-flex min-h-11 shrink-0 items-center rounded-chip px-4 font-sans text-sm font-bold transition-[background-color,border-color,color,transform] duration-fast ease-ui active:scale-[0.96] ${
                   section === id
                     ? 'bg-accent-red text-white'
-                    : 'border border-white/15 text-admin-ink'
+                    : 'border border-white/15 text-admin-ink hover:bg-white/10'
                 }`}
               >
                 {label}

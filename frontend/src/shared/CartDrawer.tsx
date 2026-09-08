@@ -6,6 +6,7 @@ import { cartLineTotal, useCart } from '../context/CartContext'
 import { formatPrice } from '../utils'
 import { buttonClass } from '../components/common/Button'
 import { unsplashAt } from '../data/images'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 export default function CartDrawer() {
   const navigate = useNavigate()
@@ -26,6 +27,12 @@ export default function CartDrawer() {
 
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const returnFocusRef = useRef<HTMLElement | null>(null)
+  const panelRef = useRef<HTMLElement>(null)
+
+  /* `inert` on the wrapper protects the closed drawer. Open, nothing held
+   * Tab inside it, so four presses walked out into the page that
+   * aria-modal="true" claims is not there. */
+  useFocusTrap(panelRef, isCartOpen)
 
   useEffect(() => {
     if (!isCartOpen) return
@@ -66,6 +73,7 @@ export default function CartDrawer() {
       inert={!isCartOpen}
     >
       <aside
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label="Your order"
@@ -119,7 +127,7 @@ export default function CartDrawer() {
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
           {cart.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
-              <p className="font-display text-xl text-header-brown uppercase">
+              <p className="font-display text-display-xs text-header-brown uppercase">
                 Your box is empty
               </p>
               <button
@@ -223,7 +231,7 @@ export default function CartDrawer() {
             </div>
 
             <div className="flex items-center justify-between border-t-2 border-dashed border-ink-dark pt-3">
-              <span className="font-display text-xl text-header-brown uppercase">
+              <span className="font-display text-display-xs text-header-brown uppercase">
                 Total
               </span>
               <span className="font-display text-display-sm text-accent-red">

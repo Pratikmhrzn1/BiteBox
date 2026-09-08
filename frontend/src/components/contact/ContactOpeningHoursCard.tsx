@@ -18,14 +18,12 @@ export default function ContactOpeningHoursCard({
         </h2>
         <span
           className={`flex items-center gap-2 rounded-full border-2 border-ink-dark px-3 py-1 font-sans text-xs font-bold shadow-comic-sm ${
-            openNow ? 'bg-green-400 text-ink-dark' : 'bg-accent-red text-white'
+            openNow ? 'bg-olive text-white' : 'bg-accent-red text-white'
           }`}
         >
-          <span
-            className={`h-2 w-2 rounded-full ${
-              openNow ? 'bg-green-700' : 'bg-white'
-            }`}
-          />
+          {/* Both pill grounds carry white text, so the dot is white on
+              either; the state is in the fill and the label, not the dot. */}
+          <span className="h-2 w-2 rounded-full bg-white" aria-hidden="true" />
           {openNow ? 'Open Now' : 'Closed'}
         </span>
       </div>

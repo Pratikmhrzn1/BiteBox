@@ -39,7 +39,20 @@ const SOCIALS = [
   },
 ] as const
 
-export default function SocialLinks() {
+/* The footer used to carry its own copy of these three icons as <button>s
+ * with no onClick - hover lift, active press, aria-label and nowhere to go.
+ * There is only one set of social links in the product, so there is one
+ * component; `tone` is the only thing the two placements disagreed on. */
+const TONES = {
+  light: 'bg-card-bg text-ink-dark',
+  dark: 'bg-brown text-card-bg',
+} as const
+
+export default function SocialLinks({
+  tone = 'light',
+}: {
+  tone?: keyof typeof TONES
+}) {
   return (
     <div className="flex items-center gap-3">
       {SOCIALS.map(({ id, label, href, icon }) => (
@@ -48,8 +61,8 @@ export default function SocialLinks() {
           href={href}
           target="_blank"
           rel="noreferrer"
-          aria-label={label}
-          className="flex h-11 w-11 items-center justify-center rounded-card border-2 border-ink-dark bg-card-bg text-ink-dark shadow-comic transition-[background-color,border-color,color,box-shadow,transform] duration-fast ease-ui hover:-translate-y-0.5 hover:bg-accent-red hover:text-white active:translate-y-0 active:shadow-none"
+          aria-label={`${label} (opens in a new tab)`}
+          className={`flex h-11 w-11 items-center justify-center rounded-card border-2 border-ink-dark shadow-comic transition-[background-color,border-color,color,box-shadow,transform] duration-fast ease-ui hover:-translate-y-0.5 hover:bg-accent-red hover:text-white active:translate-y-0 active:shadow-none ${TONES[tone]}`}
         >
           {icon}
         </a>

@@ -12,27 +12,37 @@ import type {
   PaymentStatus,
 } from '../../api/orders'
 
+/* Ink, ground and edge all come off one status token - see the Status block
+ * in tailwind.config.js for the measured contrast.
+ *
+ * Written out rather than composed from a `pill(token)` helper: Tailwind
+ * scans source as plain text, so an interpolated `bg-${token}/15` matches
+ * nothing and emits no CSS at all.
+ *
+ * The seven states keep seven distinct hues on purpose. This is an
+ * operational pipeline, and folding "ready to hand over" into "delivered"
+ * would cost the kitchen a distinction it acts on. */
 export const STATUS_STYLES: Record<OrderStatus, string> = {
-  PLACED: 'bg-[#3d2a14] text-amber border-amber/40',
-  CONFIRMED: 'bg-[#2b2f14] text-yellow-200 border-yellow-400/40',
-  PREPARING: 'bg-[#3a1e10] text-orange-300 border-orange-400/40',
-  READY: 'bg-[#14331f] text-emerald-300 border-emerald-400/40',
-  OUT_FOR_DELIVERY: 'bg-[#14253f] text-blue-300 border-blue-400/40',
-  DELIVERED: 'bg-[#1f2a0f] text-lime-300 border-lime-400/40',
-  CANCELLED: 'bg-[#3a1410] text-red-300 border-red-400/40',
+  PLACED: 'bg-amber/15 text-amber border-amber/70',
+  CONFIRMED: 'bg-caution/15 text-caution border-caution/70',
+  PREPARING: 'bg-warning/15 text-warning border-warning/70',
+  READY: 'bg-success/15 text-success border-success/70',
+  OUT_FOR_DELIVERY: 'bg-info/15 text-info border-info/70',
+  DELIVERED: 'bg-done/15 text-done border-done/70',
+  CANCELLED: 'bg-danger/15 text-danger border-danger/70',
 }
 
 const PAYMENT_STYLES: Record<PaymentMethod, string> = {
-  CASH_ON_DELIVERY: 'bg-[#2b1609] text-amber',
-  CARD: 'bg-[#2a1430] text-purple-300',
-  ESEWA: 'bg-[#14331f] text-emerald-300',
-  KHALTI: 'bg-[#2a1430] text-purple-300',
+  CASH_ON_DELIVERY: 'bg-amber/15 text-amber',
+  CARD: 'bg-plum/15 text-plum',
+  ESEWA: 'bg-success/15 text-success',
+  KHALTI: 'bg-plum/15 text-plum',
 }
 
 const TYPE_STYLES: Record<OrderType, string> = {
   DINE_IN: 'bg-white/5 text-cream',
-  TAKEAWAY: 'bg-[#3a1e10] text-orange-200',
-  DELIVERY: 'bg-[#14253f] text-blue-200',
+  TAKEAWAY: 'bg-warning/15 text-warning',
+  DELIVERY: 'bg-info/15 text-info',
 }
 
 export function OrderStatusPill({
@@ -42,7 +52,10 @@ export function OrderStatusPill({
   status: OrderStatus
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void
 }) {
-  const classes = `rounded-full border px-2.5 py-1 font-sans text-xs font-bold transition-[background-color,border-color,color,box-shadow,transform] duration-fast ease-ui ${STATUS_STYLES[status]}`
+  /* min-h-8 when it is a control: at py-1 the clickable pill was 26px, which
+   * clears WCAG 2.5.8 by two pixels and feels like it. The static span keeps
+   * the tighter box, since a label is not a target. */
+  const classes = `inline-flex items-center rounded-full border px-2.5 py-1 font-sans text-xs font-bold transition-[background-color,border-color,color,box-shadow,transform] duration-fast ease-ui ${STATUS_STYLES[status]}`
 
   if (!onClick) {
     return <span className={classes}>{STATUS_LABELS[status]}</span>
@@ -53,7 +66,7 @@ export function OrderStatusPill({
       type="button"
       onClick={onClick}
       title="Click to advance status"
-      className={`${classes} cursor-pointer hover:scale-105`}
+      className={`${classes} min-h-8 cursor-pointer hover:brightness-125 active:scale-[0.96]`}
     >
       {STATUS_LABELS[status]}
     </button>
@@ -71,7 +84,7 @@ export function PaymentBadge({
   return (
     <span
       className={`rounded-full border px-2.5 py-1 font-sans text-xs font-bold ${
-        paid ? 'border-emerald-400/50' : 'border-red-400/50'
+        paid ? 'border-success/70' : 'border-danger/70'
       } ${PAYMENT_STYLES[method]}`}
     >
       {paid ? 'Paid · ' : 'Unpaid · '}

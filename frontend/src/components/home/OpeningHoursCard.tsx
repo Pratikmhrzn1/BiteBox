@@ -9,8 +9,12 @@ export default function OpeningHoursCard({
   title,
   rows,
 }: OpeningHoursCardProps) {
+  /* Was a gradient panel on shadow-lg with no border - a soft-shadow card in
+   * a product whose depth is carried entirely by the ink outline and the
+   * offset. On mobile it is the first surface under the hero, so it was the
+   * loudest exception in the system. */
   return (
-    <section className="rounded-panel bg-gradient-to-br from-olive-deep to-espresso-dark p-6 text-cream shadow-lg">
+    <section className="rounded-panel border-2 border-ink-dark bg-gradient-to-br from-olive-deep to-espresso-dark p-6 text-cream shadow-comic-md">
       <h2 className="font-sans text-lg font-bold tracking-widest uppercase">
         {title}
       </h2>

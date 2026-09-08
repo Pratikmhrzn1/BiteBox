@@ -60,10 +60,19 @@ export default function MenuPage() {
       <div className="pb-16">
         <div className="mx-auto w-full">
           <h1 className="section-heading text-display-lg">Our Menu</h1>
-          <p className="mt-1 font-sans text-body-lg text-ink-muted">
+          {/* This used to read menu.length, the unfiltered total, so
+              filtering down to three dishes still claimed twenty-four, and a
+              failed request announced "0 dishes, smashed to order." directly
+              above the error. aria-live makes the count the thing that
+              reports a filter change - nothing did before. */}
+          <p className="mt-1 font-sans text-body-lg text-ink-muted" aria-live="polite">
             {loading
               ? 'Loading the good stuff…'
-              : `${menu.length} dishes, smashed to order.`}
+              : error
+                ? 'Menu unavailable right now.'
+                : `${filteredItems.length} ${
+                    filteredItems.length === 1 ? 'dish' : 'dishes'
+                  }, smashed to order.`}
           </p>
 
           <MenuFilterBar

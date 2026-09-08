@@ -18,9 +18,9 @@ export function AdminError({
   onRetry?: () => void
 }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 rounded-card border border-red-500/30 bg-[#3a1410] py-12 text-center">
-      <AlertTriangle className="h-6 w-6 text-red-300" aria-hidden="true" />
-      <p className="font-sans text-sm font-bold text-red-200">{message}</p>
+    <div className="flex flex-col items-center justify-center gap-3 rounded-card border border-danger/70 bg-danger/15 py-12 text-center">
+      <AlertTriangle className="h-6 w-6 text-danger" aria-hidden="true" />
+      <p className="font-sans text-sm font-bold text-danger">{message}</p>
       {onRetry && (
         <button
           type="button"

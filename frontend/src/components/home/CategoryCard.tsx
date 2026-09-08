@@ -7,7 +7,7 @@ type CategoryCardProps = {
 
 export default function CategoryCard({ categories }: CategoryCardProps) {
   return (
-    <section className="overflow-hidden rounded-panel bg-gradient-to-br from-brown to-espresso-dark p-6 shadow-lg">
+    <section className="overflow-hidden rounded-panel border-2 border-ink-dark bg-gradient-to-br from-brown to-espresso-dark p-6 shadow-comic-md">
       <h2 className="font-sans text-lg font-bold tracking-widest text-cream uppercase">
         Category
       </h2>

@@ -16,7 +16,7 @@ import type { OrderStatus, PaymentStatus } from '../../../api/orders'
 import { useAsync } from '../../../hooks/useAsync'
 import { useAuth } from '../../../context/AuthContext'
 import { formatDateTime, formatPrice } from '../../../utils'
-import { EmptyState, inputClass } from '../ui'
+import { EmptyState, btnPrimary, btnToggle, inputClass } from '../ui'
 import { AdminError, AdminLoading } from '../AdminStates'
 import { OrderStatusPill, PaymentBadge, TypeBadge } from '../orderPills'
 import { downloadOrdersCsv } from '../csv'
@@ -148,11 +148,7 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
               key={id}
               type="button"
               onClick={() => setFilter(id)}
-              className={`rounded-chip px-3 py-1.5 font-sans text-sm font-bold transition-colors duration-fast ease-ui ${
-                filter === id
-                  ? 'bg-accent-red text-white'
-                  : 'border border-white/15 text-admin-ink hover:bg-white/5'
-              }`}
+              className={btnToggle(filter === id)}
             >
               {id === 'All' ? 'All' : STATUS_LABELS[id]}
               <span
@@ -169,7 +165,7 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
         <button
           type="button"
           onClick={() => downloadOrdersCsv(filteredOrders)}
-          className="inline-flex items-center gap-2 rounded-chip bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white transition-colors duration-fast ease-ui hover:bg-red-700"
+          className={btnPrimary}
         >
           <Download className="h-4 w-4" /> Export CSV
         </button>
@@ -186,7 +182,7 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
         />
       </div>
 
-      <div className="overflow-hidden rounded-card border border-white/5 bg-admin-surface">
+      <div className="overflow-hidden rounded-card border border-white/10 bg-admin-surface">
         {filteredOrders.length === 0 ? (
           <EmptyState
             title="No orders found"
@@ -210,12 +206,12 @@ export default function OrdersSection({ onChanged }: OrdersSectionProps) {
                 {filteredOrders.map((order) => (
                   <tr
                     key={order.id}
-                    className={`cursor-pointer border-t border-white/5 transition-colors duration-fast ease-ui hover:bg-white/5 ${
+                    className={`cursor-pointer border-t border-white/10 transition-colors duration-fast ease-ui hover:bg-white/5 ${
                       busyId === order.id ? 'opacity-50' : ''
                     }`}
                     onClick={() => setDetailId(order.id)}
                   >
-                    <td className="px-4 py-3 font-mono text-xs font-bold text-amber">
+                    <td className="px-4 py-3 nums font-sans text-xs font-bold text-amber">
                       {order.reference}
                     </td>
                     <td className="px-4 py-3">
@@ -283,15 +279,15 @@ function OrderDetailPanel({
   return (
     <div className="fixed inset-0 z-40 flex justify-end bg-black/60" onClick={onClose}>
       <div
-        className="h-full w-full max-w-md overflow-y-auto border-l border-white/10 bg-admin-field shadow-2xl"
+        className="h-full w-full max-w-md overflow-y-auto border-l border-white/10 bg-admin-field shadow-admin-pop"
         onClick={(event) => event.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label={`Order ${order.reference} details`}
       >
-        <div className="sticky top-0 flex items-center justify-between border-b border-white/5 bg-admin-field px-5 py-4">
+        <div className="sticky top-0 flex items-center justify-between border-b border-white/10 bg-admin-field px-5 py-4">
           <div>
-            <p className="font-mono text-base font-bold text-amber">
+            <p className="nums font-sans text-base font-bold text-amber">
               {order.reference}
             </p>
             <p className="font-sans text-xs text-admin-muted">
@@ -350,7 +346,7 @@ function OrderDetailPanel({
               {order.items.map((line, index) => (
                 <li
                   key={`${order.id}-${line.slug}-${index}`}
-                  className="rounded-chip bg-[#403225] px-3 py-2"
+                  className="rounded-chip bg-white/5 px-3 py-2"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-sans text-sm font-semibold text-cream">
@@ -400,11 +396,7 @@ function OrderDetailPanel({
                   type="button"
                   disabled={busy}
                   onClick={() => onSetStatus(status)}
-                  className={`rounded-chip px-2.5 py-1.5 font-sans text-xs font-bold transition-colors duration-fast ease-ui disabled:opacity-50 ${
-                    order.status === status
-                      ? 'bg-accent-red text-white'
-                      : 'border border-white/15 text-admin-ink hover:bg-white/5'
-                  }`}
+                  className={btnToggle(order.status === status)}
                 >
                   {STATUS_LABELS[status]}
                 </button>
@@ -424,11 +416,7 @@ function OrderDetailPanel({
                     type="button"
                     disabled={busy}
                     onClick={() => onSetPayment(status)}
-                    className={`rounded-chip px-2.5 py-1.5 font-sans text-xs font-bold capitalize transition-colors duration-fast ease-ui disabled:opacity-50 ${
-                      order.paymentStatus === status
-                        ? 'bg-accent-red text-white'
-                        : 'border border-white/15 text-admin-ink hover:bg-white/5'
-                    }`}
+                    className={`${btnToggle(order.paymentStatus === status)} capitalize`}
                   >
                     {status.toLowerCase()}
                   </button>

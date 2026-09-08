@@ -160,7 +160,7 @@ export default function ContentSection() {
               <div className="text-center leading-none">
                 {/* Mirrors the live hero's faces, so the preview does not
                     lie about what the storefront will render. */}
-                <p className="font-display text-lg text-white sm:text-xl">
+                <p className="font-display text-display-xs text-white">
                   {draft.hero.line1}
                   <br />
                   <span className="font-script text-xl font-bold text-amber sm:text-2xl">
@@ -316,7 +316,7 @@ export default function ContentSection() {
                   : current,
               )
             }
-            className="inline-flex items-center gap-1 font-sans text-xs font-bold text-accent-red transition-colors duration-fast ease-ui hover:text-orange-300"
+            className="-mr-2 inline-flex min-h-9 items-center gap-1 rounded-chip px-2 font-sans text-xs font-bold text-accent-red transition-[background-color,color] duration-fast ease-ui hover:bg-white/5 hover:text-warning"
           >
             <Plus className="h-3.5 w-3.5" /> Add day range
           </button>
@@ -326,7 +326,7 @@ export default function ContentSection() {
           {draft.openingHours.rows.map((row, index) => (
             <div
               key={`${row.label}-${index}`}
-              className="flex flex-col gap-3 rounded-chip bg-[#403225] p-3 sm:flex-row sm:flex-wrap sm:items-end"
+              className="flex flex-col gap-3 rounded-chip bg-white/5 p-3 sm:flex-row sm:flex-wrap sm:items-end"
             >
               <div className="w-full min-w-32 flex-1 sm:w-auto">
                 <label className="mb-1 block font-sans text-[10px] font-bold tracking-widest text-admin-muted uppercase">
@@ -387,7 +387,7 @@ export default function ContentSection() {
                       : current,
                   )
                 }
-                className="rounded-chip p-2 text-admin-ink transition-colors duration-fast ease-ui hover:bg-red-500/20 hover:text-red-300 lg:mb-1"
+                className="rounded-chip p-2 text-admin-ink transition-colors duration-fast ease-ui hover:bg-danger/15 hover:text-danger lg:mb-1"
                 aria-label="Remove day range"
               >
                 <Trash2 className="h-4 w-4" />

@@ -2,10 +2,20 @@ import { useState, type FormEvent } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../components/common/Toast'
-import { fieldClass } from '../components/common/formStyles'
+import { fieldClass, focusFirstError } from '../components/common/formStyles'
+import FormField from '../components/common/FormField'
 import { buttonClass } from '../components/common/Button'
 
 type LocationState = { from?: { pathname: string } }
+type Errors = Partial<Record<'email' | 'password', string>>
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+/* DOM order, so focusFirstError lands on the field the reader reaches first. */
+const FIELD_ORDER = [
+  ['email', 'login-email'],
+  ['password', 'login-password'],
+] as const
 
 export default function LoginPage() {
   const { user, isChecking, login } = useAuth()
@@ -15,6 +25,7 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState<Errors>({})
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
@@ -31,8 +42,26 @@ export default function LoginPage() {
     return <Navigate to={from ?? (user.role === 'ADMIN' ? '/admin' : '/account')} replace />
   }
 
+  /* The form used to post whatever was in the boxes, so an empty submit
+     spent a round trip to be told "Invalid credentials". */
+  const validate = (): Errors => {
+    const next: Errors = {}
+    if (!email.trim()) next.email = 'Enter the email you signed up with'
+    else if (!EMAIL_RE.test(email.trim())) next.email = 'That email doesn\u2019t look right'
+    if (!password) next.password = 'Enter your password'
+    return next
+  }
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
+
+    const nextErrors = validate()
+    setErrors(nextErrors)
+    if (Object.keys(nextErrors).length > 0) {
+      focusFirstError(FIELD_ORDER, nextErrors)
+      return
+    }
+
     setSubmitting(true)
     setError(null)
     try {
@@ -62,35 +91,44 @@ export default function LoginPage() {
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-5" noValidate>
-          <div>
-            <label htmlFor="login-email" className="mb-1.5 block font-sans text-sm font-bold text-ink-dark">
-              Email
-            </label>
-            <input
-              id="login-email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="you@example.com"
-              className={fieldClass(false)}
-            />
-          </div>
+          <FormField id="login-email" label="Email" error={errors.email} required>
+            {(control) => (
+              <input
+                {...control}
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(event) => {
+                  setEmail(event.target.value)
+                  setErrors((current) => ({ ...current, email: undefined }))
+                }}
+                placeholder="you@example.com"
+                className={fieldClass(Boolean(errors.email))}
+              />
+            )}
+          </FormField>
 
-          <div>
-            <label htmlFor="login-password" className="mb-1.5 block font-sans text-sm font-bold text-ink-dark">
-              Password
-            </label>
-            <input
-              id="login-password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="••••••••"
-              className={fieldClass(false)}
-            />
-          </div>
+          <FormField
+            id="login-password"
+            label="Password"
+            error={errors.password}
+            required
+          >
+            {(control) => (
+              <input
+                {...control}
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(event) => {
+                  setPassword(event.target.value)
+                  setErrors((current) => ({ ...current, password: undefined }))
+                }}
+                placeholder="••••••••"
+                className={fieldClass(Boolean(errors.password))}
+              />
+            )}
+          </FormField>
 
           {error && (
             <p className="font-sans text-sm font-semibold text-accent-red" role="alert">

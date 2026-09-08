@@ -25,7 +25,7 @@ export default function OrderSummary({
         <span>Delivery fee</span>
         <span>{formatPrice(deliveryFee)}</span>
       </div>
-      <div className="flex justify-between border-t-2 border-dashed border-ink-dark pt-2 font-display text-xl text-header-brown uppercase">
+      <div className="flex justify-between border-t-2 border-dashed border-ink-dark pt-2 font-display text-display-xs text-header-brown uppercase">
         <span>Total</span>
         <span className="text-accent-red">{formatPrice(total)}</span>
       </div>

@@ -15,10 +15,39 @@ const NAV_LINKS = [
 const bar =
   'h-0.5 w-6 rounded bg-accent-red transition-[transform,opacity] duration-base ease-ui'
 
+/* Desktop: an inline item, so the active marker is an underline the width of
+ * the word. */
 const linkClass = ({ isActive }: { isActive: boolean }) =>
   isActive
     ? 'relative font-sans text-sm font-bold tracking-wide text-accent-red uppercase after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:rounded after:bg-accent-red'
     : 'font-sans text-sm font-semibold tracking-wide text-espresso-dark uppercase transition-colors duration-fast ease-ui hover:text-accent-red'
+
+/* Mobile: the same items stack, and the desktop recipe broke twice over.
+ * after:w-full stretched the underline across the whole panel, where it read
+ * as a section divider rather than a marker, and the rows were bare text - a
+ * ~20px target in a product that holds everything else to 44px.
+ *
+ * The marker is a left rule in the same red the desktop underline uses, over
+ * a wash light enough to keep the red legible on it - accent-red measures
+ * 5.3:1 on amber/20, against 3.33:1 on full amber, which is why the fill is
+ * a wash and not a slab. A solid amber row was tried first and read as a
+ * banner: it out-shouted the logo and flattened the three links beside it. */
+const MOBILE_ROW =
+  'flex min-h-11 items-center gap-2 rounded-control px-3 font-sans text-sm tracking-wide ' +
+  'transition-[background-color,color] duration-fast ease-ui'
+
+const mobileLinkClass = ({ isActive }: { isActive: boolean }) =>
+  isActive
+    /* rounded-l-none: a 4px border on a rounded corner renders as a crescent
+       hugging the curve rather than a rule. Squaring the leading edge is what
+       makes it read as a marker. */
+    ? `${MOBILE_ROW} rounded-l-none border-l-4 border-accent-red bg-amber/20 pl-2 font-bold uppercase text-accent-red`
+    : `${MOBILE_ROW} font-semibold uppercase text-espresso-dark hover:bg-espresso-dark/5 hover:text-accent-red`
+
+/* The action rows under the divider are not NavLinks, but they sit in the
+ * same column and need the same target. */
+const mobileActionClass =
+  `${MOBILE_ROW} font-semibold text-espresso-dark hover:bg-espresso-dark/5 hover:text-accent-red`
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -222,25 +251,25 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="animate-rise-in border-t border-espresso-dark/10 bg-nav-bg px-4 py-4 lg:hidden">
-          <nav className="flex flex-col gap-3">
+        <div className="animate-rise-in border-t border-espresso-dark/10 bg-nav-bg px-4 py-3 lg:hidden">
+          <nav className="flex flex-col gap-0.5">
             {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
                 end={link.to === '/'}
                 onClick={() => setMenuOpen(false)}
-                className={linkClass}
+                className={mobileLinkClass}
               >
                 {link.label}
               </NavLink>
             ))}
           </nav>
 
-          <div className="mt-4 flex flex-col gap-3 border-t border-espresso-dark/10 pt-4">
+          <div className="mt-3 flex flex-col gap-0.5 border-t border-espresso-dark/10 pt-3">
             <button
               type="button"
-              className="flex items-center gap-2 font-sans text-sm font-semibold text-espresso-dark transition-colors duration-fast ease-ui hover:text-accent-red"
+              className={mobileActionClass}
               onClick={() => go('/track')}
             >
               <MapPin className="h-5 w-5" aria-hidden="true" /> Track an Order
@@ -250,7 +279,7 @@ export default function Navbar() {
               <>
                 <button
                   type="button"
-                  className="flex items-center gap-2 font-sans text-sm font-semibold text-espresso-dark transition-colors duration-fast ease-ui hover:text-accent-red"
+                  className={mobileActionClass}
                   onClick={() => go('/account')}
                 >
                   <Package className="h-5 w-5" aria-hidden="true" /> My Orders
@@ -258,7 +287,7 @@ export default function Navbar() {
                 {user.role === 'ADMIN' && (
                   <button
                     type="button"
-                    className="flex items-center gap-2 font-sans text-sm font-semibold text-espresso-dark transition-colors duration-fast ease-ui hover:text-accent-red"
+                    className={mobileActionClass}
                     onClick={() => go('/admin')}
                   >
                     <LayoutDashboard className="h-5 w-5" aria-hidden="true" /> Admin Panel
@@ -266,7 +295,7 @@ export default function Navbar() {
                 )}
                 <button
                   type="button"
-                  className="flex items-center gap-2 font-sans text-sm font-semibold text-accent-red"
+                  className={`${MOBILE_ROW} font-semibold text-accent-red hover:bg-accent-red hover:text-white`}
                   onClick={handleSignOut}
                 >
                   <LogOut className="h-5 w-5" aria-hidden="true" /> Sign Out
@@ -275,7 +304,7 @@ export default function Navbar() {
             ) : (
               <button
                 type="button"
-                className="flex items-center gap-2 font-sans text-sm font-semibold text-espresso-dark transition-colors duration-fast ease-ui hover:text-accent-red"
+                className={mobileActionClass}
                 onClick={() => go('/login')}
               >
                 <User className="h-5 w-5" aria-hidden="true" /> Sign In

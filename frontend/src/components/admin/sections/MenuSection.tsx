@@ -11,7 +11,7 @@ import { useStore } from '../../../context/StoreContext'
 import { fetchMenu } from '../../../api/menu'
 import { useAsync } from '../../../hooks/useAsync'
 import { formatPrice } from '../../../utils'
-import { EmptyState, Modal, btnDanger, btnGhost, btnPrimary, inputClass } from '../ui'
+import { EmptyState, Modal, btnDanger, btnGhost, btnPrimary, btnToggle, inputClass } from '../ui'
 import { AdminError, AdminLoading } from '../AdminStates'
 import MenuItemModal from '../MenuItemModal'
 import { useAdminToast } from '../AdminToast'
@@ -134,11 +134,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
               key={cat}
               type="button"
               onClick={() => setCategory(cat)}
-              className={`rounded-chip px-3 py-1.5 font-sans text-sm font-bold transition-colors duration-fast ease-ui ${
-                category === cat
-                  ? 'bg-accent-red text-white'
-                  : 'border border-white/15 text-admin-ink hover:bg-white/5'
-              }`}
+              className={btnToggle(category === cat)}
             >
               {cat}
             </button>
@@ -167,7 +163,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
           {filtered.map((item) => (
             <div
               key={item.id}
-              className={`group overflow-hidden rounded-card border border-white/5 bg-admin-surface transition-colors duration-fast ease-ui ${
+              className={`group overflow-hidden rounded-card border border-white/10 bg-admin-surface transition-colors duration-fast ease-ui ${
                 busyId === item.id ? 'opacity-50' : ''
               } ${item.available ? '' : 'opacity-70'}`}
             >
@@ -182,7 +178,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                   {item.category}
                 </span>
                 {!item.available && (
-                  <span className="absolute left-3 bottom-3 rounded-full bg-red-900/90 px-2 py-0.5 font-sans text-[10px] font-bold tracking-widest text-red-200 uppercase">
+                  <span className="absolute left-3 bottom-3 rounded-full bg-danger/15 px-2 py-0.5 font-sans text-[10px] font-bold tracking-widest text-danger uppercase">
                     Hidden
                   </span>
                 )}
@@ -223,12 +219,12 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                 </p>
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   {item.spicy && (
-                    <span className="rounded-full bg-red-500/15 px-2 py-0.5 font-sans text-[10px] font-bold text-red-300">
+                    <span className="rounded-full bg-danger/15 px-2 py-0.5 font-sans text-[10px] font-bold text-danger">
                       <Flame className="h-3 w-3" aria-hidden="true" /> Spicy
                     </span>
                   )}
                   {item.vegetarian && (
-                    <span className="rounded-full bg-lime-500/15 px-2 py-0.5 font-sans text-[10px] font-bold text-lime-300">
+                    <span className="rounded-full bg-done/15 px-2 py-0.5 font-sans text-[10px] font-bold text-done">
                       <Leaf className="h-3 w-3" aria-hidden="true" /> Veg
                     </span>
                   )}
@@ -249,7 +245,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                   )}
                 </div>
 
-                <div className="flex items-center gap-2 border-t border-white/5 pt-3">
+                <div className="flex items-center gap-2 border-t border-white/10 pt-3">
                   <button
                     type="button"
                     onClick={() =>
@@ -260,7 +256,7 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                       )
                     }
                     title={item.available ? 'Hide from menu' : 'Show on menu'}
-                    className="inline-flex items-center gap-1.5 rounded-chip bg-white/5 px-2.5 py-1.5 font-sans text-xs font-bold text-admin-ink transition-colors duration-fast ease-ui hover:bg-white/10"
+                    className={btnGhost}
                   >
                     {item.available ? (
                       <>
@@ -275,14 +271,14 @@ export default function MenuSection({ addOpen, onDismissAdd }: MenuSectionProps)
                   <button
                     type="button"
                     onClick={() => setEditing(item)}
-                    className="ml-auto inline-flex items-center gap-1.5 rounded-chip border border-white/15 px-2.5 py-1.5 font-sans text-xs font-bold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
+                    className={`${btnGhost} ml-auto`}
                   >
                     <Pencil className="h-3.5 w-3.5" /> Edit
                   </button>
                   <button
                     type="button"
                     onClick={() => setDeleting(item)}
-                    className="inline-flex items-center gap-1.5 rounded-chip border border-red-500/30 px-2.5 py-1.5 font-sans text-xs font-bold text-red-300 transition-colors duration-fast ease-ui hover:bg-red-500/15"
+                    className={btnDanger}
                   >
                     <Trash2 className="h-3.5 w-3.5" /> Delete
                   </button>

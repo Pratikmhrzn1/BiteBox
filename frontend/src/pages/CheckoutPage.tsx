@@ -7,10 +7,12 @@ import {
   type CreateOrderInput,
   type PaymentMethod,
 } from '../api/orders'
+import { formatPrice } from '../utils'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { useToast } from '../components/common/Toast'
-import { fieldClass, labelClass } from '../components/common/formStyles'
+import { fieldClass, focusFirstError, labelClass } from '../components/common/formStyles'
+import FormField from '../components/common/FormField'
 import CheckoutSummary from '../sections/checkout/CheckoutSummary'
 import { buttonClass } from '../components/common/Button'
 
@@ -24,6 +26,12 @@ type CustomerForm = {
 type Errors = Partial<Record<'name' | 'phone' | 'address', string>>
 
 const PHONE_RE = /^\+?[\d\s-]{7,20}$/
+
+const FIELD_ORDER = [
+  ['name', 'checkout-name'],
+  ['phone', 'checkout-phone'],
+  ['address', 'checkout-address'],
+] as const
 
 export default function CheckoutPage() {
   const navigate = useNavigate()
@@ -106,6 +114,7 @@ export default function CheckoutPage() {
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) {
       setSubmitError('Please fix the highlighted fields.')
+      focusFirstError(FIELD_ORDER, nextErrors)
       return
     }
 
@@ -192,81 +201,81 @@ export default function CheckoutPage() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label htmlFor="checkout-name" className={labelClass}>
-                Full Name <span className="text-accent-red">*</span>
-              </label>
-              <input
-                id="checkout-name"
-                type="text"
-                autoComplete="name"
-                value={customer.name}
-                onChange={update('name')}
-                placeholder="Zoe Smashburger"
-                className={fieldClass(Boolean(errors.name))}
-              />
-              {errors.name && (
-                <p className="mt-1.5 font-sans text-xs font-semibold text-accent-red">
-                  {errors.name}
-                </p>
+            <FormField
+              id="checkout-name"
+              label="Full Name"
+              error={errors.name}
+              required
+            >
+              {(control) => (
+                <input
+                  {...control}
+                  type="text"
+                  autoComplete="name"
+                  value={customer.name}
+                  onChange={update('name')}
+                  placeholder="Zoe Smashburger"
+                  className={fieldClass(Boolean(errors.name))}
+                />
               )}
-            </div>
-            <div>
-              <label htmlFor="checkout-phone" className={labelClass}>
-                Phone Number <span className="text-accent-red">*</span>
-              </label>
-              <input
-                id="checkout-phone"
-                type="tel"
-                autoComplete="tel"
-                value={customer.phone}
-                onChange={update('phone')}
-                placeholder="+977 …"
-                className={fieldClass(Boolean(errors.phone))}
-              />
-              {errors.phone && (
-                <p className="mt-1.5 font-sans text-xs font-semibold text-accent-red">
-                  {errors.phone}
-                </p>
+            </FormField>
+            <FormField
+              id="checkout-phone"
+              label="Phone Number"
+              error={errors.phone}
+              required
+            >
+              {(control) => (
+                <input
+                  {...control}
+                  type="tel"
+                  autoComplete="tel"
+                  value={customer.phone}
+                  onChange={update('phone')}
+                  placeholder="+977 …"
+                  className={fieldClass(Boolean(errors.phone))}
+                />
               )}
-            </div>
+            </FormField>
           </div>
 
           {orderType === 'DELIVERY' && (
-            <div>
-              <label htmlFor="checkout-address" className={labelClass}>
-                Delivery Address <span className="text-accent-red">*</span>
-              </label>
-              <input
-                id="checkout-address"
-                type="text"
-                autoComplete="street-address"
-                value={customer.address}
-                onChange={update('address')}
-                placeholder="Nakhipot, Lalitpur"
-                className={fieldClass(Boolean(errors.address))}
-              />
-              {errors.address && (
-                <p className="mt-1.5 font-sans text-xs font-semibold text-accent-red">
-                  {errors.address}
-                </p>
+            <FormField
+              id="checkout-address"
+              label="Delivery Address"
+              error={errors.address}
+              required
+            >
+              {(control) => (
+                <input
+                  {...control}
+                  type="text"
+                  autoComplete="street-address"
+                  value={customer.address}
+                  onChange={update('address')}
+                  placeholder="Nakhipot, Lalitpur"
+                  className={fieldClass(Boolean(errors.address))}
+                />
               )}
-            </div>
+            </FormField>
           )}
 
-          <div>
-            <label htmlFor="checkout-note" className={labelClass}>
-              Order Note
-            </label>
-            <textarea
-              id="checkout-note"
-              rows={3}
-              value={customer.note}
-              onChange={update('note')}
-              placeholder="Extra sauce on the side…"
-              className={`${fieldClass(false)} resize-none`}
-            />
-          </div>
+          <FormField
+            id="checkout-note"
+            label="Order Note"
+            hint="Optional. Allergies, buzzer codes, sauce opinions."
+          >
+            {(control) => (
+              <textarea
+                {...control}
+                rows={3}
+                value={customer.note}
+                onChange={update('note')}
+                placeholder="Extra sauce on the side…"
+                className={`${fieldClass(false)} resize-none`}
+              />
+            )}
+          </FormField>
 
           <div>
             <p className={labelClass}>
@@ -321,7 +330,7 @@ export default function CheckoutPage() {
             disabled={submitting}
             className={buttonClass({ size: 'lg', className: 'w-full' })}
           >
-            {submitting ? 'Placing order…' : `Place Order · Rs ${total}`}
+            {submitting ? 'Placing order…' : `Place Order · ${formatPrice(total)}`}
           </button>
         </div>
       </div>

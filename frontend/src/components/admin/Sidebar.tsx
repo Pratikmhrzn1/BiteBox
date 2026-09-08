@@ -33,11 +33,11 @@ export default function Sidebar({
   badges = {},
 }: SidebarProps) {
   return (
-    <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-white/5 bg-[#1A0E07] lg:flex">
-      <div className="flex items-center gap-2 border-b border-white/5 px-5 py-5">
+    <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-white/10 bg-espresso-black lg:flex">
+      <div className="flex items-center gap-2 border-b border-white/10 px-5 py-5">
         <img src={logoImg} alt="BiteBox logo" className="h-9 w-auto" />
         <div className="leading-tight">
-          <p className="font-display text-xl text-amber">BiteBox</p>
+          <p className="font-display text-display-xs text-amber">BiteBox</p>
           <span className="rounded bg-accent-red px-1.5 py-0.5 font-sans text-[10px] font-bold tracking-widest text-white uppercase">
             Admin
           </span>
@@ -59,7 +59,7 @@ export default function Sidebar({
                   onClick={() => onSelect(id)}
                   className={`flex w-full items-center gap-3 rounded-chip border-l-4 px-3 py-2.5 text-left font-sans text-sm font-semibold transition-colors duration-fast ease-ui ${
                     isActive
-                      ? 'border-accent-red bg-[#2b1609] text-amber'
+                      ? 'border-accent-red bg-amber/10 text-amber'
                       : 'border-transparent text-admin-ink hover:bg-white/5 hover:text-cream'
                   }`}
                 >
@@ -77,7 +77,7 @@ export default function Sidebar({
         </ul>
       </nav>
 
-      <div className="space-y-2 border-t border-white/5 px-4 py-4">
+      <div className="space-y-2 border-t border-white/10 px-4 py-4">
         <div className="flex items-center gap-3">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent-red font-sans text-xs font-bold text-white">
             {initials(adminName)}

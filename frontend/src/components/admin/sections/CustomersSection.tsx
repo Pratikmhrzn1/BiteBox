@@ -45,7 +45,7 @@ export default function CustomersSection() {
         />
       </div>
 
-      <div className="overflow-hidden rounded-card border border-white/5 bg-admin-surface">
+      <div className="overflow-hidden rounded-card border border-white/10 bg-admin-surface">
         {filtered.length === 0 ? (
           <EmptyState title="No customers found" hint="Try a different search." />
         ) : (
@@ -63,7 +63,7 @@ export default function CustomersSection() {
               </thead>
               <tbody>
                 {filtered.map((user) => (
-                  <tr key={user.id} className="border-t border-white/5">
+                  <tr key={user.id} className="border-t border-white/10">
                     <td className="px-4 py-3 font-semibold text-cream">
                       {user.name}
                     </td>

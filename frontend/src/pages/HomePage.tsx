@@ -53,16 +53,18 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* The sidebar leads in the DOM because it sits left on desktop, but
-          that put an opening-hours table and a category list above the H1 on
-          every phone. order-* keeps the desktop layout and gives mobile the
-          hero first. */}
+      {/* The hero leads in the DOM so the document outline opens on its h1.
+          The sidebar used to come first - it sits left on desktop - which put
+          the opening-hours and category h2s above the page h1 and read as
+          h2, h2, h1 to a screen reader. An earlier pass fixed the visual half
+          of that with order-*, leaving the outline wrong. Source order is now
+          the reading order and only the desktop column swaps. */}
       <div className="flex flex-col gap-8 lg:flex-row">
-        <Sidebar openingHours={openingHours} categories={categories} />
-
-        <div className="order-1 min-w-0 flex-1 lg:order-2 lg:w-[70%]">
+        <div className="min-w-0 flex-1 lg:w-[70%]">
           <Hero copy={content.hero} onCta={() => navigate('/menu')} />
         </div>
+
+        <Sidebar openingHours={openingHours} categories={categories} />
       </div>
 
       <FeaturedBites

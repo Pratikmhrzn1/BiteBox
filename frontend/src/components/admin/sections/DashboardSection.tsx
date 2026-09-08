@@ -17,7 +17,7 @@ import type { AsyncState } from '../../../hooks/useAsync'
 import { useAsync } from '../../../hooks/useAsync'
 import { useAuth } from '../../../context/AuthContext'
 import { formatPrice, formatTime } from '../../../utils'
-import { PanelCard } from '../ui'
+import { PanelCard, btnPrimary } from '../ui'
 import { AdminError, AdminLoading } from '../AdminStates'
 import { OrderStatusPill, TypeBadge } from '../orderPills'
 import { downloadOrdersCsv } from '../csv'
@@ -89,14 +89,14 @@ export default function DashboardSection({
       value: formatPrice(summary.data?.revenueToday ?? 0),
       note: `${formatPrice(summary.data?.paidAmount ?? 0)} collected`,
       Icon: TrendingUp,
-      color: 'text-emerald-300',
+      color: 'text-success',
     },
     {
       label: 'Top Item',
       value: topItems[0]?.label ?? '—',
       note: topItems[0] ? `${topItems[0].value} sold` : 'No sales yet',
       Icon: Flame,
-      color: 'text-orange-300',
+      color: 'text-warning',
     },
     {
       label: 'Avg Rating',
@@ -105,7 +105,7 @@ export default function DashboardSection({
         : '—',
       note: `${analytics.data?.reviewCount ?? 0} reviews`,
       Icon: Star,
-      color: 'text-yellow-300',
+      color: 'text-caution',
     },
   ]
 
@@ -146,7 +146,7 @@ export default function DashboardSection({
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {kpis.map(({ label, value, note, Icon, color }) => (
-          <div key={label} className="rounded-card border border-white/5 bg-admin-surface p-5">
+          <div key={label} className="rounded-card border border-white/10 bg-admin-surface p-5">
             <div className="flex items-center gap-2 text-admin-muted">
               <Icon className="h-4 w-4" />
               <p className="font-sans text-[11px] font-bold tracking-widest uppercase">
@@ -169,7 +169,7 @@ export default function DashboardSection({
           <button
             type="button"
             onClick={() => onOpenSection('orders')}
-            className="flex items-center gap-1 font-sans text-xs font-bold text-accent-red transition-colors duration-fast ease-ui hover:text-orange-300"
+            className="-mr-2 flex min-h-9 items-center gap-1 rounded-chip px-2 font-sans text-xs font-bold text-accent-red transition-[background-color,color] duration-fast ease-ui hover:bg-white/5 hover:text-warning"
           >
             View all <ArrowRight className="h-3.5 w-3.5" />
           </button>
@@ -193,8 +193,8 @@ export default function DashboardSection({
               </thead>
               <tbody>
                 {liveOrders.map((order) => (
-                  <tr key={order.id} className="border-t border-white/5">
-                    <td className="py-3 pr-3 font-mono text-xs font-bold text-amber whitespace-nowrap">
+                  <tr key={order.id} className="border-t border-white/10">
+                    <td className="py-3 pr-3 nums font-sans text-xs font-bold text-amber whitespace-nowrap">
                       {order.reference}
                     </td>
                     <td className="py-3 pr-3">
@@ -277,7 +277,7 @@ export default function DashboardSection({
               <button
                 type="button"
                 onClick={onAddMenuItem}
-                className="flex items-center justify-center gap-2 rounded-chip bg-accent-red px-3 py-2.5 font-sans text-sm font-bold text-white transition-colors duration-fast ease-ui hover:bg-red-700"
+                className={btnPrimary}
               >
                 <Plus className="h-4 w-4" /> Add Menu Item
               </button>

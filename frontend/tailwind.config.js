@@ -53,6 +53,31 @@ export default {
         'ink-dark': '#241A12',
         'ink-muted': '#7A6A5C',
 
+        /* --- Status -------------------------------------------------
+         * The admin panel had no status scale, so seven order states, four
+         * payment methods, the toasts, the error blocks and the delete
+         * buttons each invented their own: 70+ stock-palette classes and 19
+         * hex literals across nine files - including bg-[#1A0E07], a value
+         * this file already held as espresso-black.
+         *
+         * One token per status, used three ways: `text-X` for the label,
+         * `bg-X/15` for the ground, `border-X/70` for the edge. Deriving the
+         * ground and the border from the ink keeps the trio harmonious and
+         * collapses what was three loose values per status into one.
+         *
+         * Measured as ink on its own /15 ground: the worst pair is danger on
+         * admin-surface at 5.72:1 and the best is caution at 10.14:1, so
+         * every status clears AA and six of eight clear AAA. /70 is where
+         * the border first clears 3:1 against the fill it encloses; at the
+         * /40 the panel used before, it was 1.79:1 and read as no edge. */
+        success: '#6EE7A5',
+        done: '#BEF264',
+        warning: '#FBBF77',
+        caution: '#FCE68A',
+        info: '#93C5FD',
+        danger: '#FCA5A5',
+        plum: '#DDB4FE',
+
         /* --- Admin (dark theme, same token discipline) --------------- */
         'admin-bg': '#1F100A',
         'admin-surface': '#3D1F0E',
@@ -84,6 +109,11 @@ export default {
         /* Depth under images, per the outline rule: pure black at low
          * opacity, never a tinted neutral. */
         image: '0 0 0 1px rgb(0 0 0 / 0.10)',
+
+        /* The admin panel is flat and dark, so the comic offset reads as a
+         * smear there. Its toast and slide-over still need to sit above the
+         * page, and were borrowing Tailwind's shadow-2xl to do it. */
+        'admin-pop': '0 10px 30px -10px rgb(0 0 0 / 0.6)',
       },
 
       /* Consumed as top-header / h-header / scroll-mt-header so the sticky
@@ -118,6 +148,12 @@ export default {
         'display-lg': ['clamp(2.25rem, 5.5vw, 3.5rem)', { lineHeight: '1', letterSpacing: '-0.015em' }],
         'display-md': ['clamp(1.75rem, 4vw, 2.5rem)', { lineHeight: '1.05', letterSpacing: '-0.01em' }],
         'display-sm': ['clamp(1.375rem, 2.5vw, 1.75rem)', { lineHeight: '1.1' }],
+        /* The scale bottomed out at display-sm (22-28px), so nine card and
+         * section titles that wanted ~20px reached past it for a flat
+         * text-xl - a display face at a size the display scale did not
+         * offer. The cart drawer showed the cost most plainly: "Total" at
+         * text-xl beside its own price at display-sm. */
+        'display-xs': ['clamp(1.125rem, 1.6vw, 1.375rem)', { lineHeight: '1.15' }],
         'body-lg': ['1.0625rem', { lineHeight: '1.6' }],
         body: ['0.9375rem', { lineHeight: '1.6' }],
       },

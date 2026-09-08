@@ -5,6 +5,7 @@ import StarRating from '../components/common/StarRating'
 import { formatPrice } from '../utils'
 import { buttonClass } from '../components/common/Button'
 import { unsplashSrcSet } from '../data/images'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 type MenuCustomizePopupProps = {
   item: MenuItem
@@ -29,6 +30,9 @@ export default function MenuCustomizePopup({
 
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const returnFocusRef = useRef<HTMLElement | null>(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
+
+  useFocusTrap(dialogRef)
 
   // Callers pass onClose as an inline arrow, so its identity changes on every
   // parent render. Reading it through a ref keeps the effect below mount-only.
@@ -79,6 +83,7 @@ export default function MenuCustomizePopup({
       role="presentation"
     >
       <div
+        ref={dialogRef}
         className="card-comic animate-pop-in max-h-[90vh] w-full max-w-md overflow-y-auto rounded-card shadow-comic-lg"
         onClick={(event) => event.stopPropagation()}
         role="dialog"
@@ -120,7 +125,7 @@ export default function MenuCustomizePopup({
         <div className="flex flex-col gap-4 p-5">
           <div>
             <div className="flex items-start justify-between gap-3">
-              <h3 className="font-display text-xl text-header-brown">{item.name}</h3>
+              <h3 className="font-display text-display-xs text-header-brown">{item.name}</h3>
               <span className="shrink-0 font-sans text-xl font-bold text-accent-red">
                 {formatPrice(unitPrice)}
               </span>

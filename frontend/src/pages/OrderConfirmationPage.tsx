@@ -71,7 +71,7 @@ export default function OrderConfirmationPage() {
                   <span className="font-bold">{formatPrice(order.deliveryFee)}</span>
                 </div>
               )}
-              <div className="flex justify-between border-t-2 border-dashed border-ink-dark pt-2 font-display text-xl uppercase text-header-brown">
+              <div className="flex justify-between border-t-2 border-dashed border-ink-dark pt-2 font-display text-display-xs uppercase text-header-brown">
                 <span>Total</span>
                 <span className="text-accent-red">{formatPrice(order.total)}</span>
               </div>

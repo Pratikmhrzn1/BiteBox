@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useCallback, useContext, useState } from 'react'
 import type { ReactNode } from 'react'
-import { Check } from 'lucide-react'
+import { AlertTriangle, Check } from 'lucide-react'
 
 type ToastContextValue = {
   notify: (message: string, tone?: 'success' | 'error') => void
@@ -28,17 +28,27 @@ export function AdminToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={{ notify }}>
       {children}
-      <div className="pointer-events-none fixed bottom-5 right-5 z-[60] flex flex-col gap-2">
+      <div
+        className="pointer-events-none fixed bottom-5 right-5 z-[60] flex flex-col gap-2"
+        role="status"
+        aria-live="polite"
+      >
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`pointer-events-auto flex items-center gap-2 rounded-control border px-4 py-3 shadow-2xl ${
+            className={`pointer-events-auto flex items-center gap-2 rounded-control border px-4 py-3 shadow-admin-pop ${
               toast.tone === 'error'
-                ? 'border-red-500/40 bg-[#3a1410] text-red-200'
-                : 'border-emerald-500/30 bg-[#16351f] text-emerald-200'
+                ? 'border-danger/70 bg-danger/15 text-danger'
+                : 'border-success/70 bg-success/15 text-success'
             }`}
           >
-            <Check className="h-4 w-4 shrink-0" />
+            {/* Both tones used to render a tick, so a failure reported
+                itself with a success mark. */}
+            {toast.tone === 'error' ? (
+              <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden="true" />
+            ) : (
+              <Check className="h-4 w-4 shrink-0" aria-hidden="true" />
+            )}
             <span className="font-sans text-sm font-semibold">{toast.message}</span>
           </div>
         ))}

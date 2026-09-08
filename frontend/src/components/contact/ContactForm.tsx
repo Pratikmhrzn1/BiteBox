@@ -2,7 +2,8 @@ import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { sendMessage } from '../../api/contact'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../common/Toast'
-import { fieldClass, labelClass } from '../common/formStyles'
+import { fieldClass, focusFirstError } from '../common/formStyles'
+import FormField from '../common/FormField'
 import { buttonClass } from '../../components/common/Button'
 import { Check } from 'lucide-react'
 
@@ -17,6 +18,13 @@ type ContactFormState = {
 type FieldErrors = Partial<Record<'name' | 'email' | 'phone' | 'message', string>>
 
 const SUBJECTS = ['General Enquiry', 'Feedback', 'Catering', 'Complaint', 'Other']
+
+const FIELD_ORDER = [
+  ['name', 'contact-name'],
+  ['email', 'contact-email'],
+  ['phone', 'contact-phone'],
+  ['message', 'contact-message'],
+] as const
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const PHONE_RE = /^\+?[\d\s-]{7,20}$/
@@ -63,7 +71,10 @@ export default function ContactForm() {
     event.preventDefault()
     const nextErrors = validate()
     setErrors(nextErrors)
-    if (Object.keys(nextErrors).length > 0) return
+    if (Object.keys(nextErrors).length > 0) {
+      focusFirstError(FIELD_ORDER, nextErrors)
+      return
+    }
 
     setSubmitting(true)
     setSubmitError(null)
@@ -112,11 +123,16 @@ export default function ContactForm() {
       </p>
 
       {submitted ? (
-        <div className="mt-8 flex flex-col items-center gap-4 rounded-card border-2 border-ink-dark bg-green-50 p-8 text-center">
-          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-green-600 text-white shadow-comic">
+        /* Was bg-green-50 / bg-green-600 / text-green-700: a cold stock-green
+           panel dropped into a warm comic palette, at the one moment the form
+           is celebrating. olive and amber were already in the system.
+           header-brown measures 10.93:1 on this ground, white 4.53:1 on the
+           olive disc. */
+        <div className="mt-8 flex flex-col items-center gap-4 rounded-control border-2 border-ink-dark bg-amber/25 p-8 text-center">
+          <span className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-ink-dark bg-olive text-white shadow-comic">
             <Check className="h-8 w-8" aria-hidden="true" />
           </span>
-          <p className="font-display text-display-sm uppercase text-green-700">
+          <p className="font-display text-display-sm uppercase text-header-brown">
             We got your message!
           </p>
           <p className="font-sans text-sm text-ink-dark">
@@ -132,102 +148,92 @@ export default function ContactForm() {
         </div>
       ) : (
         <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-5">
-          <div>
-            <label htmlFor="contact-name" className={labelClass}>
-              Full Name <span className="text-accent-red">*</span>
-            </label>
-            <input
-              id="contact-name"
-              type="text"
-              autoComplete="name"
-              value={form.name}
-              onChange={updateField('name')}
-              placeholder="Zoe Smashburger"
-              className={fieldClass(Boolean(errors.name))}
-            />
-            {errors.name && (
-              <p className="mt-1.5 font-sans text-xs font-semibold text-accent-red">
-                {errors.name}
-              </p>
+          <FormField id="contact-name" label="Full Name" error={errors.name} required>
+            {(control) => (
+              <input
+                {...control}
+                type="text"
+                autoComplete="name"
+                value={form.name}
+                onChange={updateField('name')}
+                placeholder="Zoe Smashburger"
+                className={fieldClass(Boolean(errors.name))}
+              />
             )}
-          </div>
+          </FormField>
 
-          <div>
-            <label htmlFor="contact-email" className={labelClass}>
-              Email Address <span className="text-accent-red">*</span>
-            </label>
-            <input
-              id="contact-email"
-              type="email"
-              autoComplete="email"
-              value={form.email}
-              onChange={updateField('email')}
-              placeholder="you@example.com"
-              className={fieldClass(Boolean(errors.email))}
-            />
-            {errors.email && (
-              <p className="mt-1.5 font-sans text-xs font-semibold text-accent-red">
-                {errors.email}
-              </p>
+          <FormField
+            id="contact-email"
+            label="Email Address"
+            error={errors.email}
+            required
+          >
+            {(control) => (
+              <input
+                {...control}
+                type="email"
+                autoComplete="email"
+                value={form.email}
+                onChange={updateField('email')}
+                placeholder="you@example.com"
+                className={fieldClass(Boolean(errors.email))}
+              />
             )}
-          </div>
+          </FormField>
 
-          <div>
-            <label htmlFor="contact-phone" className={labelClass}>
-              Phone Number (optional)
-            </label>
-            <input
-              id="contact-phone"
-              type="tel"
-              autoComplete="tel"
-              value={form.phone}
-              onChange={updateField('phone')}
-              placeholder="+977 …"
-              className={fieldClass(Boolean(errors.phone))}
-            />
-            {errors.phone && (
-              <p className="mt-1.5 font-sans text-xs font-semibold text-accent-red">
-                {errors.phone}
-              </p>
+          <FormField
+            id="contact-phone"
+            label="Phone Number"
+            hint="Optional, if you’d rather we called."
+            error={errors.phone}
+          >
+            {(control) => (
+              <input
+                {...control}
+                type="tel"
+                autoComplete="tel"
+                value={form.phone}
+                onChange={updateField('phone')}
+                placeholder="+977 …"
+                className={fieldClass(Boolean(errors.phone))}
+              />
             )}
-          </div>
+          </FormField>
 
-          <div>
-            <label htmlFor="contact-subject" className={labelClass}>
-              Subject
-            </label>
-            <select
-              id="contact-subject"
-              value={form.subject}
-              onChange={updateField('subject')}
-              className={`${fieldClass(false)} cursor-pointer`}
-            >
-              {SUBJECTS.map((subject) => (
-                <option key={subject} value={subject}>
-                  {subject}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="contact-message" className={labelClass}>
-              Message <span className="text-accent-red">*</span>
-            </label>
-            <textarea
-              id="contact-message"
-              rows={4}
-              value={form.message}
-              onChange={updateField('message')}
-              placeholder="Tell us everything…"
-              className={`${fieldClass(Boolean(errors.message))} resize-none`}
-            />
-            {errors.message && (
-              <p className="mt-1.5 font-sans text-xs font-semibold text-accent-red">
-                {errors.message}
-              </p>
+          <FormField id="contact-subject" label="Subject">
+            {(control) => (
+              <select
+                {...control}
+                value={form.subject}
+                onChange={updateField('subject')}
+                className={`${fieldClass(false)} cursor-pointer`}
+              >
+                {SUBJECTS.map((subject) => (
+                  <option key={subject} value={subject}>
+                    {subject}
+                  </option>
+                ))}
+              </select>
             )}
-          </div>
+          </FormField>
+
+          <FormField
+            id="contact-message"
+            label="Message"
+            error={errors.message}
+            required
+          >
+            {(control) => (
+              <textarea
+                {...control}
+                rows={4}
+                value={form.message}
+                onChange={updateField('message')}
+                placeholder="Tell us everything…"
+                className={`${fieldClass(Boolean(errors.message))} resize-none`}
+              />
+            )}
+          </FormField>
 
           <button
             type="submit"

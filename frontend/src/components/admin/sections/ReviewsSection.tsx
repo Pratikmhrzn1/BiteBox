@@ -9,7 +9,7 @@ import type { Review, ReviewStatus } from '../../../api/reviews'
 import { useAsync } from '../../../hooks/useAsync'
 import { useAuth } from '../../../context/AuthContext'
 import { formatDate } from '../../../utils'
-import { EmptyState, PanelCard, btnToggle } from '../ui'
+import { EmptyState, PanelCard, btnDanger, btnGhost, btnPrimary, btnSuccess, btnToggle } from '../ui'
 import { AdminError, AdminLoading } from '../AdminStates'
 import { useAdminToast } from '../AdminToast'
 
@@ -17,7 +17,7 @@ const FILTERS: ('All' | ReviewStatus)[] = ['All', 'PENDING', 'APPROVED', 'HIDDEN
 
 const STATUS_STYLES: Record<ReviewStatus, string> = {
   PENDING: 'bg-amber/20 text-amber',
-  APPROVED: 'bg-emerald-500/15 text-emerald-300',
+  APPROVED: 'bg-success/15 text-success',
   HIDDEN: 'bg-white/5 text-admin-muted',
 }
 
@@ -173,7 +173,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
             <button
               type="button"
               onClick={() => setFilter('PENDING')}
-              className="mt-3 rounded-chip bg-accent-red px-4 py-2 font-sans text-sm font-bold text-white transition-colors duration-fast ease-ui hover:bg-red-700"
+              className={`${btnPrimary} mt-3`}
             >
               Review them
             </button>
@@ -202,7 +202,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-card border border-white/5 bg-admin-surface">
+        <div className="rounded-card border border-white/10 bg-admin-surface">
           <EmptyState title="No reviews here" hint="Try a different filter." />
         </div>
       ) : (
@@ -210,7 +210,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
           {filtered.map((review) => (
             <article
               key={review.id}
-              className={`rounded-card border border-white/5 bg-admin-surface p-5 transition-colors duration-fast ease-ui ${
+              className={`rounded-card border border-white/10 bg-admin-surface p-5 transition-colors duration-fast ease-ui ${
                 busyId === review.id ? 'opacity-50' : ''
               }`}
             >
@@ -247,12 +247,12 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
                 {review.itemName ? ` · ${review.itemName}` : ''}
               </p>
 
-              <div className="mt-4 flex flex-wrap gap-2 border-t border-white/5 pt-3">
+              <div className="mt-4 flex flex-wrap gap-2 border-t border-white/10 pt-3">
                 {review.status !== 'APPROVED' && (
                   <button
                     type="button"
                     onClick={() => void setStatus(review, 'APPROVED')}
-                    className="inline-flex items-center gap-1.5 rounded-chip bg-emerald-600 px-3 py-1.5 font-sans text-xs font-bold text-white transition-colors duration-fast ease-ui hover:bg-emerald-500"
+                    className={btnSuccess}
                   >
                     <Check className="h-3.5 w-3.5" /> Approve
                   </button>
@@ -261,7 +261,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
                   <button
                     type="button"
                     onClick={() => void setStatus(review, 'HIDDEN')}
-                    className="inline-flex items-center gap-1.5 rounded-chip border border-white/15 px-3 py-1.5 font-sans text-xs font-bold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
+                    className={btnGhost}
                   >
                     <EyeOff className="h-3.5 w-3.5" /> Hide
                   </button>
@@ -269,7 +269,7 @@ export default function ReviewsSection({ onChanged }: ReviewsSectionProps) {
                 <button
                   type="button"
                   onClick={() => void remove(review)}
-                  className="ml-auto inline-flex items-center gap-1.5 rounded-chip border border-red-500/30 px-3 py-1.5 font-sans text-xs font-bold text-red-300 transition-colors duration-fast ease-ui hover:bg-red-500/15"
+                  className={`${btnDanger} ml-auto`}
                 >
                   <Trash2 className="h-3.5 w-3.5" /> Delete
                 </button>

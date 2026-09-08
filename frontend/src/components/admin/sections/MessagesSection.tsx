@@ -9,7 +9,7 @@ import type { ContactMessage, MessageStatus } from '../../../api/contact'
 import { useAsync } from '../../../hooks/useAsync'
 import { useAuth } from '../../../context/AuthContext'
 import { formatDateTime } from '../../../utils'
-import { EmptyState, btnToggle } from '../ui'
+import { EmptyState, btnDanger, btnGhost, btnPrimary, btnToggle } from '../ui'
 import { AdminError, AdminLoading } from '../AdminStates'
 import { useAdminToast } from '../AdminToast'
 
@@ -118,7 +118,7 @@ export default function MessagesSection({ onChanged }: MessagesSectionProps) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-card border border-white/5 bg-admin-surface">
+        <div className="rounded-card border border-white/10 bg-admin-surface">
           <EmptyState
             title="No messages here"
             hint="Enquiries from the contact form land in this inbox."
@@ -129,7 +129,7 @@ export default function MessagesSection({ onChanged }: MessagesSectionProps) {
           {filtered.map((message) => (
             <li
               key={message.id}
-              className={`rounded-card border border-white/5 bg-admin-surface p-5 transition-colors duration-fast ease-ui ${
+              className={`rounded-card border border-white/10 bg-admin-surface p-5 transition-colors duration-fast ease-ui ${
                 busyId === message.id ? 'opacity-50' : ''
               }`}
             >
@@ -165,10 +165,10 @@ export default function MessagesSection({ onChanged }: MessagesSectionProps) {
                 {message.message}
               </p>
 
-              <div className="mt-4 flex flex-wrap gap-2 border-t border-white/5 pt-3">
+              <div className="mt-4 flex flex-wrap gap-2 border-t border-white/10 pt-3">
                 <a
                   href={`mailto:${message.email}?subject=Re: ${encodeURIComponent(message.subject)}`}
-                  className="inline-flex items-center gap-1.5 rounded-chip bg-accent-red px-3 py-1.5 font-sans text-xs font-bold text-white transition-colors duration-fast ease-ui hover:bg-red-700"
+                  className={btnPrimary}
                 >
                   <Mail className="h-3.5 w-3.5" /> Reply
                 </a>
@@ -176,7 +176,7 @@ export default function MessagesSection({ onChanged }: MessagesSectionProps) {
                   <button
                     type="button"
                     onClick={() => void setStatus(message, 'READ')}
-                    className="inline-flex items-center gap-1.5 rounded-chip border border-white/15 px-3 py-1.5 font-sans text-xs font-bold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
+                    className={btnGhost}
                   >
                     <MailOpen className="h-3.5 w-3.5" /> Mark read
                   </button>
@@ -185,7 +185,7 @@ export default function MessagesSection({ onChanged }: MessagesSectionProps) {
                   <button
                     type="button"
                     onClick={() => void setStatus(message, 'ARCHIVED')}
-                    className="inline-flex items-center gap-1.5 rounded-chip border border-white/15 px-3 py-1.5 font-sans text-xs font-bold text-cream transition-colors duration-fast ease-ui hover:bg-white/5"
+                    className={btnGhost}
                   >
                     <Archive className="h-3.5 w-3.5" /> Archive
                   </button>
@@ -193,7 +193,7 @@ export default function MessagesSection({ onChanged }: MessagesSectionProps) {
                 <button
                   type="button"
                   onClick={() => void remove(message)}
-                  className="ml-auto inline-flex items-center gap-1.5 rounded-chip border border-red-500/30 px-3 py-1.5 font-sans text-xs font-bold text-red-300 transition-colors duration-fast ease-ui hover:bg-red-500/15"
+                  className={`${btnDanger} ml-auto`}
                 >
                   <Trash2 className="h-3.5 w-3.5" /> Delete
                 </button>
