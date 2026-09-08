@@ -1,0 +1,25 @@
+[Unit]
+Description=BiteBox API (NestJS)
+After=network.target
+
+[Service]
+Type=simple
+User=__APP_USER__
+WorkingDirectory=__APP_ROOT__/app/backend
+EnvironmentFile=__APP_ROOT__/data/.env
+ExecStart=/usr/bin/node dist/main
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=bitebox-api
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=__APP_ROOT__/data
+
+[Install]
+WantedBy=multi-user.target
