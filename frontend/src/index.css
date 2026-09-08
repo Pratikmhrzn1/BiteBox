@@ -113,6 +113,31 @@
     @apply border-2 border-ink-dark bg-card-bg shadow-comic;
   }
 
+  /* Expands a control's touch target to 44px without changing its visual
+   * size or the layout around it. For small icon buttons that genuinely
+   * need to stay small - a corner dismiss, a star in a rating row - where
+   * padding the element out would break the composition.
+   *
+   * Deliberately a component rather than a utility. As a utility it sat
+   * *after* Tailwind's own .absolute in the same layer, so on any absolutely
+   * positioned button - the admin image-remove X, the menu search's clear
+   * button - `position: relative` silently won and dropped the control out
+   * of its corner into normal flow. From the components layer, a positioning
+   * utility outranks it and `relative` only applies when nothing else has
+   * claimed position. */
+  .tap-target {
+    position: relative;
+  }
+  .tap-target::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2.75rem;
+    height: 2.75rem;
+    transform: translate(-50%, -50%);
+  }
+
   /* One rhythm for dish grids. The menu previously ran grid-cols-2 from
    * 375px up, which left ~165px cards carrying an image, two badges, a
    * rating, a description, a price and a button. Single column on phones
@@ -143,23 +168,6 @@
   .radius-inner-card-t {
     border-radius: calc(var(--r-card) - var(--border-w))
       calc(var(--r-card) - var(--border-w)) 0 0;
-  }
-
-  /* Expands a control's touch target to 44px without changing its visual
-   * size or the layout around it. For small icon buttons that genuinely
-   * need to stay small - a corner dismiss, a star in a rating row - where
-   * padding the element out would break the composition. */
-  .tap-target {
-    position: relative;
-  }
-  .tap-target::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 2.75rem;
-    height: 2.75rem;
-    transform: translate(-50%, -50%);
   }
 
   /* One-shot staged entrance for page heroes. Content chunks start
