@@ -1,4 +1,4 @@
-import { del, get, patch, post } from './http'
+import { BASE_URL, del, get, patch, post } from './http'
 
 export type MenuOption = {
   id: string
@@ -70,7 +70,7 @@ export const deleteMenuItem = (id: string, token: string) =>
 export const uploadImage = async (file: File, token: string): Promise<string> => {
   const formData = new FormData()
   formData.append('file', file)
-  const response = await fetch('/api/menu/upload', {
+  const response = await fetch(`${BASE_URL}/menu/upload`, {
     method: 'POST',
     headers: token ? { Authorization: `Bearer ${token}` } : undefined,
     body: formData,

@@ -10,7 +10,12 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('api');
-  app.enableCors();
+  app.enableCors({
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+    allowedHeaders: 'Content-Type, Accept, Authorization, X-Requested-With',
+  });
   const uploadsDir = join(__dirname, '..', 'uploads');
   if (!existsSync(uploadsDir)) {
     mkdirSync(uploadsDir, { recursive: true });
