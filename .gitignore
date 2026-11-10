@@ -10,3 +10,5 @@ build/
 *.db-journal
 
 .agents/
+.neon
+.env.local

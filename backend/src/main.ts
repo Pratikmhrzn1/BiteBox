@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -10,7 +11,11 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('api');
   app.enableCors();
-  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+  const uploadsDir = join(__dirname, '..', 'uploads');
+  if (!existsSync(uploadsDir)) {
+    mkdirSync(uploadsDir, { recursive: true });
+  }
+  app.useStaticAssets(uploadsDir, {
     prefix: '/api/uploads/',
   });
   app.useGlobalPipes(
@@ -37,7 +42,7 @@ async function bootstrap() {
   });
 
   const port = Number(process.env.PORT ?? 3000);
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
   console.log(`BiteBox API running on http://localhost:${port}/api`);
   console.log(`Swagger docs on http://localhost:${port}/api/docs`);
 }
