@@ -4,6 +4,7 @@ import { AuthModule } from './auth/auth.module';
 import { ContactModule } from './contact/contact.module';
 import { ContentModule } from './content/content.module';
 import { HealthController } from './health.controller';
+import { KeepAliveService } from './keep-alive.service';
 import { MenuModule } from './menu/menu.module';
 import { OrdersModule } from './orders/orders.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -21,5 +22,6 @@ import { ReviewsModule } from './reviews/reviews.module';
     AdminModule,
   ],
   controllers: [HealthController],
+  providers: [KeepAliveService],
 })
 export class AppModule {}
